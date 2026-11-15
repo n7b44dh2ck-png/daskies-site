@@ -415,7 +415,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   .nav.open a[aria-current="true"]{border-bottom-color:var(--line-soft);color:var(--accent-text)}
   .nav.open .nav-join{display:flex;justify-content:center;margin-top:16px;border:1.5px solid var(--ink);border-radius:4px;padding:12px 0}
   .nav.open .nav-list{background:var(--accent);border-color:var(--accent);color:#fff}
-  .nav.open .nav-list+.nav-join{margin-top:10px}
+  .nav.open .nav-list+.nav-join,.nav.open .nav-signin{margin-top:10px}
+  .nav.open .nav-signin{border-color:var(--line)}
 }
 @media (max-width:460px){
   .head-cta{display:none}
@@ -535,6 +536,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
       <a href="#membership">Membership</a>
       <a href="post.html?kind=offer" class="nav-join nav-list">List an asset</a>
       <a href="account.html?mode=signup" class="nav-join">Join free</a>
+      <a href="account.html" class="nav-join nav-signin">Sign in</a>
     </nav>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="Open menu"><span class="bars"></span></button>
     <div class="head-cta">
