@@ -24,7 +24,7 @@ const details = fields.filter(([k]) => l.details && l.details[k] !== undefined &
 main.innerHTML = `
   <p class="small"><a href="explore.html?v=${esc(l.vertical)}">${esc(v ? v.name : "")}</a> › ${esc(l.subcategory)}</p>
   ${mine && l.status !== "approved" ? `<p class="note"><b>${esc(statusWord(l.status))}.</b> ${l.status === "pending" ? "Only you and the DASKIES team can see this until it is approved." : l.admin_note ? "Note from DASKIES: " + esc(l.admin_note) : ""}</p>` : ""}
-  <div class="split" style="grid-template-columns:1fr 340px">
+  <div class="split detail">
     <article>
       <div class="tags" style="margin-bottom:8px"><span class="tag tag-${l.kind}">${l.kind === "offer" ? "Available" : "Wanted"}</span>${(l.deal_types || []).map((d) => `<span class="tag tag-closed">${esc(d)}</span>`).join("")}</div>
       <h1>${esc(l.title)}</h1>

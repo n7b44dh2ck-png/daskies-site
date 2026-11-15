@@ -2,7 +2,7 @@ import { sb, $, esc, qs, header, errMsg, busy, toast } from "./core.js";
 
 const main = $("#main");
 const next = qs("next") || "dashboard.html";
-const safeNext = /^[a-z0-9_\-]+\.html(\?[^#]*)?$/i.test(next) ? next : "dashboard.html";
+const safeNext = /^[a-z0-9_\-]+\.html(\?[^#]*)?(#[a-z]+)?$/i.test(next) ? next : "dashboard.html";
 let mode = qs("mode") || "signin";
 
 const m = await header("account.html");

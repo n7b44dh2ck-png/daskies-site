@@ -41,7 +41,9 @@ main{padding:32px 0 80px}
 .grid{display:grid;gap:16px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
 .split{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start}
-@media (max-width:900px){.split{grid-template-columns:1fr}}
+.split>*{min-width:0}
+.split.detail{grid-template-columns:1fr 340px}
+@media (max-width:900px){.split,.split.detail{grid-template-columns:1fr}}
 /* listing card */
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:border-color .15s}
 .card:hover{border-color:#B8B7BE}
