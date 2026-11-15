@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DASKIES — Lease, buy, sell or barter industrial capacity</title>
+<meta name="description" content="DASKIES is a B2B marketplace for Indian industry: lease idle capacity, buy and sell used machines, barter assets and source from Gujarat's export clusters.">
+<meta property="og:title" content="DASKIES: lease, buy, sell or barter industrial capacity">
+<meta property="og:description" content="B2B marketplace for Indian industry: lease idle factories, trade used machines, barter assets, own property at cost through buyer groups, and source from Gujarat's export clusters.">
+<meta property="og:url" content="https://daskies.com/">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='12 28 314 230'%3E%3Cpath fill='%23FFB52E' d='M22,104 C78,106 140,128 182,163 C132,154 74,134 22,104 Z'/%3E%3Cpath fill='%231C8FD6' d='M18,36 C100,30 178,62 224,112 L232,150 C210,204 132,238 48,252 C100,220 146,190 173,161 C127,123 79,79 18,36 Z'/%3E%3Cpath fill='%23E8432F' d='M203,111 C211,86 234,69 259,69 C280,69 297,82 320,101 C298,104 289,110 285,120 C277,142 257,156 230,160 C224,141 216,125 203,111 Z'/%3E%3C/svg%3E">
+<script>if(/^\/members/.test(location.pathname)||location.hash==="#members")document.documentElement.classList.add("members-mode");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F1F3; --surface:#FFFFFF; --ink:#2E2D33; --muted:#64636A; --line:#DDDCE1; --line-soft:#ECEBEF; --blush:#F8E1EA; --blush-2:#FCEFF4;
+  --grey-2:#E6E5EA; --charcoal:#34333A; --charcoal-2:#48474F;
+  --accent:#C43F70; --accent-dk:#A32D5B; --accent-tint:#FCE6EE; --accent-text:#A3214F;
+  --grey-tint:#E9E8EC; --plum:#8E4E9A; --plum-tint:#F2E9F4;
+  --green:#2A8C76; --green-tint:#E3F2EE; --amber:#F0A93B;
+  --r:6px; --wrap:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;font-family:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased}
+img,svg{display:block}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px;border-radius:3px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* type */
+.d1,.d2,.d3,.wordmark{font-stretch:122%;font-weight:800;letter-spacing:-.012em}
+.d1{font-size:clamp(2.5rem,5.2vw,4.6rem);line-height:.98;margin:0 0 22px}
+.d2{font-size:clamp(1.9rem,3.4vw,2.9rem);line-height:1.04;margin:0 0 14px}
+.d3{font-size:1.25rem;line-height:1.2;font-stretch:110%;font-weight:750;margin:0 0 6px}
+.lede{font-size:1.15rem;color:var(--muted);max-width:52ch;margin:0}
+.small{font-size:.875rem;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums;font-stretch:112%;font-weight:750}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:4px;border:1.5px solid transparent;font-weight:650;font-size:15.5px;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-dk)}
+.btn-ghost{background:transparent;border-color:var(--ink);color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:#fff}
+.btn-light{background:#fff;color:var(--ink)}
+.btn-sm{min-height:36px;padding:0 14px;font-size:14px}
+
+/* header */
+.site-head{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);-webkit-backdrop-filter:saturate(1.6) blur(12px);backdrop-filter:saturate(1.6) blur(12px);border-bottom:1px solid var(--line);transition:box-shadow .2s}
+.site-head.scrolled{box-shadow:0 6px 24px -14px rgba(46,45,51,.35)}
+.head-row{display:flex;align-items:center;gap:32px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);flex:none}
+.brand svg{width:40px;height:29px}
+.wordmark{font-size:21px;letter-spacing:.03em;font-stretch:125%}
+.nav{display:flex;align-items:stretch;gap:26px;height:100%}
+.nav a{display:flex;align-items:center;color:var(--charcoal-2);text-decoration:none;font-weight:550;font-size:15px;border-bottom:2px solid transparent;border-top:2px solid transparent;white-space:nowrap}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--line)}
+.nav a[aria-current="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.nav .nav-join{display:none}
+.head-cta{margin-left:auto;display:flex;gap:10px;align-items:center}
+.menu-btn{display:none;flex:none;width:44px;height:44px;margin-right:-8px;background:none;border:0;border-radius:6px;cursor:pointer;align-items:center;justify-content:center;color:var(--ink)}
+.menu-btn:hover{background:var(--paper)}
+.menu-btn .bars,.menu-btn .bars::before,.menu-btn .bars::after{display:block;width:22px;height:2px;background:currentColor;border-radius:2px;position:relative;transition:transform .2s,background .2s}
+.menu-btn .bars::before,.menu-btn .bars::after{content:"";position:absolute;left:0}
+.menu-btn .bars::before{top:-7px}.menu-btn .bars::after{top:7px}
+.menu-btn[aria-expanded="true"] .bars{background:transparent}
+.menu-btn[aria-expanded="true"] .bars::before{transform:translateY(7px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] .bars::after{transform:translateY(-7px) rotate(-45deg)}
+
+/* hero */
+.hero{padding:64px 0 72px}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:30px;padding-top:20px;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+.hero-facts b{color:var(--ink);font-weight:700}
+
+.desk{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px 22px 20px;box-shadow:0 1px 0 var(--line),0 24px 48px -28px rgba(43,42,48,.30)}
+.desk-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.desk-top h2{font-size:1.15rem;font-stretch:118%;font-weight:800;margin:0}
+.desk-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end}
+.desk-row label{display:block;font-size:14px;font-weight:650;color:var(--muted);margin-bottom:6px}
+.desk-val{font-size:1.35rem;min-width:7.2ch;text-align:right;padding-bottom:9px}
+.swap{display:flex;align-items:center;gap:12px;margin:12px 0;color:var(--muted);font-size:14px}
+.swap::before,.swap::after{content:"";flex:1;height:1px;background:var(--line)}
+.swap span{display:inline-flex;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);align-items:center;justify-content:center;color:var(--accent)}
+select,.field input,.field textarea{width:100%;border:1.5px solid var(--line);border-radius:var(--r);background:#fff;padding:11px 13px;font-size:16px}
+select{appearance:none;-webkit-appearance:none;padding-right:38px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%232B2A30' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center}
+select:hover,.field input:hover,.field textarea:hover{border-color:#B8B7BE}
+.balance{margin-top:18px;border-radius:8px;padding:16px 18px;display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;transition:background .25s}
+.balance.pay{background:var(--accent-tint)}
+.balance.get{background:var(--green-tint)}
+.balance.even{background:var(--grey-tint)}
+.balance .bl{font-weight:650}
+.balance .bv{font-size:1.9rem;grid-row:span 2}
+.balance .bn{font-size:14px;color:var(--muted)}
+.desk-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}
+
+/* band + ticker */
+.band{background:var(--blush);color:var(--ink);padding:44px 0 0;overflow:hidden}
+.band-row{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.band .d2{margin:0;color:var(--ink)}
+.band p{margin:0;color:var(--muted);max-width:46ch}
+.ticker{margin-top:34px;border-top:1px solid rgba(196,63,112,.18);padding:16px 0;white-space:nowrap}
+.ticker-track{display:inline-flex;gap:40px;animation:tick 60s linear infinite;padding-left:28px}
+.ticker-track span{display:inline-flex;align-items:center;gap:12px;font-size:15px;color:var(--ink)}
+.ticker-track i{width:8px;height:8px;background:var(--accent);transform:rotate(45deg);display:inline-block}
+.ticker-track b{color:var(--accent-dk);font-weight:700}
+.ticker-track small{font-size:inherit;color:var(--muted)}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* sections */
+.sec{padding:88px 0}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:40px}
+.sec-head .lede{justify-self:end}
+.white{background:var(--surface)}
+.rose{background:var(--blush-2)}
+.rose .ti,.rose .tab .ti{background:#fff}
+.rose .bt-points li,.rose .card{border-color:#EED3DD}
+
+/* marketplace */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-weight:600;font-size:14.5px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.card:hover{border-color:#B8B7BE}
+.ph{position:relative;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background-color:var(--accent-tint);background-image:linear-gradient(rgba(214,63,119,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(214,63,119,.12) 1px,transparent 1px);background-size:22px 22px;color:var(--accent)}
+.ph svg{width:72px;height:72px;opacity:.9}
+.ph.t-agri,.ph.t-storage{background-color:var(--plum-tint);color:var(--plum);background-image:linear-gradient(rgba(142,78,154,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(142,78,154,.13) 1px,transparent 1px)}
+.ph.t-infra,.ph.t-tech{background-color:var(--grey-tint);color:#5E5A63;background-image:linear-gradient(rgba(94,90,99,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(94,90,99,.12) 1px,transparent 1px)}
+.tag{position:absolute;top:12px;left:12px;background:#fff;border:1px solid var(--line);border-radius:4px;font-size:12.5px;font-weight:650;padding:3px 8px;color:var(--muted)}
+.deal{position:absolute;top:12px;right:12px;background:var(--accent-dk);color:#fff;border-radius:4px;font-size:12.5px;font-weight:650;padding:3px 8px}
+.card-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card-body h3{font-size:1.05rem;line-height:1.3;margin:0;font-weight:700}
+.where{font-size:14.5px;color:var(--muted)}
+.price{font-size:1.3rem;margin-top:4px}
+.price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
+.lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
+.lock button{background:none;border:0;color:var(--accent);font-weight:650;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:4px 0;font-size:14.5px;white-space:nowrap}
+.mini .lock .blur{display:none}
+.note{font-size:14px;color:var(--muted);margin-top:18px}
+
+/* listing form */
+.form-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
+.form-aside{position:sticky;top:104px}
+.reqs{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:12px}
+.reqs li{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start}
+.reqs svg{color:var(--accent);margin-top:2px}
+.reqs b{display:block}
+form.listing{background:#fff;border:1px solid var(--line);border-radius:10px;padding:28px}
+.seg{display:inline-flex;border:1.5px solid var(--accent);border-radius:6px;overflow:hidden}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.seg span{display:block;padding:9px 16px;font-weight:650;font-size:15px}
+.seg input:checked+span{background:var(--accent);color:#fff}
+.seg input:focus-visible+span{outline:3px solid var(--amber);outline-offset:-3px}
+fieldset{border:0;padding:0;margin:0}
+legend,.flabel{display:block;font-weight:650;font-size:15px;margin-bottom:7px}
+.req{color:#C8372D}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{margin-bottom:18px}
+.field textarea{min-height:120px;resize:vertical}
+.hint{font-size:13.5px;color:var(--muted);margin-top:5px;display:flex;justify-content:space-between;gap:10px}
+.err{font-size:13.5px;color:#C8372D;margin-top:5px;font-weight:600;display:none}
+.field.bad .err{display:block}
+.field.bad input,.field.bad textarea,.field.bad select{border-color:#C8372D}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pbox{position:relative;aspect-ratio:1;border:1.5px dashed #B8B7BE;border-radius:8px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;font-size:13.5px;color:var(--muted);cursor:pointer;overflow:hidden}
+.pbox:hover{border-color:var(--accent);color:var(--accent)}
+.pbox:focus-within{outline:3px solid var(--amber);outline-offset:2px}
+.pbox input,.docbox input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.pbox img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pbox.has{border-style:solid;border-color:var(--green)}
+.pbox .pn{font-weight:650;color:var(--ink)}
+.field.bad .pbox:not(.has){border-color:#C8372D}
+.docbox{position:relative;display:flex;align-items:center;gap:12px;border:1.5px dashed #B8B7BE;border-radius:8px;background:#fff;padding:14px 16px;cursor:pointer}
+.docbox:hover{border-color:var(--accent)}
+.docbox:focus-within{outline:3px solid var(--amber);outline-offset:2px}
+.docbox.has{border-style:solid;border-color:var(--green)}
+.field.bad .docbox:not(.has){border-color:#C8372D}
+.docbox .dn{font-weight:650}
+.summary{display:none;background:#FDECEA;border-left:4px solid #C8372D;padding:12px 16px;border-radius:4px;margin-bottom:20px;font-size:15px}
+.summary.show{display:block}
+.form-end{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:8px}
+
+.result{display:none;background:#fff;border:1px solid var(--line);border-radius:10px;padding:28px}
+.result.show{display:block}
+.result-top{display:flex;gap:16px;align-items:flex-start;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.okdot{flex:none;width:40px;height:40px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center}
+.mini{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+.mini .card .ph{aspect-ratio:16/7}
+.mini .ph svg{width:44px;height:44px}
+.preview-note{margin-top:20px;font-size:14px;color:var(--muted);background:var(--paper);border-radius:6px;padding:12px 14px}
+
+/* global buyers */
+.gb-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+.svc{list-style:none;padding:0;margin:26px 0 0}
+.svc li{padding:14px 0;border-top:1px solid var(--line)}
+.svc li b{display:block;font-weight:700}
+.svc li span{color:var(--muted);font-size:15.5px}
+table.clusters{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:15px}
+.clusters th{text-align:left;font-size:13.5px;font-weight:650;color:var(--muted);padding:12px 16px;background:var(--paper);border-bottom:1px solid var(--line)}
+.clusters td{padding:13px 16px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+.clusters tr:last-child td{border-bottom:0}
+.clusters td:first-child{font-weight:650}
+.port{display:inline-block;background:var(--accent-tint);color:var(--accent-text);border-radius:4px;padding:1px 7px;font-size:13px;font-weight:650;margin:0 4px 4px 0}
+.fema{margin-top:16px;font-size:14px;color:var(--muted)}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s;border-top:2px solid var(--accent)}
+.steps li{padding:22px 20px 0 0;counter-increment:s}
+.steps li::before{content:counter(s);display:flex;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;align-items:center;justify-content:center;font-weight:750;margin:-40px 0 16px}
+.steps p{margin:0;color:var(--muted);font-size:15.5px}
+
+/* membership */
+.mem-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
+.free-num{font-size:clamp(4rem,9vw,7.5rem);line-height:1;margin-bottom:6px !important;font-stretch:125%;font-weight:850;color:var(--accent);margin:0}
+.plans{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--line);border-radius:10px;font-size:15px}
+.plans th,.plans td{padding:14px 14px;border-bottom:1px solid var(--line-soft);text-align:left;vertical-align:top}
+.plans thead th{font-weight:750;font-size:15.5px;border-bottom:1px solid var(--line)}
+.plans thead th small{display:block;font-weight:500;color:var(--muted);font-size:13px}
+.plans tbody th{font-weight:600;color:var(--muted);font-size:14px;width:28%}
+.plans .feat{background:var(--accent-tint)}
+.plans thead .feat{border-top-left-radius:0}
+.plans tr:last-child td,.plans tr:last-child th{border-bottom:0}
+.levels{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:28px}
+.levels div{background:#fff;border:1px solid var(--line);padding:12px 12px;font-size:14px;font-weight:600;border-radius:4px;position:relative}
+.levels div:nth-child(1){border-top:4px solid #E9CAD6}
+.levels div:nth-child(2){border-top:4px solid #E19AB5}
+.levels div:nth-child(3){border-top:4px solid #DB6893}
+.levels div:nth-child(4){border-top:4px solid var(--accent)}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;background:var(--blush);color:var(--ink);border-radius:12px;padding:48px}
+.contact .d2{color:var(--ink)}
+.contact p{color:var(--muted);margin:0}
+.mailbox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px}
+.mailbox a{color:var(--accent-dk);font-size:1.45rem;font-weight:750;font-stretch:112%;text-decoration:none;word-break:break-all}
+.mailbox a:hover{text-decoration:underline}
+
+/* footer */
+.foot{background:var(--charcoal);color:#C9C8CF;padding:56px 0 34px;margin-top:88px;font-size:15px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.foot .brand{color:#fff}
+.foot h3{color:#fff;font-size:15px;font-weight:700;margin:4px 0 12px}
+.foot ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.foot a{color:#E4E3E8;text-decoration:none}
+.foot a:hover{color:#F6B3CB;text-decoration:underline}
+.foot :focus-visible{outline-color:#F6B3CB}
+.legal{color:#A9A8B1;border-top:1px solid rgba(255,255,255,.14);margin-top:40px;padding-top:20px;font-size:13.5px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.legal p{margin:0;max-width:80ch}
+
+/* chat */
+.chat-btn{position:fixed;right:22px;bottom:22px;z-index:60;width:58px;height:58px;border-radius:50%;background:var(--accent);color:#fff;border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 28px -8px rgba(214,63,119,.65)}
+.chat{position:fixed;right:22px;bottom:154px;z-index:60;width:min(370px,calc(100vw - 32px));max-height:min(560px,calc(100vh - 180px));background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 30px 60px -24px rgba(43,42,48,.4);display:none;flex-direction:column;overflow:hidden}
+.chat.open{display:flex}
+.chat-head{background:var(--blush);color:var(--ink);padding:14px 16px;display:flex;align-items:center;gap:10px}
+.chat-head svg.b{width:34px;height:26px}
+.chat-head b{display:block;font-size:15.5px}
+.chat-head span{font-size:13px;color:var(--muted)}
+.chat-head button{margin-left:auto;background:none;border:0;color:var(--ink);cursor:pointer;padding:6px}
+.chat-log{padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;flex:1}
+.msg{max-width:88%;padding:10px 13px;border-radius:10px;font-size:14.5px;line-height:1.45}
+.msg.bot{background:var(--blush-2);border-top-left-radius:2px}
+.msg.me{background:var(--accent);color:#fff;align-self:flex-end;border-top-right-radius:2px}
+.opts{display:flex;flex-direction:column;gap:7px;padding:0 16px 16px}
+.opts button{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:9px 12px;font-size:14px;font-weight:600;cursor:pointer}
+.opts button:hover{border-color:var(--accent);color:var(--accent)}
+.opts.collapsed button[data-q]{display:none}
+.opts .more{display:none;text-align:center;color:var(--accent)}
+.opts.collapsed .more{display:block}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:80;background:rgba(43,42,48,.55);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal-box{background:#fff;border-radius:12px;max-width:480px;width:100%;padding:28px;position:relative;max-height:calc(100vh - 40px);overflow:auto}
+.modal-box .x{position:absolute;top:12px;right:12px;background:none;border:0;cursor:pointer;padding:8px}
+.modal .field{margin-bottom:14px}
+
+
+/* category explorer */
+.explorer{display:grid;grid-template-columns:290px 1fr;gap:28px;align-items:start}
+.tabs{display:flex;flex-direction:column;gap:6px}
+.tab{display:flex;align-items:center;gap:12px;text-align:left;background:transparent;border:1.5px solid transparent;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:650;font-size:15.5px;color:var(--ink)}
+.tab:hover{background:#fff}
+.tab[aria-selected="true"]{background:#fff;border-color:var(--line);box-shadow:inset 4px 0 0 var(--accent)}
+.tab .ti{flex:none;width:36px;height:36px;border-radius:8px;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:32px 34px}
+.panel .kicker{font-size:14.5px;font-weight:650;color:var(--accent-dk);margin:0 0 6px}
+.panel h3.promise{font-size:clamp(1.5rem,2.4vw,2rem);line-height:1.1;font-stretch:118%;font-weight:800;margin:0 0 12px}
+.panel .intro{color:var(--muted);margin:0;max-width:62ch}
+.pgrid{display:grid;grid-template-columns:1.25fr .75fr;gap:34px;margin-top:26px}
+.pgrid h4{font-size:15px;font-weight:700;margin:0 0 10px}
+.how{margin:0;padding:0;list-style:none;counter-reset:h;display:grid;gap:12px}
+.how li{display:grid;grid-template-columns:28px 1fr;gap:10px;counter-increment:h;font-size:15.5px}
+.how li::before{content:counter(h);width:26px;height:26px;border-radius:50%;background:var(--accent-tint);color:var(--accent-dk);font-weight:750;font-size:13.5px;display:flex;align-items:center;justify-content:center}
+.dots{margin:0 0 20px;padding:0;list-style:none;display:grid;gap:7px;font-size:15px}
+.dots li{padding-left:16px;position:relative}
+.dots li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.panel-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;padding-top:22px;border-top:1px solid var(--line-soft)}
+
+/* build together */
+.bt-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.bt-points{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:14px}
+.bt-points li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.bt-points b{display:block;font-weight:700;margin-bottom:2px}
+.bt-points span{color:var(--muted);font-size:15.5px}
+form.interest{background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px}
+.bt-done{display:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px}
+.bt-done.show{display:block}
+
+
+/* announcement */
+.announce{background:var(--accent);color:#fff;font-size:14.5px;text-align:center;padding:9px 16px}
+.announce button{background:none;border:0;color:#fff;font-weight:700;text-decoration:underline;cursor:pointer;padding:0 0 0 6px;font-size:14.5px}
+
+/* services */
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line)}
+.svc-item{display:grid;grid-template-columns:52px 1fr auto;gap:18px;align-items:start;padding:24px 20px 24px 0;border-bottom:1px solid var(--line)}
+.svc-item:nth-child(odd){padding-right:28px;border-right:1px solid var(--line)}
+.svc-item:nth-child(even){padding-left:28px}
+.svc-item .ti{width:44px;height:44px;border-radius:10px;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.svc-item h3{margin:0 0 4px;font-size:1.1rem;font-weight:750}
+.svc-item p{margin:0;color:var(--muted);font-size:15.5px}
+.svc-item .for{display:block;margin-top:8px;font-size:13.5px;color:var(--accent-text);font-weight:600}
+.linkbtn{background:none;border:0;color:var(--accent-dk);font-weight:700;cursor:pointer;padding:6px 0;font-size:15px;white-space:nowrap;text-decoration:underline;text-underline-offset:3px}
+
+/* upsell */
+.upsell{margin-top:24px;border:1.5px solid var(--accent);border-radius:10px;padding:20px;background:var(--blush-2)}
+.upsell h4{margin:0 0 4px;font-size:1.05rem}
+.upsell label{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line-soft);font-size:15px;cursor:pointer}
+.upsell label:first-of-type{border-top:0}
+.upsell input{margin-top:4px;accent-color:var(--accent);width:18px;height:18px}
+.upsell b{display:block}
+.upsell .small{display:block}
+
+/* partner */
+.partner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.ptypes{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 26px}
+.ptypes span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14.5px;font-weight:600}
+.earnbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px}
+.earnbox ol{margin:12px 0 0;padding-left:20px;display:grid;gap:8px;color:var(--muted)}
+
+/* faq */
+.faq{max-width:860px}
+.faq details{border-bottom:1px solid var(--line);padding:4px 0}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;padding:18px 0;font-weight:700;font-size:1.08rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.5rem;line-height:1;color:var(--accent);font-weight:500}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{margin:0 0 20px;color:var(--muted);max-width:70ch}
+
+/* digest */
+.digest{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.digest input{flex:1 1 180px;min-width:0;width:100%;border:1.5px solid var(--line);border-radius:6px;padding:11px 13px;font-size:16px;background:#fff}
+.digest-msg{font-size:14px;color:var(--muted);margin-top:8px;min-height:1.2em}
+
+/* language menu (top right) */
+.lang{position:relative;flex:none}
+.lang-btn{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 10px;border:1.5px solid var(--line);border-radius:4px;background:#fff;cursor:pointer;font-weight:650;font-size:14px;color:var(--charcoal-2)}
+.lang-btn:hover{border-color:#B8B7BE;color:var(--ink)}
+.lang-btn svg{width:17px;height:17px;flex:none}
+.lang-list{position:absolute;right:0;top:calc(100% + 8px);min-width:190px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 40px -18px rgba(46,45,51,.45);padding:6px;margin:0;list-style:none;display:none;z-index:70}
+.lang.open .lang-list{display:block}
+.lang-list button{display:flex;width:100%;justify-content:space-between;align-items:baseline;gap:12px;background:none;border:0;border-radius:6px;padding:9px 10px;font-size:15px;cursor:pointer;text-align:left;color:var(--ink)}
+.lang-list button:hover{background:var(--paper)}
+.lang-list button[aria-checked="true"]{color:var(--accent-text);font-weight:700}
+.lang-list small{color:var(--muted);font-size:12.5px;font-weight:500}
+html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans-serif}
+
+/* WhatsApp button (general enquiries; number not shown) */
+.wa-btn{position:fixed;right:22px;bottom:92px;z-index:60;height:50px;border-radius:999px;background:#168A4B;color:#fff;border:0;display:flex;align-items:center;gap:8px;padding:0 18px 0 14px;cursor:pointer;font-weight:700;font-size:15px;box-shadow:0 10px 26px -10px rgba(16,110,58,.7)}
+.wa-btn:hover{background:#127A41}
+.wa-btn svg{width:24px;height:24px;flex:none}
+.wa-inline{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:#168A4B;color:#fff;border:0;border-radius:4px;min-height:44px;padding:0 16px;font-weight:700;font-size:15px;cursor:pointer}
+.wa-inline:hover{background:#127A41}
+.wa-inline svg{width:20px;height:20px}
+
+/* registration steps */
+.reg-steps{list-style:none;margin:28px 0 0;padding:0;counter-reset:r;display:grid;gap:16px}
+.reg-steps li{display:grid;grid-template-columns:34px 1fr;gap:2px 12px;counter-increment:r}
+.reg-steps li::before{content:counter(r);grid-row:span 2;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-weight:750;font-size:14px;display:flex;align-items:center;justify-content:center}
+.reg-steps b{font-weight:700}
+.reg-steps span{color:var(--muted);font-size:15.5px}
+.privacy{margin:12px 0 0;font-size:13.5px;color:var(--muted);text-align:center}
+
+/* members page (/members): only the full-details form shows */
+#submit-details{display:none}
+.members-mode #submit-details{display:block}
+.members-mode main>section:not(#submit-details),.members-mode .announce{display:none}
+.members-badge{display:inline-block;background:var(--accent-tint);color:var(--accent-text);font-weight:700;font-size:14px;border-radius:999px;padding:5px 12px;margin-bottom:14px}
+
+/* responsive */
+@media (max-width:1200px){
+  .head-row{height:60px;gap:12px}
+  .nav{display:none}
+  .menu-btn{display:inline-flex;order:3}
+  .head-cta{margin-left:auto}
+  .head-cta .btn-ghost{display:none}
+  .nav.open{display:flex;position:absolute;top:100%;left:0;right:0;height:auto;flex-direction:column;gap:0;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 18px 30px -20px rgba(46,45,51,.4);padding:6px 28px 20px;max-height:calc(100vh - 60px);overflow-y:auto}
+  .nav.open a{padding:14px 0;font-size:17px;border-top:0;border-bottom:1px solid var(--line-soft)}
+  .nav.open a[aria-current="true"]{border-bottom-color:var(--line-soft);color:var(--accent-text)}
+  .nav.open .nav-join{display:flex;justify-content:center;margin-top:16px;border:1.5px solid var(--ink);border-radius:4px;padding:12px 0}
+  .nav.open .nav-list{background:var(--accent);border-color:var(--accent);color:#fff}
+  .nav.open .nav-list+.nav-join{margin-top:10px}
+}
+@media (max-width:460px){
+  .head-cta{display:none}
+  .lang{margin-left:auto}
+  .wa-btn{width:52px;height:52px;padding:0;justify-content:center;bottom:88px;right:18px}
+  .wa-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .chat-btn{right:18px;bottom:20px;width:54px;height:54px}
+  .chat{right:16px;bottom:150px}
+}
+@media (max-width:960px){
+  .hero-grid,.form-grid,.gb-grid,.mem-grid,.contact,.bt-grid,.explorer,.pgrid,.partner{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:1fr}
+  .svc-item:nth-child(odd){border-right:0;padding-right:0}
+  .svc-item:nth-child(even){padding-left:0}
+  .tabs{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .tab{flex:none}
+  .panel{padding:24px 20px}
+  .sec-head{grid-template-columns:1fr;gap:12px}
+  .sec-head .lede{justify-self:start}
+  .grid3{grid-template-columns:repeat(2,1fr)}
+  .form-aside{position:static}
+  .steps{grid-template-columns:1fr;border-top:0;border-left:2px solid var(--accent);padding-left:0}
+  .steps li{padding:0 0 22px 30px}
+  .steps li::before{margin:0 0 8px -48px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .lrow{grid-template-columns:56px 1fr;gap:12px 18px}
+  .lrow .earn,.lrow .lgo{grid-column:2}
+  .contact{padding:32px}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .svc-item{grid-template-columns:44px 1fr}
+  .svc-item .linkbtn{grid-column:2;justify-self:start}
+  .head-row{gap:10px}
+  .head-cta .btn-primary{padding:0 10px;font-size:13.5px}
+  .head-row{height:56px}
+  .nav.open{padding:4px 18px 18px;max-height:calc(100vh - 56px)}
+  .brand svg{width:34px;height:25px}
+  .desk-row{grid-template-columns:1fr}
+  .desk-val{text-align:left;padding:6px 0 0;min-width:0}
+  .desk-foot{flex-direction:column;align-items:stretch}
+  .wrap{padding:0 18px}
+  .sec{padding:64px 0}
+  .grid3,.mini{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  form.listing,.result{padding:20px}
+  .head-cta .btn-primary{padding:0 12px}
+  .wordmark{font-size:18px}
+  .gb-grid>*,.form-grid>*,.bt-grid>*,.contact>*{min-width:0}
+  .contact{padding:24px 20px}
+  .clusters th,.clusters td{padding:10px 10px}
+  table.clusters{font-size:14px}
+  .port{margin:0 4px 4px 0}
+  .levels{grid-template-columns:1fr 1fr}
+  .plans{font-size:14px}
+  .plans-wrap{overflow-x:auto}
+  .plans{min-width:640px}
+  .foot-grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .ticker-track{animation:none;flex-wrap:wrap;white-space:normal;gap:14px 28px}
+  .ticker{white-space:normal}
+  .balance{transition:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gw" x1="20" y1="40" x2="150" y2="250" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2F7BFF"/><stop offset=".55" stop-color="#1C8FD6"/><stop offset="1" stop-color="#11B3A0"/></linearGradient>
+    <linearGradient id="gs" x1="30" y1="105" x2="180" y2="165" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFC93C"/><stop offset="1" stop-color="#FF9F1A"/></linearGradient>
+    <linearGradient id="gh" x1="210" y1="75" x2="300" y2="155" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FF5A3D"/><stop offset="1" stop-color="#D92B2B"/></linearGradient>
+  </defs>
+  <symbol id="bird" viewBox="12 28 314 230">
+    <path fill="url(#gs)" d="M22,104 C78,106 140,128 182,163 C132,154 74,134 22,104 Z"/>
+    <path fill="url(#gw)" d="M18,36 C100,30 178,62 224,112 L232,150 C210,204 132,238 48,252 C100,220 146,190 173,161 C127,123 79,79 18,36 Z"/>
+    <path fill="url(#gh)" d="M203,111 C211,86 234,69 259,69 C280,69 297,82 320,101 C298,104 289,110 285,120 C277,142 257,156 230,160 C224,141 216,125 203,111 Z"/>
+  </symbol>
+  <symbol id="i-infra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l5-3v15M10 21V4l9 4v13M13 10h3M13 13h3M13 16h3M7 12h1M7 15h1"/></symbol>
+  <symbol id="i-lease" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10l6 3V10l6 3V6l6 3v12H3z"/><path d="M7 17h2M11 17h2M15 17h2"/></symbol>
+  <symbol id="i-machines" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="7.6" stroke-width="3.2" stroke-dasharray="2.9 3.07"/><circle cx="12" cy="12" r="5.6" stroke-width="1.6"/><circle cx="12" cy="12" r="2.2" stroke-width="1.6"/></symbol>
+  <symbol id="i-tech" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></symbol>
+  <symbol id="i-agri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V9"/><path d="M12 9c0-3 2-5 5-5 0 3-2 5-5 5zM12 13c0-3-2-5-5-5 0 3 2 5 5 5zM12 17c0-3 2-5 5-5 0 3-2 5-5 5z"/></symbol>
+  <symbol id="i-storage" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-6 10 6v12H2z"/><path d="M6 21v-8h12v8M6 16h12"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h8l5 5v15H6z"/><path d="M14 2v5h5M9 13h7M9 17h7"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-handshake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l4-4 4 2 3-3 3 1 6 4"/><path d="M6 8l-2 9h3l4 3 5-4 4-2"/><path d="M10 15l2 2M12 13l2 2"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 21h14M4 7h16M7 7l-3 7h6zM17 7l-3 7h6z"/></symbol>
+  <symbol id="i-mega" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4h3l7 4V6L6 10z"/><path d="M17 9a4 4 0 0 1 0 6M6 14l1.5 5h3L9 14"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5z"/><path d="M8.6 12h.01M12 12h.01M15.4 12h.01" stroke-width="2.6"/></symbol>
+  <symbol id="i-swap"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v14M3 14l4 4 4-4M17 20V6M13 10l4-4 4 4"/></symbol>
+</svg>
+
+<div class="announce">Founding membership is free for the first 2,000 businesses.<button type="button" data-join>Claim yours</button></div>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="#top" aria-label="DASKIES home">
+      <svg viewBox="12 28 314 230" aria-hidden="true"><use href="#bird"/></svg>
+      <span class="wordmark">DASKIES</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#categories">Categories</a>
+      <a href="#build-together">Own at cost</a>
+      <a href="#marketplace">Marketplace</a>
+      <a href="#services">Services</a>
+      <a href="#global-buyers">Global buyers</a>
+      <a href="#membership">Membership</a>
+      <a href="#list-asset" class="nav-join nav-list">List an asset</a>
+      <a href="#membership" class="nav-join">Join free</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="Open menu"><span class="bars"></span></button>
+    <div class="head-cta">
+      <a class="btn btn-ghost btn-sm" href="#membership">Join free</a>
+      <a class="btn btn-primary btn-sm" href="#list-asset">List an asset</a>
+    </div>
+    <div class="lang" id="lang">
+      <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="langList" aria-label="Language: English"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-globe"/></svg><span id="langCode">EN</span></button>
+      <ul class="lang-list" id="langList" role="menu" aria-label="Choose language" translate="no">
+        <li><button type="button" role="menuitemradio" data-lang="en" aria-checked="true">English<small>EN</small></button></li>
+        <li><button type="button" role="menuitemradio" data-lang="hi" aria-checked="false" lang="hi">हिन्दी<small>HI</small></button></li>
+        <li><button type="button" role="menuitemradio" data-lang="fr" aria-checked="false" lang="fr">Français<small>FR</small></button></li>
+        <li><button type="button" role="menuitemradio" data-lang="de" aria-checked="false" lang="de">Deutsch<small>DE</small></button></li>
+        <li><button type="button" role="menuitemradio" data-lang="es" aria-checked="false" lang="es">Español<small>ES</small></button></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1 class="d1">Lease your unutilised capacity. Buy, sell or barter.</h1>
+      <p class="lede">DASKIES connects Indian factories, landowners, traders, property buyers and overseas buyers. Earn rent from what you don't use, sell it, or swap it for what you need. Our team helps you until the deal is done.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#list-asset">List an asset</a>
+        <a class="btn btn-ghost" href="#global-buyers">I'm an overseas buyer</a>
+      </div>
+      <div class="hero-facts">
+        <span><b>Own at cost</b> through buyer groups</span>
+        <span><b>Cash, barter or both</b> on every deal</span>
+        <span><b>2,000</b> free founding memberships</span>
+      </div>
+    </div>
+
+    <aside class="desk" aria-labelledby="deskTitle">
+      <div class="desk-top">
+        <h2 id="deskTitle">Barter desk</h2>
+        <span class="small">Example values</span>
+      </div>
+      <div class="desk-row">
+        <div>
+          <label for="offer">You offer</label>
+          <select id="offer"></select>
+        </div>
+        <div class="desk-val num" id="offerVal">₹50 lakh</div>
+      </div>
+      <div class="swap" aria-hidden="true"><span><svg width="18" height="18"><use href="#i-swap"/></svg></span></div>
+      <div class="desk-row">
+        <div>
+          <label for="need">You need</label>
+          <select id="need"></select>
+        </div>
+        <div class="desk-val num" id="needVal">₹65 lakh</div>
+      </div>
+      <div class="balance pay" id="balance" aria-live="polite">
+        <span class="bl" id="balLabel">You add in cash</span>
+        <span class="bv num" id="balVal">₹15 lakh</span>
+        <span class="bn" id="balNote">The rest is settled as a straight swap.</span>
+      </div>
+      <div class="desk-foot">
+        <span class="small">No direct match? We build three-party chains.</span>
+        <a class="btn btn-primary btn-sm" href="#list-asset" id="deskGo">Find a counterparty</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="band" aria-label="Opportunities">
+  <div class="wrap band-row">
+    <h2 class="d2">New opportunities every week</h2>
+    <p>Factory space, machines, storage and goods are added every week. Members see full details and who to contact.</p>
+  </div>
+  <div class="ticker" aria-label="Sample opportunities">
+    <div class="ticker-track" id="ticker"></div>
+  </div>
+</section>
+
+<section class="sec" id="categories">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="d2">Six ways to earn, save or give</h2>
+      <p class="lede">Pick a category to see how it works, who it is for and what you gain. Every deal can be paid in cash, as rent, or as a swap (barter).</p>
+    </div>
+    <div class="explorer">
+      <div class="tabs" role="tablist" aria-label="Categories" id="tabs"></div>
+      <div class="panel" role="tabpanel" id="panel" tabindex="0" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec rose" id="build-together">
+  <div class="wrap bt-grid">
+    <div>
+      <h2 class="d2">Own a shop, showroom, office or home at cost</h2>
+      <p class="lede">Retailers, professionals and families who want the same kind of property in the same area join one buyer group. We acquire land where the group wants it and build turnkey for a fixed charge, so you pay for land and construction, not a developer's margin.</p>
+      <ul class="bt-points">
+        <li><b>You choose the area</b><span>Tell us the city and locality. Groups form around real demand, not a developer's land bank.</span></li>
+        <li><b>Fixed construction charge, agreed upfront</b><span>Land, construction and our fee are set out before work starts.</span></li>
+        <li><b>Turnkey delivery with clear title</b><span>We handle approvals, construction and handover of your finished unit.</span></li>
+      </ul>
+    </div>
+    <div>
+      <form class="interest" id="btForm" name="buyer-group-interest" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="buyer-group-interest"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <h3 class="d3" style="font-size:1.3rem;margin-bottom:16px">Register your interest</h3>
+        <div class="frow">
+          <div class="field" data-f="btType">
+            <label class="flabel" for="btType">I want <span class="req">*</span></label>
+            <select id="btType" name="property-type"><option value="">Choose a type</option><option>Shop</option><option>Showroom</option><option>Office</option><option>Flat</option><option>Villa or bungalow</option><option>Warehouse</option></select>
+            <div class="err">Choose what you want to own.</div>
+          </div>
+          <div class="field" data-f="btSize">
+            <label class="flabel" for="btSize">Size (sq ft)</label>
+            <input id="btSize" name="size-sqft" type="number" min="50" inputmode="numeric" placeholder="e.g. 1,200">
+          </div>
+        </div>
+        <div class="frow">
+          <div class="field" data-f="btArea">
+            <label class="flabel" for="btArea">Preferred area <span class="req">*</span></label>
+            <input id="btArea" name="preferred-area" type="text" placeholder="City and locality">
+            <div class="err">Add the city and locality you prefer.</div>
+          </div>
+          <div class="field" data-f="btBudget">
+            <label class="flabel" for="btBudget">Budget (₹ lakh)</label>
+            <input id="btBudget" name="budget-lakh" type="number" min="1" inputmode="decimal" placeholder="e.g. 80">
+          </div>
+        </div>
+        <div class="frow">
+          <div class="field" data-f="btName">
+            <label class="flabel" for="btName">Your name <span class="req">*</span></label>
+            <input id="btName" name="name" type="text" autocomplete="name">
+            <div class="err">Add your name.</div>
+          </div>
+          <div class="field" data-f="btEmail">
+            <label class="flabel" for="btEmail">Email <span class="req">*</span></label>
+            <input id="btEmail" name="email" type="email" autocomplete="email">
+            <div class="err">Enter a valid email address.</div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="flabel" for="btPhone">Phone or WhatsApp</label>
+          <input id="btPhone" name="phone" type="tel" autocomplete="tel" placeholder="+91">
+        </div>
+        <button class="btn btn-primary" type="submit" style="width:100%">Register interest</button>
+      </form>
+      <div class="bt-done" id="btDone" tabindex="-1">
+        <div class="result-top" style="margin-bottom:16px">
+          <span class="okdot"><svg width="22" height="22"><use href="#i-check"/></svg></span>
+          <div><h3 class="d3">Interest registered</h3><p class="small" id="btSummary" style="margin:0"></p></div>
+        </div>
+        <p style="margin:0">We'll group you with other buyers who want the same in that area. A group moves ahead once enough buyers have joined to acquire land there.</p>
+        
+        <button class="btn btn-ghost" type="button" id="btAgain" style="margin-top:16px">Register another interest</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec white" id="marketplace">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="d2">Marketplace</h2>
+      <p class="lede">These are sample listings that show how DASKIES works. Contact details stay locked until you're a member.</p>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+    <div class="grid3" id="listings"></div>
+    <p class="note">All listings on this page are samples for illustration. Live listings appear once the platform opens to members.</p>
+  </div>
+</section>
+
+<section class="sec" id="list-asset">
+  <div class="wrap form-grid">
+    <div class="form-aside">
+      <h2 class="d2">List an asset or post a need</h2>
+      <p class="lede">Start with a free registration. It takes two minutes.</p>
+      <ol class="reg-steps">
+        <li><b>Register free</b><span>Your name, contact and what you want to do.</span></li>
+        <li><b>We confirm your membership</b><span>By email, within 48 hours.</span></li>
+        <li><b>Send full details</b><span>Your private members link opens the full form: 3 photos, description and valuation report.</span></li>
+        <li><b>Go live and get matched</b><span>We review and publish it, and show you similar listings in your category and price range.</span></li>
+      </ol>
+    </div>
+    <div>
+      <form class="listing" id="regForm" name="registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="registration"><input type="hidden" name="language" id="regLang" value="en"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <h3 class="d3" style="font-size:1.3rem;margin-bottom:16px">Register free</h3>
+        <div class="frow">
+          <div class="field" data-f="gName">
+            <label class="flabel" for="gName">Your name <span class="req">*</span></label>
+            <input id="gName" name="name" type="text" autocomplete="name">
+            <div class="err">Add your name.</div>
+          </div>
+          <div class="field">
+            <label class="flabel" for="gCo">Company</label>
+            <input id="gCo" name="company" type="text" autocomplete="organization">
+          </div>
+        </div>
+        <div class="frow">
+          <div class="field" data-f="gEmail">
+            <label class="flabel" for="gEmail">Email <span class="req">*</span></label>
+            <input id="gEmail" name="email" type="email" autocomplete="email">
+            <div class="err">Enter a valid email address.</div>
+          </div>
+          <div class="field" data-f="gPhone">
+            <label class="flabel" for="gPhone">Phone or WhatsApp <span class="req">*</span></label>
+            <input id="gPhone" name="phone" type="tel" autocomplete="tel" placeholder="+91">
+            <div class="err">Add a phone or WhatsApp number.</div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="field" data-f="gWant">
+            <label class="flabel" for="gWant">I want to <span class="req">*</span></label>
+            <select id="gWant" name="i-want-to"><option value="">Choose one</option><option>Lease out space or machines</option><option>Sell</option><option>Buy or rent</option><option>Barter (swap)</option><option>Own property at cost (buyer group)</option><option>Donate or share technology or education</option><option>Overseas buyer: sourcing or factory</option><option>Become a partner</option><option>Something else</option></select>
+            <div class="err">Choose what you want to do.</div>
+          </div>
+          <div class="field">
+            <label class="flabel" for="gCat">Category</label>
+            <select id="gCat" name="category"><option value="">Not sure yet</option></select>
+          </div>
+        </div>
+        <div class="field">
+          <label class="flabel" for="gNote">In a few words (optional)</label>
+          <textarea id="gNote" name="note" maxlength="500" style="min-height:80px" placeholder="e.g. 2 CNC machines to sell in Rajkot"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit" id="regSubmit" style="width:100%">Register free</button>
+        <p class="privacy">We never show your phone or email in public.</p>
+      </form>
+      <div class="result" id="regDone" tabindex="-1">
+        <div class="result-top">
+          <span class="okdot"><svg width="22" height="22"><use href="#i-check"/></svg></span>
+          <div><h3 class="d3">Thank you for registering</h3><p class="small" id="regSummary" style="margin:0"></p></div>
+        </div>
+        <p style="margin:0">We'll confirm your membership by email within 48 hours. Once approved, we'll send you a private members link to submit full details, 3 photos and the valuation report.</p>
+        <button class="btn btn-ghost" type="button" id="regAgain" style="margin-top:16px">Register someone else</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="submit-details">
+  <div class="wrap form-grid">
+    <div class="form-aside">
+      <span class="members-badge">Members only</span>
+      <h2 class="d2">Submit full details</h2>
+      <p class="lede">Use this form after we confirm your membership. Every listing on DASKIES needs the same essentials.</p>
+      <ul class="reqs">
+        <li><svg width="20" height="20"><use href="#i-check"/></svg><span><b>Three photos</b>Recent photos of the asset.</span></li>
+        <li><svg width="20" height="20"><use href="#i-check"/></svg><span><b>A clear description</b>Specs, condition, capacity and terms.</span></li>
+        <li><svg width="20" height="20"><use href="#i-check"/></svg><span><b>A valuation report</b>From a valuer or your own costing (PDF or image).</span></li>
+        <li><svg width="20" height="20"><use href="#i-check"/></svg><span><b>Similar listings</b>After review, you see listings in the same category and price range.</span></li>
+      </ul>
+    </div>
+
+    <div>
+      <form class="listing" id="listForm" name="list-asset" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" novalidate>
+        <input type="hidden" name="form-name" value="list-asset"><input type="hidden" name="category" id="fCatName"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="summary" id="summary" role="alert"></div>
+
+        <div class="field" data-f="member">
+          <label class="flabel" for="fMember">Member ID (from your approval email) <span class="req">*</span></label>
+          <input id="fMember" name="member-id" type="text" autocomplete="off" placeholder="e.g. DSK-0123">
+          <div class="err">Add the member ID from your approval email.</div>
+        </div>
+
+        <fieldset class="field">
+          <legend>I want to</legend>
+          <div class="seg">
+            <label><input type="radio" name="deal" value="Lease" checked><span>Lease out</span></label>
+            <label><input type="radio" name="deal" value="Sale"><span>Sell</span></label>
+            <label><input type="radio" name="deal" value="Barter"><span>Barter</span></label>
+          </div>
+        </fieldset>
+
+        <div class="frow">
+          <div class="field" data-f="cat">
+            <label class="flabel" for="fCat">Category <span class="req">*</span></label>
+            <select id="fCat" name="cat"><option value="">Choose a category</option></select>
+            <div class="err">Choose the category your asset belongs to.</div>
+          </div>
+          <div class="field" data-f="value">
+            <label class="flabel" for="fValue">Valuation (₹ lakh) <span class="req">*</span></label>
+            <input id="fValue" name="value" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="e.g. 28">
+            <div class="err">Enter the valuation in lakh, for example 28.</div>
+          </div>
+        </div>
+
+        <div class="field" data-f="title">
+          <label class="flabel" for="fTitle">Title <span class="req">*</span></label>
+          <input id="fTitle" name="title" type="text" maxlength="90" placeholder="e.g. CNC vertical machining centre, 2019">
+          <div class="err">Add a short title so buyers know what this is.</div>
+        </div>
+
+        <div class="field" data-f="desc">
+          <label class="flabel" for="fDesc">Description <span class="req">*</span></label>
+          <textarea id="fDesc" name="desc" maxlength="1500" placeholder="Make, model and year, condition, capacity, location details, lease or sale terms, what you'd take in barter"></textarea>
+          <div class="hint"><span>At least 80 characters</span><span id="descCount">0 / 1500</span></div>
+          <div class="err" id="descErr">Describe the asset in at least 80 characters.</div>
+        </div>
+
+        <div class="field" data-f="where">
+          <label class="flabel" for="fWhere">Location <span class="req">*</span></label>
+          <input id="fWhere" name="where" type="text" placeholder="City, state, country">
+          <div class="err">Add where the asset is.</div>
+        </div>
+
+        <fieldset class="field" data-f="photos">
+          <legend>Photos <span class="req">*</span> <span class="small">3 required</span></legend>
+          <div class="photos">
+            <label class="pbox"><input type="file" name="photo-1" accept="image/*" data-i="0" aria-label="Photo 1"><svg width="26" height="26"><use href="#i-camera"/></svg><span class="pn">Photo 1</span><span>Front view</span></label>
+            <label class="pbox"><input type="file" name="photo-2" accept="image/*" data-i="1" aria-label="Photo 2"><svg width="26" height="26"><use href="#i-camera"/></svg><span class="pn">Photo 2</span><span>Side or detail</span></label>
+            <label class="pbox"><input type="file" name="photo-3" accept="image/*" data-i="2" aria-label="Photo 3"><svg width="26" height="26"><use href="#i-camera"/></svg><span class="pn">Photo 3</span><span>Nameplate or site</span></label>
+          </div>
+          <div class="err" id="photoErr">Add all 3 photos.</div>
+        </fieldset>
+
+        <div class="field" data-f="report">
+          <span class="flabel">Valuation report <span class="req">*</span></span>
+          <label class="docbox" id="docBox"><input type="file" id="fReport" name="valuation-report" accept=".pdf,image/*" aria-label="Valuation report"><svg width="26" height="26"><use href="#i-doc"/></svg><span><span class="dn" id="docName">Upload valuation report</span><br><span class="small">PDF, JPG or PNG, up to 5 MB</span></span></label>
+          <div class="err" id="reportErr">Attach a valuation report.</div>
+        </div>
+
+        <div class="frow">
+          <div class="field" data-f="name">
+            <label class="flabel" for="fName">Your name <span class="req">*</span></label>
+            <input id="fName" name="name" type="text" autocomplete="name">
+            <div class="err">Add your name.</div>
+          </div>
+          <div class="field" data-f="email">
+            <label class="flabel" for="fEmail">Email <span class="req">*</span></label>
+            <input id="fEmail" name="email" type="email" autocomplete="email">
+            <div class="err">Enter a valid email address.</div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="flabel" for="fPhone">Phone or WhatsApp</label>
+          <input id="fPhone" name="phone" type="tel" autocomplete="tel" placeholder="+91">
+        </div>
+
+        <div class="form-end">
+          <span class="small"><span class="req">*</span> Required</span>
+          <button class="btn btn-primary" type="submit" id="listSubmit">Submit for review</button>
+        </div>
+      </form>
+
+      <div class="result" id="result" tabindex="-1">
+        <div class="result-top">
+          <span class="okdot"><svg width="22" height="22"><use href="#i-check"/></svg></span>
+          <div>
+            <h3 class="d3" id="resTitle">Listing submitted for review</h3>
+            <p class="small" id="resMeta" style="margin:0"></p>
+          </div>
+        </div>
+        <h3 class="d3" id="simTitle">Similar listings</h3>
+        <p class="small" id="simNote" style="margin:0"></p>
+        <div class="mini" id="similar"></div>
+        <div class="upsell" id="upsell">
+          <h4>Get this listing seen sooner</h4>
+          <p class="small" style="margin:0 0 6px">Optional paid services, priced on request.</p>
+          <label><input type="checkbox" value="Featured listing"><span><b>Feature it</b><span class="small">Top of its category and in the weekly digest to members.</span></span></label>
+          <label><input type="checkbox" value="Business verification"><span><b>Get verified</b><span class="small">We review your company documents and add a verification badge.</span></span></label>
+          <label><input type="checkbox" value="Deal manager"><span><b>Assign a deal manager</b><span class="small">Our team finds buyers, negotiates and handles paperwork for you.</span></span></label>
+          <button class="btn btn-primary btn-sm" type="button" id="upsellGo" style="margin-top:10px">Request selected services</button>
+          <p class="digest-msg" id="upsellMsg" aria-live="polite"></p>
+        </div>
+        <p class="preview-note">Your listing, photos and valuation report have reached the DASKIES team. We review every listing before it goes live and will email you the result.</p>
+        <div style="margin-top:18px"><button class="btn btn-ghost" id="again" type="button">List another asset</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec rose" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="d2">Extra help from the DASKIES team</h2>
+      <p class="lede">Listing is free for founding members. If you want more buyers, more trust, or someone to handle the deal for you, add a service. Price on request, based on deal size.</p>
+    </div>
+    <div class="svc-grid" id="svcGrid"></div>
+  </div>
+</section>
+
+<section class="sec" id="global-buyers">
+  <div class="wrap gb-grid">
+    <div>
+      <h2 class="d2">Make it in Gujarat. Ship from Mundra.</h2>
+      <p class="lede">For importers in the US, Europe, the Gulf and Africa: lease running capacity or contract production with Gujarat's exporters instead of building your own plant.</p>
+      <ul class="svc">
+        <li><b>Lease a running plant</b><span>Factories with machinery, power and trained staff, on monthly or long-term terms.</span></li>
+        <li><b>Contract manufacturing</b><span>Parts and products made to your drawings and brand, from a pilot batch to full containers.</span></li>
+        <li><b>Bulk sourcing</b><span>Edible oils, groundnuts, cumin, castor oil, cotton and pulses, with grade and packing agreed in writing.</span></li>
+        <li><b>One team, start to finish</b><span>Video walkthroughs, site visits, samples, third-party inspection and export paperwork, in your time zone.</span></li>
+      </ul>
+      <div style="margin-top:24px"><button class="btn btn-primary" type="button" data-req="Sourcing call with the Global Buyer Desk">Book a sourcing call</button></div>
+    </div>
+    <div>
+      <table class="clusters">
+        <caption class="sr">Gujarat export clusters</caption>
+        <thead><tr><th scope="col">What's made</th><th scope="col">Where</th><th scope="col">Ports</th></tr></thead>
+        <tbody>
+          <tr><td>Auto components and bearings</td><td>Rajkot, Ahmedabad, Sanand</td><td><span class="port">Mundra</span><span class="port">Pipavav</span></td></tr>
+          <tr><td>Ceramic tiles and sanitaryware</td><td>Morbi</td><td><span class="port">Mundra</span><span class="port">Kandla</span></td></tr>
+          <tr><td>Brass parts and fittings</td><td>Jamnagar</td><td><span class="port">Mundra</span></td></tr>
+          <tr><td>Pumps, motors, castings, machine tools</td><td>Rajkot, Ahmedabad</td><td><span class="port">Mundra</span><span class="port">Pipavav</span></td></tr>
+          <tr><td>Chemicals, dyes and APIs</td><td>Ankleshwar, Vapi, Dahej</td><td><span class="port">Hazira</span><span class="port">Dahej</span></td></tr>
+          <tr><td>Textiles and denim</td><td>Ahmedabad, Surat</td><td><span class="port">Hazira</span><span class="port">Mundra</span></td></tr>
+          <tr><td>Pharma and healthcare</td><td>Ahmedabad, Vadodara</td><td><span class="port">Mundra</span></td></tr>
+          <tr><td>Spices, groundnut, dehydrated onion</td><td>Unjha, Gondal, Mahuva</td><td><span class="port">Mundra</span><span class="port">Pipavav</span></td></tr>
+        </tbody>
+      </table>
+      <p class="fema">Leasing, contract manufacturing and investment by foreign companies in India follow FEMA and FDI rules. We introduce you to Indian lawyers, chartered accountants and customs brokers to structure the deal correctly.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec white" id="how-it-works">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="d2">How it works</h2>
+      <p class="lede">The same five steps whether you rent out a shed, sell a machine or swap goods.</p>
+    </div>
+    <ol class="steps">
+      <li><h3 class="d3">Register free</h3><p>Tell us who you are and what you want to do. It takes two minutes.</p></li>
+      <li><h3 class="d3">Get approved</h3><p>We confirm your membership by email within 48 hours.</p></li>
+      <li><h3 class="d3">Send full details</h3><p>Use your members link to add 3 photos, a description and a valuation report.</p></li>
+      <li><h3 class="d3">Get matched</h3><p>We review and publish your listing. You see similar listings in your category and price range.</p></li>
+      <li><h3 class="d3">Close the deal</h3><p>Agree price, rent or swap. We help with paperwork and, for overseas buyers, inspection and shipping.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec rose" id="membership">
+  <div class="wrap mem-grid">
+    <div>
+      <p class="free-num num">2,000</p>
+      <h2 class="d2">founding memberships, free</h2>
+      <p class="lede">The first 2,000 members get full access at no cost, including the contact details behind every listing. After that, membership is paid. Visitors who aren't members see listings but not who to call.</p>
+      <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap">
+        <button class="btn btn-primary" type="button" data-join>Claim a free membership</button>
+        <a class="btn btn-ghost" href="#contact">Ask about plans</a>
+      </div>
+      <h3 class="d3" style="margin-top:40px">Verification levels</h3>
+      <p class="small" style="margin:0">Every member profile shows how far it has been checked.</p>
+      <div class="levels">
+        <div>Registered</div><div>Documents submitted</div><div>Documents reviewed</div><div>Business verified</div>
+      </div>
+    </div>
+    <div class="plans-wrap">
+      <table class="plans">
+        <caption class="sr">Membership plans</caption>
+        <thead>
+          <tr><th scope="col"></th><th scope="col" class="feat">Founding<small>Free, first 2,000</small></th><th scope="col">Professional<small>Pricing on request</small></th><th scope="col">Enterprise<small>Pricing on request</small></th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Listings and requirements</th><td class="feat">Company profile, listings and requirements</td><td>More listings, quotation management</td><td>Multiple users and roles</td></tr>
+          <tr><th scope="row">Contact details</th><td class="feat">Unlocked</td><td>Unlocked</td><td>Unlocked</td></tr>
+          <tr><th scope="row">Similar-listing matches</th><td class="feat">On every listing</td><td>Plus email alerts</td><td>Custom matching</td></tr>
+          <tr><th scope="row">Barter proposals</th><td class="feat">Direct swaps</td><td>Direct and three-party</td><td>Managed by our team</td></tr>
+          <tr><th scope="row">Support</th><td class="feat">Listing review</td><td>Priority support</td><td>Dedicated account manager</td></tr>
+          <tr><th scope="row">Add-ons</th><td colspan="3">Featured listings, business verification, Global Buyer Desk and managed deal support, priced on request</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="sec rose" id="partners">
+  <div class="wrap partner">
+    <div>
+      <h2 class="d2">Earn with DASKIES</h2>
+      <p class="lede">Brokers, chartered accountants, valuers, consultants and industry associations already know who has idle assets and who needs them. Refer them to DASKIES and earn a referral fee on every deal that closes.</p>
+      <div class="ptypes"><span>Property and machinery brokers</span><span>Chartered accountants</span><span>Registered valuers</span><span>Export consultants</span><span>Industry associations</span><span>Banks and NBFCs</span></div>
+      <button class="btn btn-primary" type="button" data-req="Partner programme">Become a partner</button>
+    </div>
+    <div class="earnbox">
+      <h3 class="d3">How referrals work</h3>
+      <ol>
+        <li>Register as a partner and get your referral details.</li>
+        <li>Introduce a seller, buyer or overseas client to us.</li>
+        <li>We track the deal from listing to closing.</li>
+        <li>You're paid your referral fee when the deal closes.</li>
+      </ol>
+      <p class="small" style="margin:14px 0 0">Referral fees are agreed in writing when you join.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="d2">Questions businesses ask us</h2>
+      <p class="lede">Can't find your answer? Use the chat, WhatsApp us, or write to contact@daskies.com.</p>
+    </div>
+    <div class="faq">
+      <details><summary>How do I list something?</summary><p>Register free on this page. We confirm your membership by email within 48 hours. Then you get a private members link to send full details: 3 photos, a description and a valuation report. We review it before it goes live.</p></details>
+      <details><summary>Is DASKIES a broker or a marketplace?</summary><p>Both. Anyone can browse, like a marketplace. When you want help, our team finds the other party, values barter swaps and handles paperwork until the deal is done.</p></details>
+      <details><summary>How are listings checked?</summary><p>Every listing needs three photos, a description and a valuation report. Our team checks it before it goes live, and each member profile shows its verification level. We don't guarantee any listing, so always do your own due diligence.</p></details>
+      <details><summary>Who can see my contact details?</summary><p>Only members. Visitors see the listing but not who to call. The first 2,000 members join free; after that, membership is paid.</p></details>
+      <details><summary>How does a barter deal settle?</summary><p>Both sides agree a value for what they give. If the values differ, the gap is paid in cash. When two businesses can't swap directly, we look for a third or fourth party to complete the chain.</p></details>
+      <details><summary>Can I donate technology or education material?</summary><p>Yes. Under Technology &amp; education, you can donate computers, machines, software, books or training to schools, colleges and skill centres that need them. You can also sell or license technology.</p></details>
+      <details><summary>How does buying at cost through a buyer group work?</summary><p>You register what you want, where and your budget. Once enough buyers want the same thing in the same area, we acquire land there and build turnkey for a fixed charge agreed before work starts.</p></details>
+      <details><summary>Can a foreign company lease a factory in India?</summary><p>Usually yes, within India's FEMA and FDI rules. The structure depends on your country, sector and how long you need the capacity. We introduce you to Indian lawyers, chartered accountants and customs brokers before you commit.</p></details>
+      <details><summary>What does DASKIES cost?</summary><p>Founding membership is free for the first 2,000 businesses. Featured listings, verification, the deal manager and the Global Buyer Desk are paid services, priced on request according to deal size.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contact" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="contact">
+      <div>
+        <h2 class="d2">Talk to our team</h2>
+        <p>Tell us what you have or what you need, and we'll come back with options.</p>
+        <button class="wa-inline" type="button" data-wa><svg aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp: general enquiries</button>
+      </div>
+      <div class="mailbox">
+        <p style="margin:0 0 6px">Email</p>
+        <a href="mailto:contact@daskies.com">contact@daskies.com</a>
+        <p style="margin-top:14px;font-size:14.5px">Or open the chat at the bottom right for quick answers.</p>
+        <form class="digest" id="digest" name="digest" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="digest"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+          <label class="sr" for="dgEmail">Email for the weekly opportunities digest</label>
+          <input id="dgEmail" name="email" type="email" placeholder="Your email for the weekly digest" autocomplete="email">
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+        <p class="digest-msg" id="dgMsg" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="DASKIES home"><svg viewBox="12 28 314 230" width="44" height="32" aria-hidden="true"><use href="#bird"/></svg><span class="wordmark">DASKIES</span></a>
+        <p style="margin:14px 0 0;max-width:36ch">The business network for Indian industry: lease, buy, sell, barter or donate.</p>
+      </div>
+      <div><h3>Categories</h3><ul id="footCats"></ul></div>
+      <div><h3>Platform</h3><ul><li><a href="#marketplace">Marketplace</a></li><li><a href="#list-asset">Register and list</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#services">Services</a></li><li><a href="#membership">Membership</a></li><li><a href="#partners">Partner with us</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h3>Contact</h3><ul><li><a href="mailto:contact@daskies.com">contact@daskies.com</a></li><li><a href="#global-buyers">Global buyers</a></li><li>Gujarat, India</li></ul></div>
+    </div>
+    <div class="legal">
+      <p>DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; please do your own due diligence before any deal.</p>
+      <p>© 2026 Daskies. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<button class="wa-btn" type="button" data-wa aria-label="WhatsApp: general enquiries"><svg aria-hidden="true"><use href="#i-wa"/></svg><span>WhatsApp</span></button>
+<button class="chat-btn" id="chatBtn" aria-expanded="false" aria-controls="chat" aria-label="Open chat"><svg width="26" height="26"><use href="#i-chat"/></svg></button>
+<section class="chat" id="chat" aria-label="Chat with DASKIES">
+  <div class="chat-head">
+    <svg class="b" viewBox="12 28 314 230" aria-hidden="true"><use href="#bird"/></svg>
+    <div><b>DASKIES team</b><span>Pick an option, or WhatsApp us</span></div>
+    <button type="button" id="chatClose" aria-label="Close chat"><svg width="20" height="20"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="chat-log" id="chatLog" aria-live="polite"></div>
+  <div class="opts" id="chatOpts"></div>
+</section>
+
+<div class="modal" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="joinTitle">
+  <div class="modal-box">
+    <button class="x" type="button" data-close aria-label="Close"><svg width="20" height="20"><use href="#i-x"/></svg></button>
+    <div id="joinForm">
+      <h2 class="d3" id="joinTitle" style="font-size:1.45rem">Claim a free founding membership</h2>
+      <p class="small" style="margin:4px 0 18px" id="joinWhy">The first 2,000 members join free and see the contact details behind every listing.</p>
+      <form id="jf" name="membership" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="membership"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="field" data-f="jn"><label class="flabel" for="jn">Your name <span class="req">*</span></label><input id="jn" name="name" type="text" autocomplete="name"><div class="err">Add your name.</div></div>
+        <div class="field" data-f="jc"><label class="flabel" for="jc">Company <span class="req">*</span></label><input id="jc" name="company" type="text" autocomplete="organization"><div class="err">Add your company name.</div></div>
+        <div class="field" data-f="je"><label class="flabel" for="je">Email <span class="req">*</span></label><input id="je" name="email" type="email" autocomplete="email"><div class="err">Enter a valid email address.</div></div>
+        <div class="field"><label class="flabel" for="jp">Phone or WhatsApp</label><input id="jp" name="phone" type="tel" autocomplete="tel" placeholder="+91"></div>
+        <button class="btn btn-primary" type="submit" style="width:100%">Claim membership</button>
+      </form>
+    </div>
+    <div id="joinDone" hidden>
+      <h2 class="d3" style="font-size:1.45rem">Membership request received</h2>
+      <p class="small">We'll confirm your founding membership by email within 48 hours. Contact details unlock once it's approved.</p>
+      <button class="btn btn-ghost" type="button" data-close>Close</button>
+    </div>
+  </div>
+</div>
+
+<form name="listing-upsell" data-netlify="true" netlify-honeypot="bot-field" hidden><input name="listing"><input name="email"><input name="services"><input name="bot-field"></form>
+
+<div class="modal" id="reqModal" role="dialog" aria-modal="true" aria-labelledby="reqTitle">
+  <div class="modal-box">
+    <button class="x" type="button" data-rclose aria-label="Close"><svg width="20" height="20"><use href="#i-x"/></svg></button>
+    <div id="reqForm">
+      <h2 class="d3" id="reqTitle" style="font-size:1.4rem">Request a service</h2>
+      <p class="small" style="margin:4px 0 18px">Tell us a little about you and our team will reply with options and pricing.</p>
+      <form id="rf" name="service-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="service-request"><input type="hidden" name="service" id="rService"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="field" data-f="rn"><label class="flabel" for="rn">Your name <span class="req">*</span></label><input id="rn" name="name" type="text" autocomplete="name"><div class="err">Add your name.</div></div>
+        <div class="field" data-f="rc"><label class="flabel" for="rc">Company</label><input id="rc" name="company" type="text" autocomplete="organization"></div>
+        <div class="field" data-f="re"><label class="flabel" for="re">Email <span class="req">*</span></label><input id="re" name="email" type="email" autocomplete="email"><div class="err">Enter a valid email address.</div></div>
+        <div class="field"><label class="flabel" for="rp">Phone or WhatsApp</label><input id="rp" name="phone" type="tel" autocomplete="tel" placeholder="+91"></div>
+        <div class="field"><label class="flabel" for="rm">What do you need?</label><textarea id="rm" name="message" style="min-height:90px" placeholder="Asset, deal size, country or timeline"></textarea></div>
+        <button class="btn btn-primary" type="submit" style="width:100%">Send request</button>
+      </form>
+    </div>
+    <div id="reqDone" hidden>
+      <h2 class="d3" style="font-size:1.4rem">Request received</h2>
+      <p class="small">Our team will reply with options and pricing.</p>
+      <button class="btn btn-ghost" type="button" data-rclose>Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s,c){return (c||document).querySelector(s)};
+  var $$ = function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+
+  var CATS = [
+    {id:"infra", name:"Construction at cost", tab:"Construction at cost", promise:"Own a shop, showroom, office or home at cost",
+     intro:"People who want the same kind of property in the same area join one buyer group. We buy land in the area the group chooses and build it ready-to-use (turnkey) for a fixed charge agreed at the start. You pay for land and construction, not a builder's profit. Landowners can also join as partners.",
+     how:["Tell us what you want (shop, showroom, office, flat or villa), the area you prefer and your budget.","We group you with buyers who want the same thing in the same area.","Our team finds and buys land there for the group.","We build it ready-to-use for a fixed charge agreed before work starts.","You get your unit with clear ownership papers."],
+     who:["Retailers and showroom owners","Doctors, CAs and other professionals who need offices","Families buying a home","Landowners and developers looking for JV partners"],
+     gain:["No builder profit: you pay land, construction and a fixed fee","You choose the location and design","Construction charge fixed before work starts"],
+     cta:"Register your interest", href:"#build-together"},
+    {id:"lease", name:"Industrial leasing", tab:"Industrial leasing", promise:"Turn idle factories and spare shifts into monthly income",
+     intro:"Most factories do not use all their space or machines. Rent out empty sheds, floors, production lines or spare shifts to companies, in India and abroad, that need capacity without building a new plant.",
+     how:["Register free, then send 3 photos, size, power load and a valuation report.","We review it and show it to businesses looking for that capacity, in India and abroad.","Agree monthly, long-term or per-shift rent, or swap capacity for goods you need.","Sign the lease and start earning."],
+     who:["Factory owners with idle space or shifts","Brands that need capacity without capital spending","Overseas buyers moving production to India"],
+     gain:["Rent from things that earn nothing today","Tenants start production in weeks, not years","A swap option when cash is short"],
+     cta:"List capacity", href:"#list-asset"},
+    {id:"machines", name:"Used machines", tab:"Used machines", promise:"Release the cash locked in machinery",
+     intro:"A machine that is not used loses value every month. Sell it, rent it out or swap it with companies that want good used machines for less than the price of new ones.",
+     how:["Register free, then send 3 photos (one of the nameplate), make, model, year, condition and a valuation report.","Buyers in the same category and price range see it.","Sell it, rent it out, or swap it for a machine you need.","Our team helps with inspection, transport and paperwork."],
+     who:["Manufacturers upgrading or closing a line","Machinery dealers","Buyers who want proven machines at lower cost"],
+     gain:["Cash or rent from unused machines","Buyers pay less than for new machines","Machine-for-machine swaps, any difference paid in cash"],
+     cta:"List a machine", href:"#list-asset"},
+    {id:"tech", name:"Technology & education", tab:"Tech & education", promise:"Share, sell or donate technology and learning",
+     intro:"Technology and knowledge help more people when they are shared. Sell or license your software, machines or know-how to factories that need them. Or donate computers, equipment, software, books or training to schools, colleges and skill centres.",
+     how:["Tell us what you have: technology, equipment, software, books or training.","Choose to sell, license or donate.","We match you with factories that need it, or schools and training centres that can use it.","Hand it over with clear paperwork."],
+     who:["Innovators, startups and software companies","Companies with spare computers, machines or tools","Schools, colleges and skill centres","Factories that want to modernise"],
+     gain:["Licence fees or sale income","Buyers save the cost of building from zero","Your donation helps students learn real skills"],
+     cta:"Register to share or donate", href:"#list-asset"},
+    {id:"agri", name:"Agriculture & commodities", tab:"Agri & commodities", promise:"Bulk trade, straight from origin",
+     intro:"Gujarat grows much of India's groundnut, cumin, castor and cotton. Buy or sell in bulk directly, with fewer middlemen, quality and quantity agreed in writing. You can also rent out farm land.",
+     how:["Tell us the product, grade, quantity (tonnes), packing and delivery place.","We introduce matching buyers or sellers.","Agree price, payment terms and inspection.","Dispatch with full documents, in India or for export."],
+     who:["Processors, millers and traders","Exporters and overseas importers","Farmers and landowners leasing land"],
+     gain:["Better prices with fewer middlemen","Quality agreed in writing","Income from land you don't farm"],
+     cta:"Post a requirement", href:"#list-asset"},
+    {id:"storage", name:"Storage & warehousing", tab:"Storage & warehousing", promise:"Fill empty space, or find the right space fast",
+     intro:"Rent out empty warehouse, cold storage, tank or port storage. Or find storage for less near Mundra, Kandla, farms and industrial areas.",
+     how:["Register free, then send photos, capacity (sq ft, tonnes or KL), facilities and rent.","Businesses looking for that place and size see it.","Agree the period, rent and handling charges.","Move goods in."],
+     who:["Warehouse and cold-storage owners","Exporters and importers near the ports","Traders storing seasonal stock"],
+     gain:["Rent from empty space","Storage close to ports and farms","Short or long-term rent"],
+     cta:"List storage", href:"#list-asset"}
+  ];
+  var catName = function(id){for(var i=0;i<CATS.length;i++){if(CATS[i].id===id)return CATS[i].name}return ""};
+
+  // Sample listings (clearly labelled as samples in the UI). value is in ₹ lakh.
+  var LIST = [
+    {cat:"machines", deal:"Sale", title:"CNC vertical machining centre, 2019", where:"Rajkot, Gujarat", value:28, unit:""},
+    {cat:"machines", deal:"Barter", title:"Injection moulding machine, 250 tonne", where:"Ahmedabad, Gujarat", value:22, unit:""},
+    {cat:"machines", deal:"Sale", title:"Form-fill-seal packaging line", where:"Vadodara, Gujarat", value:14, unit:""},
+    {cat:"machines", deal:"Lease", title:"Power press line, 3 units", where:"Rajkot, Gujarat", value:35, unit:""},
+    {cat:"lease", deal:"Lease", title:"Forging unit with furnaces and staff", where:"Shapar, Rajkot", value:96, unit:"per year"},
+    {cat:"lease", deal:"Lease", title:"Spare night shift, CNC turning, 12 machines", where:"Ahmedabad, Gujarat", value:30, unit:"per year"},
+    {cat:"lease", deal:"Barter", title:"Factory shed, 12,000 sq ft, ready power", where:"Morbi, Gujarat", value:18, unit:"per year"},
+    {cat:"storage", deal:"Lease", title:"Warehouse, 40,000 sq ft near Mundra port", where:"Mundra, Kutch", value:96, unit:"per year"},
+    {cat:"storage", deal:"Lease", title:"Cold storage, 2,000 MT capacity", where:"Mahuva, Bhavnagar", value:60, unit:"per year"},
+    {cat:"agri", deal:"Sale", title:"Groundnut oil, 200 MT, filtered", where:"Gondal, Gujarat", value:360, unit:""},
+    {cat:"agri", deal:"Sale", title:"Cumin seed, Europe grade, 50 MT", where:"Unjha, Gujarat", value:140, unit:""},
+    {cat:"infra", deal:"Group", title:"Showroom buyer group, 12 units on main road", where:"Rajkot, Gujarat", value:85, unit:"per unit"},
+    {cat:"infra", deal:"Group", title:"Office buyer group for doctors and CAs", where:"Ahmedabad, Gujarat", value:60, unit:"per unit"},
+    {cat:"infra", deal:"Sale", title:"Industrial plot, 4 acres, NA approved", where:"Shapar, Rajkot", value:380, unit:""},
+    {cat:"infra", deal:"Barter", title:"Commercial complex seeking JV partner", where:"Ahmedabad, Gujarat", value:1200, unit:""},
+    {cat:"tech", deal:"Sale", title:"ERP for SME manufacturers, source licence", where:"Pune, Maharashtra", value:12, unit:""},
+    {cat:"tech", deal:"Lease", title:"IoT energy monitoring kit, 50 meters", where:"Vadodara, Gujarat", value:6, unit:""}
+  ];
+  var DEAL = {Sale:"For sale", Lease:"For lease", Barter:"Barter", Group:"Buyer group"};
+
+  function fmt(v){
+    if(v>=100){var c=v/100;return "₹"+(Math.round(c*100)/100).toString()+" crore"}
+    return "₹"+(Math.round(v*10)/10).toString()+" lakh";
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+  // Barter desk
+  var OFFERS = [
+    {t:"CNC machining line (2 machines)", v:50},
+    {t:"Factory shed, 12,000 sq ft, 1-year lease", v:18},
+    {t:"Groundnut oil, 100 MT", v:180},
+    {t:"Spare production shifts, 6 months", v:24}
+  ];
+  var NEEDS = [
+    {t:"Injection moulding machines (2)", v:65},
+    {t:"Form-fill-seal packaging line", v:30},
+    {t:"Cold storage space, 1 year", v:40},
+    {t:"PP granules, 120 MT", v:120}
+  ];
+  var offer=$("#offer"), need=$("#need");
+  OFFERS.forEach(function(o,i){offer.add(new Option(o.t,i))});
+  NEEDS.forEach(function(o,i){need.add(new Option(o.t,i))});
+  function desk(){
+    var a=OFFERS[offer.value].v, b=NEEDS[need.value].v, d=b-a, bal=$("#balance");
+    $("#offerVal").textContent=fmt(a); $("#needVal").textContent=fmt(b);
+    bal.className="balance "+(d>0?"pay":d<0?"get":"even");
+    $("#balLabel").textContent = d>0?"You add in cash":d<0?"You receive in cash":"Even swap";
+    $("#balVal").textContent = d===0?"₹0":fmt(Math.abs(d));
+    $("#balNote").textContent = d===0?"Value for value, no cash needed.":"The rest is settled as a straight swap.";
+  }
+  offer.addEventListener("change",desk); need.addEventListener("change",desk); desk();
+  $("#deskGo").addEventListener("click",function(){var w=$("#gWant"); if(w) w.value="Barter (swap)"; var r=$('input[name=deal][value=Barter]'); if(r) r.checked=true});
+
+  // Ticker (duplicated for seamless loop)
+  var tick = LIST.slice(0,9).map(function(l){return '<span><i></i><b>'+esc(DEAL[l.deal])+'</b>'+esc(l.title)+'<small>'+esc(l.where.split(",")[0])+'</small></span>'}).join("");
+  $("#ticker").innerHTML = '<span><i></i><b>Sample</b>Opportunities shown are examples</span>'+tick+'<span aria-hidden="true"><i></i><b>Sample</b>Opportunities shown are examples</span>'+tick;
+
+  // Category explorer
+  var tabs=$("#tabs"), panel=$("#panel"), activeCat="infra";
+  tabs.innerHTML = CATS.map(function(c){return '<button type="button" class="tab" role="tab" id="tab-'+c.id+'" aria-controls="panel" data-tab="'+c.id+'"><span class="ti"><svg width="20" height="20"><use href="#i-'+c.id+'"/></svg></span>'+esc(c.tab)+'</button>'}).join("");
+  function li(a){return a.map(function(x){return '<li>'+esc(x)+'</li>'}).join("")}
+  function showCat(id, focus){
+    var c=CATS.filter(function(x){return x.id===id})[0]; if(!c) return; activeCat=id;
+    $$(".tab").forEach(function(t){var on=t.dataset.tab===id; t.setAttribute("aria-selected",on); t.tabIndex=on?0:-1; if(on&&focus) t.focus()});
+    panel.setAttribute("aria-labelledby","tab-"+id);
+    panel.innerHTML='<p class="kicker">'+esc(c.name)+'</p><h3 class="promise">'+esc(c.promise)+'</h3><p class="intro">'+esc(c.intro)+'</p>'+
+      '<div class="pgrid"><div><h4>How it works</h4><ol class="how">'+li(c.how)+'</ol></div>'+
+      '<div><h4>Who it\'s for</h4><ul class="dots">'+li(c.who)+'</ul><h4>What you gain</h4><ul class="dots">'+li(c.gain)+'</ul></div></div>'+
+      '<div class="panel-cta"><a class="btn btn-primary" href="'+c.href+'">'+esc(c.cta)+'</a><a class="btn btn-ghost" href="#marketplace" data-cat="'+c.id+'">See sample listings</a></div>';
+  }
+  tabs.addEventListener("click",function(e){var t=e.target.closest("[data-tab]"); if(t) showCat(t.dataset.tab)});
+  tabs.addEventListener("keydown",function(e){
+    var i=CATS.map(function(c){return c.id}).indexOf(activeCat), n=CATS.length;
+    if(e.key==="ArrowDown"||e.key==="ArrowRight"){e.preventDefault(); showCat(CATS[(i+1)%n].id,true)}
+    if(e.key==="ArrowUp"||e.key==="ArrowLeft"){e.preventDefault(); showCat(CATS[(i-1+n)%n].id,true)}
+  });
+  showCat("infra");
+  $("#footCats").innerHTML = CATS.map(function(c){return '<li><a href="#marketplace" data-cat="'+c.id+'">'+esc(c.name)+'</a></li>'}).join("");
+
+  // Marketplace
+  function card(l){
+    return '<article class="card"><div class="ph t-'+l.cat+'"><span class="tag">Sample</span><span class="deal">'+DEAL[l.deal]+'</span>'+
+      '<svg aria-hidden="true"><use href="#i-'+l.cat+'"/></svg></div>'+
+      '<div class="card-body"><span class="small">'+esc(catName(l.cat))+'</span><h3>'+esc(l.title)+'</h3><span class="where">'+esc(l.where)+'</span>'+
+      '<span class="price num">'+fmt(l.value)+(l.unit?' <small>'+esc(l.unit)+'</small>':'')+'</span>'+
+      '<div class="lock"><span class="blur" aria-hidden="true">+91 98••• •••12</span><button type="button" data-join data-why="contact"><svg width="16" height="16"><use href="#i-lock"/></svg>Unlock contact</button></div></div></article>';
+  }
+  var current="all";
+  function renderList(){
+    var items;
+    if(current==="all"){ items=[]; var byCat=CATS.map(function(c){return LIST.filter(function(l){return l.cat===c.id})}); for(var r=0;items.length<LIST.length;r++){byCat.forEach(function(g){if(g[r]) items.push(g[r])})} }
+    else items = LIST.filter(function(l){return l.cat===current});
+    $("#listings").innerHTML = items.slice(0,9).map(card).join("");
+    $$(".chip").forEach(function(b){b.setAttribute("aria-pressed", b.dataset.cat===current?"true":"false")});
+  }
+  $("#chips").innerHTML = '<button class="chip" type="button" data-cat="all">All</button>'+CATS.map(function(c){return '<button class="chip" type="button" data-cat="'+c.id+'">'+esc(c.name)+'</button>'}).join("");
+  document.addEventListener("click",function(e){
+    var t=e.target.closest("[data-cat]"); if(!t) return;
+    current=t.dataset.cat; renderList();
+    if(t.classList.contains("chip")) e.preventDefault();
+  });
+  renderList();
+
+
+  // Live form submission (Netlify Forms)
+  function encodeForm(form){ var fd=new FormData(form), p=new URLSearchParams(); fd.forEach(function(v,k){ if(typeof v==="string") p.append(k,v) }); return p.toString(); }
+  function send(body, isMultipart){
+    var opts={method:"POST", body:body};
+    if(!isMultipart) opts.headers={"Content-Type":"application/x-www-form-urlencoded"};
+    return fetch("/", opts).then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r; });
+  }
+  var FAIL="Couldn't send. Check your connection and try again, or email contact@daskies.com.";
+  function busy(btn,on,label){ if(!btn) return; if(on){btn.dataset.l=btn.textContent; btn.textContent=label||"Sending…"; btn.disabled=true} else {btn.textContent=btn.dataset.l||btn.textContent; btn.disabled=false} }
+
+  function alertIn(form,msg){ var a=form.querySelector(".send-err"); if(!a){a=document.createElement("p"); a.className="err send-err"; a.style.display="block"; a.setAttribute("role","alert"); form.appendChild(a);} a.textContent=msg; }
+  // Listing form
+  var lastListing=null;
+  var fCat=$("#fCat"); CATS.forEach(function(c){fCat.add(new Option(c.name,c.id))});
+  var photos=[null,null,null], report=null;
+  $$(".pbox input").forEach(function(inp){
+    inp.addEventListener("change",function(){
+      var f=inp.files&&inp.files[0], box=inp.parentNode, i=+inp.dataset.i, old=box.querySelector("img");
+      if(old) old.remove();
+      if(f && /^image\//.test(f.type)){
+        photos[i]=f; var img=document.createElement("img"); img.alt="Photo "+(i+1)+" preview";
+        try{img.src=URL.createObjectURL(f)}catch(err){}
+        box.appendChild(img); box.classList.add("has");
+      } else { photos[i]=null; box.classList.remove("has"); }
+      updPhotoErr();
+    });
+  });
+  $("#fReport").addEventListener("change",function(){
+    var f=this.files&&this.files[0];
+    if(f && f.size>5*1024*1024){ this.value=""; f=null; $("#reportErr").textContent="That file is over 5 MB. Upload a smaller PDF or a photo of the report."; setBad("report",true); }
+    else { $("#reportErr").textContent="Attach a valuation report."; }
+    report=f||null;
+    $("#docName").textContent = f? f.name : "Upload valuation report";
+    $("#docBox").classList.toggle("has", !!f);
+  });
+  var desc=$("#fDesc");
+  desc.addEventListener("input",function(){$("#descCount").textContent=desc.value.length+" / 1500"});
+  function updPhotoErr(){
+    var n=photos.filter(Boolean).length;
+    $("#photoErr").textContent = n===0?"Add all 3 photos.":"Add all 3 photos. "+(3-n)+" more needed.";
+    if(n===3) $('[data-f=photos]').classList.remove("bad");
+  }
+  // Shrink photos so the whole submission stays under Netlify's 8 MB limit
+  function shrink(file,i){
+    return new Promise(function(res){
+      var url; try{url=URL.createObjectURL(file)}catch(e){return res(file)}
+      var im=new Image();
+      im.onload=function(){
+        var max=1600, w=im.naturalWidth, h=im.naturalHeight, k=Math.min(1,max/Math.max(w,h));
+        var c=document.createElement("canvas"); c.width=Math.round(w*k); c.height=Math.round(h*k);
+        c.getContext("2d").drawImage(im,0,0,c.width,c.height); URL.revokeObjectURL(url);
+        c.toBlob(function(b){ res(b && b.size<file.size ? new File([b],"photo-"+(i+1)+".jpg",{type:"image/jpeg"}) : file) },"image/jpeg",0.82);
+      };
+      im.onerror=function(){URL.revokeObjectURL(url); res(file)};
+      im.src=url;
+    });
+  }
+  function buildListing(){
+    var form=$("#listForm"), fd=new FormData();
+    Array.prototype.forEach.call(form.elements,function(el){
+      if(!el.name || el.type==="file" || el.disabled) return;
+      if((el.type==="radio"||el.type==="checkbox") && !el.checked) return;
+      fd.append(el.name, el.value);
+    });
+    return Promise.all(photos.map(shrink)).then(function(ps){
+      ps.forEach(function(p,i){ fd.append("photo-"+(i+1), p, p.name) });
+      fd.append("valuation-report", report, report.name);
+      var total=ps.reduce(function(t,p){return t+p.size},0)+report.size;
+      if(total>7.5*1024*1024) throw new Error("too-big");
+      return fd;
+    });
+  }
+  function setBad(key,bad){var el=$('[data-f="'+key+'"]'); if(el) el.classList.toggle("bad",bad); return bad}
+  var emailOk=function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)};
+
+  $("#listForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    var v=parseFloat($("#fValue").value), probs=[];
+    if(setBad("member",$("#fMember").value.trim().length<3)) probs.push("member ID");
+    if(setBad("cat",!fCat.value)) probs.push("category");
+    if(setBad("value",!(v>0))) probs.push("valuation");
+    if(setBad("title",$("#fTitle").value.trim().length<4)) probs.push("title");
+    if(setBad("desc",desc.value.trim().length<80)) probs.push("description (80+ characters)");
+    if(setBad("where",$("#fWhere").value.trim().length<2)) probs.push("location");
+    var n=photos.filter(Boolean).length;
+    if(setBad("photos",n<3)) {probs.push("3 photos ("+(3-n)+" missing)"); updPhotoErr();}
+    if(setBad("report",!report)) probs.push("valuation report");
+    if(setBad("name",$("#fName").value.trim().length<2)) probs.push("your name");
+    if(setBad("email",!emailOk($("#fEmail").value.trim()))) probs.push("email");
+    var sum=$("#summary");
+    if(probs.length){
+      sum.innerHTML="<b>Complete these to submit:</b> "+esc(probs.map(T).join(", "))+".";
+      sum.classList.add("show");
+      var first=$(".field.bad"); if(first){first.scrollIntoView({block:"center"}); var fi=first.querySelector("input,select,textarea"); if(fi) fi.focus({preventScroll:true});}
+      return;
+    }
+    sum.classList.remove("show");
+    var item={cat:fCat.value, value:v, title:$("#fTitle").value.trim(), where:$("#fWhere").value.trim(), deal:($('input[name=deal]:checked')||{}).value||"Sale"};
+    $("#fCatName").value=catName(item.cat);
+    var btn=$("#listSubmit"); busy(btn,true,"Preparing photos…");
+    buildListing().then(function(fd){ btn.textContent="Sending…"; return send(fd,true); }).then(function(){ busy(btn,false); lastListing={title:item.title, email:$("#fEmail").value.trim()}; showResult(item); })
+      .catch(function(err){ busy(btn,false); sum.innerHTML=esc(err&&err.message==="too-big"?"Your photos and report together are too large to send. Use a smaller valuation report (under 3 MB) and try again.":FAIL); sum.classList.add("show"); sum.scrollIntoView({block:"center"}); });
+  });
+
+  function showResult(item){
+    var lo=item.value*0.75, hi=item.value*1.25;
+    var same=LIST.filter(function(l){return l.cat===item.cat});
+    var inRange=same.filter(function(l){return l.value>=lo && l.value<=hi});
+    $("#resMeta").textContent = item.title+", "+catName(item.cat)+", "+fmt(item.value)+", "+item.where;
+    $("#simTitle").textContent = "Similar listings in "+catName(item.cat);
+    var shown;
+    if(inRange.length){
+      shown=inRange;
+      $("#simNote").textContent = "Same category, priced between "+fmt(Math.round(lo*10)/10)+" and "+fmt(Math.round(hi*10)/10)+". Sample listings.";
+    } else {
+      shown=same.slice().sort(function(a,b){return Math.abs(a.value-item.value)-Math.abs(b.value-item.value)}).slice(0,2);
+      $("#simNote").textContent = shown.length ? "Nothing yet between "+fmt(Math.round(lo*10)/10)+" and "+fmt(Math.round(hi*10)/10)+". Closest in this category (sample listings):" : "No listings in this category yet. We'll alert you when one arrives.";
+    }
+    $("#similar").innerHTML = shown.slice(0,4).map(card).join("");
+    $("#listForm").style.display="none";
+    var r=$("#result"); r.classList.add("show"); r.scrollIntoView({block:"start"}); r.focus({preventScroll:true});
+  }
+  $("#again").addEventListener("click",function(){
+    $("#listForm").reset(); photos=[null,null,null]; report=null;
+    $$(".pbox").forEach(function(b){b.classList.remove("has"); var i=b.querySelector("img"); if(i) i.remove()});
+    $("#docBox").classList.remove("has"); $("#docName").textContent="Upload valuation report"; $("#descCount").textContent="0 / 1500";
+    $$(".field.bad").forEach(function(f){f.classList.remove("bad")});
+    $("#result").classList.remove("show"); $("#listForm").style.display="";
+    $("#listForm").scrollIntoView({block:"start"});
+  });
+
+  // Free registration (simple; full details come later through the members link)
+  var gCat=$("#gCat"); CATS.forEach(function(c){gCat.add(new Option(c.name,c.name))});
+  $("#regForm").addEventListener("submit",function(e){
+    e.preventDefault(); var bad=false;
+    bad = setBad("gName",$("#gName").value.trim().length<2) || bad;
+    bad = setBad("gEmail",!emailOk($("#gEmail").value.trim())) || bad;
+    bad = setBad("gPhone",$("#gPhone").value.replace(/\D/g,"").length<7) || bad;
+    bad = setBad("gWant",!$("#gWant").value) || bad;
+    if(bad){var f=$("#regForm .field.bad input, #regForm .field.bad select"); if(f) f.focus(); return}
+    $("#regLang").value=document.documentElement.lang||"en";
+    var form=$("#regForm"), btn=$("#regSubmit"); busy(btn,true);
+    send(encodeForm(form)).then(function(){
+      busy(btn,false); $("#regSummary").textContent=$("#gName").value.trim()+", "+$("#gEmail").value.trim();
+      form.style.display="none"; var d=$("#regDone"); d.classList.add("show"); d.scrollIntoView({block:"center"}); d.focus({preventScroll:true});
+    }).catch(function(){ busy(btn,false); alertIn(form,FAIL); });
+  });
+  $("#regAgain").addEventListener("click",function(){ $("#regForm").reset(); $$("#regForm .field.bad").forEach(function(f){f.classList.remove("bad")}); $("#regDone").classList.remove("show"); $("#regForm").style.display=""; $("#gName").focus(); });
+
+  // Build together interest form
+  $("#btForm").addEventListener("submit",function(e){
+    e.preventDefault(); var bad=false;
+    bad = setBad("btType",!$("#btType").value) || bad;
+    bad = setBad("btArea",$("#btArea").value.trim().length<2) || bad;
+    bad = setBad("btName",$("#btName").value.trim().length<2) || bad;
+    bad = setBad("btEmail",!emailOk($("#btEmail").value.trim())) || bad;
+    if(bad){var f=$("#btForm .field.bad input, #btForm .field.bad select"); if(f) f.focus(); return}
+    var b=parseFloat($("#btBudget").value), sz=parseFloat($("#btSize").value);
+    $("#btSummary").textContent = $("#btType").value+" in "+$("#btArea").value.trim()+(sz>0?", about "+Math.round(sz).toLocaleString("en-IN")+" sq ft":"")+(b>0?", budget "+fmt(b):"");
+    var form=$("#btForm"), btn=form.querySelector("button[type=submit]"); busy(btn,true);
+    send(encodeForm(form)).then(function(){ busy(btn,false); form.style.display="none"; var d=$("#btDone"); d.classList.add("show"); d.focus(); })
+      .catch(function(){ busy(btn,false); alertIn(form,FAIL); });
+  });
+  $("#btAgain").addEventListener("click",function(){ $("#btForm").reset(); $$("#btForm .field.bad").forEach(function(f){f.classList.remove("bad")}); $("#btDone").classList.remove("show"); $("#btForm").style.display=""; });
+
+
+  // Services
+  var SVC = [
+    {i:"star", t:"Featured listings", d:"Put your listing at the top of its category and in the weekly digest sent to members.", f:"Sellers who want buyers this month"},
+    {i:"shield", t:"Business verification", d:"We review your registration, GST and ownership documents and add a verification badge to your profile.", f:"Anyone dealing with new counterparties"},
+    {i:"handshake", t:"Deal manager", d:"A DASKIES manager finds the other party, values swaps, negotiates and handles paperwork until the deal is done.", f:"Larger or more complex deals"},
+    {i:"globe", t:"Global Buyer Desk", d:"Factory shortlists, video walkthroughs, site visits, samples and inspection for overseas buyers, on a retainer or per deal.", f:"Importers in the US, Europe, the Gulf and Africa"},
+    {i:"scale", t:"Valuation support", d:"No valuation report yet? We connect you with registered valuers for machinery, property and stock.", f:"Sellers listing for the first time"},
+    {i:"mega", t:"Advertising and sponsorship", d:"Category sponsorship, banner placements and digest features for dealers, logistics firms, lenders and service providers.", f:"Businesses selling to Indian industry"}
+  ];
+  $("#svcGrid").innerHTML = SVC.map(function(x){
+    return '<div class="svc-item"><span class="ti"><svg width="24" height="24"><use href="#i-'+x.i+'"/></svg></span><div><h3>'+esc(x.t)+'</h3><p>'+esc(x.d)+'</p><span class="for">For: '+esc(x.f)+'</span></div><button class="linkbtn" type="button" data-req="'+esc(x.t)+'">Request</button></div>';
+  }).join("");
+
+  // Service request modal
+  var rmodal=$("#reqModal"), rLast=null;
+  function openReq(what){
+    rLast=document.activeElement; $("#reqTitle").textContent = what ? "Request: "+what : "Request a service"; $("#rService").value = what||"General";
+    $("#reqForm").hidden=false; $("#reqDone").hidden=true; rmodal.classList.add("open"); setTimeout(function(){$("#rn").focus()},30);
+  }
+  function closeReq(){rmodal.classList.remove("open"); if(rLast) rLast.focus()}
+  document.addEventListener("click",function(e){
+    var r=e.target.closest("[data-req]"); if(r){e.preventDefault(); openReq(r.dataset.req); return}
+    if(e.target.closest("[data-rclose]")||e.target===rmodal) closeReq();
+  });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape" && rmodal.classList.contains("open")) closeReq(); });
+  $("#rf").addEventListener("submit",function(e){
+    e.preventDefault(); var bad=false;
+    bad = setBad("rn",$("#rn").value.trim().length<2) || bad;
+    bad = setBad("re",!emailOk($("#re").value.trim())) || bad;
+    if(bad) return;
+    var form=$("#rf"), btn=form.querySelector("button[type=submit]"); busy(btn,true);
+    send(encodeForm(form)).then(function(){ busy(btn,false); $("#reqForm").hidden=true; $("#reqDone").hidden=false; })
+      .catch(function(){ busy(btn,false); alertIn(form,FAIL); });
+  });
+
+  // Upsell
+  $("#upsellGo").addEventListener("click",function(){
+    var sel=$$("#upsell input:checked").map(function(c){return c.value});
+    if(!sel.length){ $("#upsellMsg").textContent="Tick at least one service."; return; }
+    var p=new URLSearchParams({"form-name":"listing-upsell", listing:(lastListing||{}).title||"", email:(lastListing||{}).email||"", services:sel.join(", ")});
+    var btn=$("#upsellGo"); busy(btn,true);
+    send(p.toString()).then(function(){ busy(btn,false); $("#upsellMsg").textContent="Requested: "+sel.join(", ")+". Our team will email you options and pricing."; })
+      .catch(function(){ busy(btn,false); $("#upsellMsg").textContent=FAIL; });
+  });
+
+  // Digest
+  $("#digest").addEventListener("submit",function(e){
+    e.preventDefault(); var v=$("#dgEmail").value.trim();
+    if(!emailOk(v)){ $("#dgMsg").textContent="Enter a valid email address."; return; }
+    var form=$("#digest"), btn=form.querySelector("button[type=submit]"); busy(btn,true);
+    send(encodeForm(form)).then(function(){ busy(btn,false); $("#dgMsg").textContent="Subscribed. The weekly digest will go to "+v+"."; form.reset(); })
+      .catch(function(){ busy(btn,false); $("#dgMsg").textContent=FAIL; });
+  });
+
+  // Join modal
+  var modal=$("#joinModal"), lastFocus=null;
+  function openJoin(why){
+    lastFocus=document.activeElement;
+    $("#joinWhy").textContent = why==="contact" ? "Contact details are shown to members only. The first 2,000 members join free." : "The first 2,000 members join free and see the contact details behind every listing.";
+    $("#joinForm").hidden=false; $("#joinDone").hidden=true;
+    modal.classList.add("open"); setTimeout(function(){$("#jn").focus()},30);
+  }
+  function closeJoin(){modal.classList.remove("open"); if(lastFocus) lastFocus.focus()}
+  document.addEventListener("click",function(e){
+    var j=e.target.closest("[data-join]"); if(j){e.preventDefault(); openJoin(j.dataset.why); return}
+    if(e.target.closest("[data-close]")||e.target===modal) closeJoin();
+  });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape"){ if(modal.classList.contains("open")) closeJoin(); else if(chat.classList.contains("open")) toggleChat(false);} });
+  $("#jf").addEventListener("submit",function(e){
+    e.preventDefault();
+    var bad=false;
+    bad = setBad("jn",$("#jn").value.trim().length<2) || bad;
+    bad = setBad("jc",$("#jc").value.trim().length<2) || bad;
+    bad = setBad("je",!emailOk($("#je").value.trim())) || bad;
+    if(bad) return;
+    var form=$("#jf"), btn=form.querySelector("button[type=submit]"); busy(btn,true);
+    send(encodeForm(form)).then(function(){ busy(btn,false); $("#joinForm").hidden=true; $("#joinDone").hidden=false; })
+      .catch(function(){ busy(btn,false); alertIn(form,FAIL); });
+  });
+
+  // Header: menu, shadow on scroll, current-section highlight
+  var nav=$("#nav"), mb=$("#menuBtn"), head=$(".site-head");
+  function setMenu(o){ nav.classList.toggle("open",o); mb.setAttribute("aria-expanded",o); mb.setAttribute("aria-label",o?"Close menu":"Open menu"); }
+  mb.addEventListener("click",function(){ setMenu(!nav.classList.contains("open")) });
+  nav.addEventListener("click",function(e){ if(e.target.tagName==="A") setMenu(false) });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape" && nav.classList.contains("open")){ setMenu(false); mb.focus(); } });
+  document.addEventListener("click",function(e){ if(nav.classList.contains("open") && !head.contains(e.target)) setMenu(false) });
+  var navLinks=$$("#nav a:not(.nav-join)"), spy=navLinks.map(function(a){return document.querySelector(a.getAttribute("href"))});
+  function onScroll(){
+    head.classList.toggle("scrolled", window.scrollY>8);
+    var y=head.getBoundingClientRect().bottom+40, cur=-1;
+    spy.forEach(function(sec,i){ if(sec && sec.getBoundingClientRect().top<=y && sec.getBoundingClientRect().bottom>y) cur=i });
+    navLinks.forEach(function(a,i){ if(i===cur) a.setAttribute("aria-current","true"); else a.removeAttribute("aria-current") });
+  }
+  window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
+
+  // Chat menu
+  var chat=$("#chat"), log=$("#chatLog"), opts=$("#chatOpts"), cb=$("#chatBtn");
+  var QA = [
+    ["Own a shop, office or home at cost","Tell us what you want, the area you prefer and your budget under Own at cost on this page. We group you with buyers who want the same there, buy the land and build it ready-to-use for a fixed charge."],
+    ["I'm an overseas buyer looking for a factory or production line","Welcome. Register free with your product, volume, preferred place in India and timeline. Our team shortlists factories and arranges a video walkthrough. You can also write to contact@daskies.com."],
+    ["I want to lease out empty space, machines or capacity","Register free under List an asset. After we confirm your membership, you get a members link to send 3 photos, a description and a valuation report."],
+    ["Buy, sell or barter used machinery","Register free under List an asset and tell us the machine: make, model, year, condition and price. Swaps can be balanced with cash."],
+    ["Donate or share technology or education","Register free and choose Donate or share. We match computers, machines, software, books or training with schools, colleges and skill centres that need them."],
+    ["Source bulk commodities","Register free with the product, grade, quantity in tonnes, packing and delivery place. We look for matching suppliers."],
+    ["Membership and pricing","The first 2,000 memberships are free and include contact details. Professional and Enterprise plans are priced on request."]
+  ];
+  // WhatsApp, general enquiries only. The number is assembled on tap and never shown on the page.
+  function openWA(){
+    var url="https://wa.me/"+["91","98252","19071"].join("")+"?text="+encodeURIComponent("Hello DASKIES, I have a general enquiry.");
+    var w=window.open(url,"_blank","noopener"); if(!w) location.href=url;
+  }
+  document.addEventListener("click",function(e){ if(e.target.closest("[data-wa]")){ e.preventDefault(); openWA(); } });
+
+  function say(text,who){var m=document.createElement("div"); m.className="msg "+who; m.textContent=text; log.appendChild(m); log.scrollTop=log.scrollHeight}
+  function startChat(){
+    log.innerHTML=""; say("Welcome to DASKIES. What would you like to do today?","bot");
+    opts.innerHTML = QA.map(function(q,i){return '<button type="button" data-q="'+i+'">'+esc(q[0])+'</button>'}).join("")+'<button type="button" data-wa>WhatsApp: general enquiries</button><button type="button" class="more">Show options</button>';
+    opts.classList.remove("collapsed");
+  }
+  opts.addEventListener("click",function(e){
+    if(e.target.closest(".more")){opts.classList.remove("collapsed"); var f=opts.querySelector("[data-q]"); if(f) f.focus(); return}
+    var b=e.target.closest("[data-q]"); if(!b) return; var q=QA[+b.dataset.q];
+    opts.classList.add("collapsed"); opts.querySelector(".more").focus();
+    say(q[0],"me"); setTimeout(function(){say(q[1],"bot")},250);
+  });
+  function toggleChat(open){
+    chat.classList.toggle("open",open); cb.setAttribute("aria-expanded",open);
+    cb.setAttribute("aria-label",open?"Close chat":"Open chat");
+    if(open){ if(!log.children.length) startChat(); var f=opts.querySelector("button"); if(f) f.focus(); } else cb.focus();
+  }
+  cb.addEventListener("click",function(){toggleChat(!chat.classList.contains("open"))});
+  $("#chatClose").addEventListener("click",function(){toggleChat(false)});
+
+  // Languages. English is the main language; the others load on demand from /i18n/xx.json.
+  // The visitor's browser language picks one automatically; the menu at top right changes it.
+  var LANGS={en:"English",hi:"हिन्दी",fr:"Français",de:"Deutsch",es:"Español"};
+  var curLang="en", dict=null, pats=[], cache={}, orig=new WeakMap(), mine=new WeakMap(), origAttr=new WeakMap(), mo=null, enTitle=document.title;
+  var ATTRS=["placeholder","aria-label","title"];
+  function norm(x){return x.replace(/\s+/g," ").trim()}
+  function lookup(k){
+    if(!dict||!k) return null;
+    if(Object.prototype.hasOwnProperty.call(dict,k)) return dict[k];
+    for(var i=0;i<pats.length;i++){ var m=k.match(pats[i][0]); if(m){ var j=1; return pats[i][1].replace(/\{\}/g,function(){var v=m[j++]||""; return lookup(v)||v;}); } }
+    return null;
+  }
+  function T(x){ if(curLang==="en") return x; var t=lookup(norm(x)); return t==null?x:t; }
+  function skip(el){ return !el || el.closest("script,style,svg,[translate=no]"); }
+  function doText(n){
+    var v=n.nodeValue; if(!v||!/\S/.test(v)||skip(n.parentElement)) return;
+    if(mine.get(n)!==v) orig.set(n,v);
+    var en=orig.get(n), out=en;
+    if(curLang!=="en"){ var t=lookup(norm(en)); if(t!=null) out=en.match(/^\s*/)[0]+t+en.match(/\s*$/)[0]; }
+    mine.set(n,out); if(out!==v) n.nodeValue=out;
+  }
+  function doAttrs(el){
+    if(skip(el)) return; var o=origAttr.get(el)||{};
+    ATTRS.forEach(function(a){
+      if(!el.hasAttribute(a)) return; var v=el.getAttribute(a);
+      if(!o[a]||(o[a].mine!==v)) o[a]={en:v};
+      var out=curLang==="en"?o[a].en:(lookup(norm(o[a].en))||o[a].en);
+      o[a].mine=out; if(out!==v) el.setAttribute(a,out);
+    });
+    origAttr.set(el,o);
+  }
+  function walk(root){
+    if(root.nodeType===3){ doText(root); return; }
+    if(root.nodeType!==1||skip(root)) return;
+    doAttrs(root);
+    var w=document.createTreeWalker(root,5,null), n;
+    while((n=w.nextNode())){ if(n.nodeType===3) doText(n); else if(!skip(n)) doAttrs(n); }
+  }
+  function observe(){
+    if(mo||!window.MutationObserver) return;
+    mo=new MutationObserver(function(list){
+      list.forEach(function(m){
+        if(m.type==="characterData") doText(m.target);
+        else if(m.type==="attributes") doAttrs(m.target);
+        else m.addedNodes.forEach(walk);
+      });
+    });
+    mo.observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:ATTRS});
+  }
+  function hindiFont(){
+    if(document.getElementById("fontHi")) return;
+    var l=document.createElement("link"); l.id="fontHi"; l.rel="stylesheet";
+    l.href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap"; document.head.appendChild(l);
+  }
+  function load(code){
+    if(code==="en") return Promise.resolve(null);
+    if(cache[code]) return Promise.resolve(cache[code]);
+    return fetch("/i18n/"+code+".json").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
+  }
+  var langWrap=$("#lang"), langBtn=$("#langBtn");
+  function markMenu(code){
+    $("#langCode").textContent=code.toUpperCase();
+    langBtn.setAttribute("aria-label","Language: "+LANGS[code]);
+    $$("#langList [data-lang]").forEach(function(b){ b.setAttribute("aria-checked", b.dataset.lang===code?"true":"false"); });
+  }
+  function setLang(code, save){
+    if(!LANGS[code]) code="en";
+    return load(code).then(function(d){
+      dict=d; pats=[];
+      if(d) Object.keys(d).forEach(function(k){ if(k.indexOf("{}")>-1) pats.push([new RegExp("^"+k.replace(/[.*+?^$()|[\]\\]/g,"\\$&").replace(/\{\}/g,"(.+?)")+"$"), d[k]]); });
+      curLang=code; document.documentElement.lang=code; if(code==="hi") hindiFont();
+      document.title = code==="en" ? enTitle : (lookup(enTitle)||enTitle);
+      if(code!=="en") observe();
+      walk(document.body); markMenu(code);
+      if(save){ try{ localStorage.setItem("dsk-lang",code); }catch(e){} }
+    }).catch(function(){ markMenu(curLang); });
+  }
+  function openLang(o){ langWrap.classList.toggle("open",o); langBtn.setAttribute("aria-expanded",o); if(o){ var c=$('#langList [aria-checked="true"]'); if(c) c.focus(); } }
+  langBtn.addEventListener("click",function(){ openLang(!langWrap.classList.contains("open")); });
+  $("#langList").addEventListener("click",function(e){ var b=e.target.closest("[data-lang]"); if(!b) return; openLang(false); langBtn.focus(); setLang(b.dataset.lang,true); });
+  $("#langList").addEventListener("keydown",function(e){
+    var items=$$("#langList [data-lang]"), i=items.indexOf(document.activeElement);
+    if(e.key==="ArrowDown"){ e.preventDefault(); items[(i+1)%items.length].focus(); }
+    if(e.key==="ArrowUp"){ e.preventDefault(); items[(i-1+items.length)%items.length].focus(); }
+  });
+  document.addEventListener("click",function(e){ if(langWrap.classList.contains("open") && !langWrap.contains(e.target)) openLang(false); });
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape" && langWrap.classList.contains("open")){ openLang(false); langBtn.focus(); } });
+  (function(){
+    var q=null, saved=null;
+    try{ q=new URLSearchParams(location.search).get("lang"); }catch(e){}
+    try{ saved=localStorage.getItem("dsk-lang"); }catch(e){}
+    var pick = (q&&LANGS[q]) ? q : (saved&&LANGS[saved]) ? saved : (function(){
+      var ls=(navigator.languages&&navigator.languages.length)?navigator.languages:[navigator.language||"en"];
+      for(var i=0;i<ls.length;i++){ var c=String(ls[i]).slice(0,2).toLowerCase(); if(c==="en") return "en"; if(LANGS[c]) return c; }
+      return "en";
+    })();
+    if(pick!=="en") setLang(pick,!!q);
+  })();
+
+  // Members page (/members): links lead back to the main page
+  if(document.documentElement.classList.contains("members-mode")){
+    $$('a[href^="#"]').forEach(function(a){ var h=a.getAttribute("href"); if(h!=="#submit-details") a.setAttribute("href","/"+(h==="#top"?"":h)); });
+    window.scrollTo(0,0);
+  }
+})();
+</script>
+</body>
+</html>

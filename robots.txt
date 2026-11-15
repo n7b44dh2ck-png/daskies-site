@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /members
+Sitemap: https://daskies.com/sitemap.xml
