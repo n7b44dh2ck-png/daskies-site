@@ -526,19 +526,20 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
       <span class="wordmark">DASKIES</span>
     </a>
     <nav class="nav" id="nav" aria-label="Main">
+      <a href="explore.html">Explore</a>
       <a href="#categories">Categories</a>
       <a href="#build-together">Own at cost</a>
       <a href="#marketplace">Marketplace</a>
       <a href="#services">Services</a>
       <a href="#global-buyers">Global buyers</a>
       <a href="#membership">Membership</a>
-      <a href="#list-asset" class="nav-join nav-list">List an asset</a>
-      <a href="#membership" class="nav-join">Join free</a>
+      <a href="post.html?kind=offer" class="nav-join nav-list">List an asset</a>
+      <a href="account.html?mode=signup" class="nav-join">Join free</a>
     </nav>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="Open menu"><span class="bars"></span></button>
     <div class="head-cta">
-      <a class="btn btn-ghost btn-sm" href="#membership">Join free</a>
-      <a class="btn btn-primary btn-sm" href="#list-asset">List an asset</a>
+      <a class="btn btn-ghost btn-sm" href="account.html">Sign in</a>
+      <a class="btn btn-primary btn-sm" href="account.html?mode=signup">Join free</a>
     </div>
     <div class="lang" id="lang">
       <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="langList" aria-label="Language: English"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-globe"/></svg><span id="langCode">EN</span></button>
@@ -560,8 +561,9 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
       <h1 class="d1">Lease your unutilised capacity. Buy, sell or barter.</h1>
       <p class="lede">DASKIES connects Indian factories, landowners, traders, property buyers and overseas buyers. Earn rent from what you don't use, sell it, or swap it for what you need. Our team helps you until the deal is done.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#list-asset">List an asset</a>
-        <a class="btn btn-ghost" href="#global-buyers">I'm an overseas buyer</a>
+        <a class="btn btn-primary" href="post.html?kind=offer">List an asset</a>
+        <a class="btn btn-ghost" href="post.html?kind=need">Post a need</a>
+        <a class="btn btn-ghost" href="explore.html">Explore</a>
       </div>
       <div class="hero-facts">
         <span><b>Own at cost</b> through buyer groups</span>
@@ -711,6 +713,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     <div class="form-aside">
       <h2 class="d2">List an asset or post a need</h2>
       <p class="lede">Start with a free registration. It takes two minutes.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn btn-primary" href="account.html?mode=signup">Create a free account</a><a class="btn btn-ghost" href="explore.html">Explore</a></div>
       <ol class="reg-steps">
         <li><b>Register free</b><span>Your name, contact and what you want to do.</span></li>
         <li><b>We confirm your membership</b><span>By email, within 48 hours.</span></li>
@@ -721,7 +724,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     <div>
       <form class="listing" id="regForm" name="registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="registration"><input type="hidden" name="language" id="regLang" value="en"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-        <h3 class="d3" style="font-size:1.3rem;margin-bottom:16px">Register free</h3>
+        <h3 class="d3" style="font-size:1.3rem;margin-bottom:16px">Prefer a call back? Leave your details</h3>
         <div class="frow">
           <div class="field" data-f="gName">
             <label class="flabel" for="gName">Your name <span class="req">*</span></label>
@@ -1528,7 +1531,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   }
   function closeJoin(){modal.classList.remove("open"); if(lastFocus) lastFocus.focus()}
   document.addEventListener("click",function(e){
-    var j=e.target.closest("[data-join]"); if(j){e.preventDefault(); openJoin(j.dataset.why); return}
+    var j=e.target.closest("[data-join]"); if(j){e.preventDefault(); location.href="account.html?mode=signup"; return}
     if(e.target.closest("[data-close]")||e.target===modal) closeJoin();
   });
   document.addEventListener("keydown",function(e){ if(e.key==="Escape"){ if(modal.classList.contains("open")) closeJoin(); else if(chat.classList.contains("open")) toggleChat(false);} });
