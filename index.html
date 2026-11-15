@@ -1556,7 +1556,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   nav.addEventListener("click",function(e){ if(e.target.tagName==="A") setMenu(false) });
   document.addEventListener("keydown",function(e){ if(e.key==="Escape" && nav.classList.contains("open")){ setMenu(false); mb.focus(); } });
   document.addEventListener("click",function(e){ if(nav.classList.contains("open") && !head.contains(e.target)) setMenu(false) });
-  var navLinks=$$("#nav a:not(.nav-join)"), spy=navLinks.map(function(a){return document.querySelector(a.getAttribute("href"))});
+  var navLinks=$$("#nav a:not(.nav-join)"), spy=navLinks.map(function(a){var h=a.getAttribute("href")||"";try{return /^#[\w-]+$/.test(h)?document.querySelector(h):null}catch(e){return null}});
   function onScroll(){
     head.classList.toggle("scrolled", window.scrollY>8);
     var y=head.getBoundingClientRect().bottom+40, cur=-1;
