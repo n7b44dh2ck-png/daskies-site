@@ -136,3 +136,5 @@ table.list{width:100%;border-collapse:collapse;background:#fff;border:1px solid 
 .deal-row .who{font-size:13.5px;color:var(--muted)}
 .dealbox{border-top:1px solid var(--line);margin-top:12px;padding-top:12px}
 @media (max-width:600px){.deal-row{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);width:100%;text-align:center}}
+.stages{position:relative}
+@media (max-width:600px){.kv{grid-template-columns:1fr;gap:2px}.kv dd{margin-bottom:10px;overflow-wrap:anywhere}}

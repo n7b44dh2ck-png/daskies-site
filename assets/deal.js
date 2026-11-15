@@ -76,6 +76,8 @@ function render() {
     </aside>
   </div>`;
   wire(cur);
+  const ol = $(".stages"), nowEl = $(".stages .now");
+  if (ol && nowEl) ol.scrollLeft = nowEl.offsetLeft - ol.clientWidth / 2 + nowEl.clientWidth / 2;
 }
 
 function eventWord(e) {
