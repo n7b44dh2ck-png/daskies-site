@@ -120,3 +120,19 @@ table.list{width:100%;border-collapse:collapse;background:#fff;border:1px solid 
 .has-badge .wa-btn{bottom:76px}
 @media (max-width:460px){.wa-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.wa-btn{width:52px;padding:0;justify-content:center}}
 .foot{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:13.5px}
+/* deals */
+.stages{list-style:none;margin:18px 0 22px;padding:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin;counter-reset:st}
+.stages li{flex:1 0 auto;min-width:92px;font-size:12.5px;line-height:1.25;padding:10px 8px 8px;border-top:4px solid var(--line);color:var(--muted);counter-increment:st}
+.stages li::before{content:counter(st);display:block;font-weight:800;font-size:11px;margin-bottom:2px}
+.stages li.done{border-color:var(--green);color:var(--ink)}
+.stages li.now{border-color:var(--accent);color:var(--ink);font-weight:700;background:var(--accent-tint,#EEF4FB)}
+.chain{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+.chain .stat{flex:1 1 180px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.chain .arrow{align-self:center;font-size:20px;color:var(--accent)}
+.history{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:14px;max-height:520px;overflow:auto}
+.history li{border-left:2px solid var(--line);padding-left:10px;overflow-wrap:anywhere}
+.history time{display:block;font-size:12px;color:var(--muted)}
+.deal-row{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:center}
+.deal-row .who{font-size:13.5px;color:var(--muted)}
+.dealbox{border-top:1px solid var(--line);margin-top:12px;padding-top:12px}
+@media (max-width:600px){.deal-row{grid-template-columns:1fr}.chain .arrow{transform:rotate(90deg);width:100%;text-align:center}}

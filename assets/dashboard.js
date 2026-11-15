@@ -1,11 +1,11 @@
 import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord } from "./core.js";
-import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical } from "./taxonomy.js";
+import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js";
 
 await header("dashboard.html");
 const m = await requireAuth();
 if (!m) throw new Error("stop");
 const main = $("#main");
-const TABS = [["overview", "Overview"], ["listings", "My offers & needs"], ["matches", "Matches & barter"], ["messages", "Messages"], ["profile", "Business profile"], ["documents", "Documents"], ["saved", "Saved"]];
+const TABS = [["overview", "Overview"], ["listings", "My offers & needs"], ["matches", "Matches & barter"], ["deals", "Deals"], ["messages", "Messages"], ["profile", "Business profile"], ["documents", "Documents"], ["saved", "Saved"]];
 let tab = (location.hash || "#overview").slice(1);
 if (!TABS.some(([t]) => t === tab)) tab = "overview";
 
@@ -28,7 +28,7 @@ async function show() {
   clearInterval(poll);
   $$(".tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.t === tab));
   pane.innerHTML = `<p class="muted">Loading…</p>`;
-  try { await ({ overview, listings, matches, messages, profile, documents, saved })[tab](); }
+  try { await ({ overview, listings, matches, deals, messages, profile, documents, saved })[tab](); }
   catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
 }
 
@@ -69,7 +69,7 @@ async function listings() {
 async function matches() {
   const mine = (await myListings()).filter((l) => l.status === "approved" || l.status === "pending");
   if (!mine.length) { pane.innerHTML = `<div class="panel empty"><h2>No listings to match yet</h2><p>Post an offer (with what you'd accept in exchange) or a need, and matches appear here.</p><a class="btn btn-primary" href="post.html?kind=offer">List an offer</a></div>`; return; }
-  const sel = "id,owner_id,kind,vertical,subcategory,title,price,currency,price_unit,quantity,quantity_unit,city,country,wants_vertical,wants_in_exchange,status,listing_photos(path,sort)";
+  const sel = "id,owner_id,kind,vertical,subcategory,deal_types,title,price,currency,price_unit,quantity,quantity_unit,city,country,wants_vertical,wants_in_exchange,status,listing_photos(path,sort)";
   const { data: others } = await sb.from("listings").select(sel).eq("status", "approved").neq("owner_id", m.user.id).order("created_at", { ascending: false }).limit(800);
   const pool = others || [];
   const offers = pool.filter((x) => x.kind === "offer");
@@ -104,14 +104,62 @@ async function matches() {
     return `<div class="panel" style="margin-bottom:12px"><div class="small muted" style="margin-bottom:8px">${ch.length}-party barter · each gives to the next, the last gives back to you</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:stretch">${parts}</div>
       ${adj !== null ? `<p class="small" style="margin:10px 0 0">Indicative cash adjustment: ${adj > 0 ? "you add" : adj < 0 ? "you receive" : "none,"} ${adj ? esc(money(Math.abs(adj), ch[0].currency)) : "values are equal"}.</p>` : `<p class="small muted" style="margin:10px 0 0">Values to be agreed between all parties; any gap is settled in cash.</p>`}
-      <a class="btn btn-ghost btn-sm" style="margin-top:10px" href="listing.html?id=${ch[1].id}">Start with ${ch.length === 2 ? "this business" : "party B"}</a></div>`;
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn btn-primary btn-sm" type="button" data-swap="${ch.map((x) => x.id).join(",")}">Propose this swap</button><a class="btn btn-ghost btn-sm" href="listing.html?id=${ch[1].id}">See ${ch.length === 2 ? "their listing" : "party B's listing"}</a></div></div>`;
   };
   pane.innerHTML = `<p class="note" style="margin-top:0">Match scores are indicative: they show how well listings fit, not that a deal can close. Nothing is agreed until every party accepts the final terms.</p>
     <h2>Barter chains</h2>${chains.length ? chains.slice(0, 12).map(chainHTML).join("") : `<p class="muted">${myOffers.length ? "No chain found yet. As more members list what they'd accept, chains appear here." : "Set \"Would accept from\" on one of your offers to find barter chains."}</p>`}
     <h2 style="margin-top:24px">Direct matches</h2>
     ${direct.length ? `<div class="grid">${direct.slice(0, 20).map((d) => `<div class="panel" style="display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center"><div style="font-size:1.6rem;font-weight:800;color:var(--accent)">${d.s}%</div>
       <div><div class="small muted">For your ${d.l.kind}: ${esc(d.l.title)}</div><a href="listing.html?id=${d.o.id}"><b>${esc(d.o.title)}</b></a> <span class="tag tag-${d.o.kind}">${d.o.kind === "offer" ? "Available" : "Wanted"}</span>
-      <div class="small muted">Why: ${esc(d.why.join(", "))}</div></div></div>`).join("")}</div>` : `<p class="muted">No direct matches yet in your verticals.</p>`}`;
+      <div class="small muted">Why: ${esc(d.why.join(", "))}</div><button class="btn btn-quiet btn-sm" style="margin-top:6px" type="button" data-pair="${d.l.id},${d.o.id}" data-kind="${defaultDealKind(d.o)}">Start a deal</button></div></div>`).join("")}</div>` : `<p class="muted">No direct matches yet in your verticals.</p>`}`;
+  const byId = Object.fromEntries([...mine, ...pool].map((x) => [x.id, x]));
+  pane.onclick = async (e) => {
+    const sw = e.target.closest("[data-swap]"), pr = e.target.closest("[data-pair]");
+    if (!sw && !pr) return;
+    const ids = (sw || pr).dataset[sw ? "swap" : "pair"].split(",");
+    const kind = sw ? (ids.length === 2 ? "barter" : "multi_barter") : pr.dataset.kind;
+    const title = sw ? (ids.length === 2 ? "Swap: " : ids.length + "-party swap: ") + ids.map((i) => byId[i]?.title || "").join(" ⇄ ") : byId[ids[1]]?.title || "Deal";
+    busy(sw || pr, true, "Starting…");
+    const { data, error } = await sb.rpc("create_deal", { p_kind: kind, p_title: title.slice(0, 160), p_listings: ids });
+    if (error) { busy(sw || pr, false); return toast(errMsg(error), true); }
+    location.href = "deal.html?id=" + data;
+  };
+}
+
+// Deals the member is a party to, with what needs doing next.
+function nextFor(d, mine, hasOpenOffer) {
+  if (["completed", "cancelled"].includes(d.stage)) return "";
+  if (d.stage === "delivery") return mine.completed ? "" : "Confirm completion";
+  if (["offer", "counteroffer"].includes(d.stage)) return !hasOpenOffer ? "Make a new offer" : mine.approved ? "" : "Approve or counter";
+  if (["enquiry", "discussion"].includes(d.stage)) return hasOpenOffer ? "" : "Make the first offer";
+  return "";
+}
+async function dealList() {
+  const { data: rows } = await sb.from("deal_parties").select("deal_id").eq("user_id", m.user.id);
+  const ids = (rows || []).map((r) => r.deal_id);
+  if (!ids.length) return [];
+  const [{ data: ds }, { data: ps }, { data: os }] = await Promise.all([
+    sb.from("deals").select("*").in("id", ids).order("updated_at", { ascending: false }),
+    sb.from("deal_party_view").select("deal_id,user_id,business,approved,completed,position").in("deal_id", ids).order("position"),
+    sb.from("deal_offers").select("deal_id").in("deal_id", ids).eq("status", "proposed")
+  ]);
+  return (ds || []).map((d) => {
+    const parties = (ps || []).filter((p) => p.deal_id === d.id);
+    const mineRow = parties.find((p) => p.user_id === m.user.id) || {};
+    return { ...d, parties, todo: nextFor(d, mineRow, (os || []).some((o) => o.deal_id === d.id)) };
+  });
+}
+async function deals() {
+  const list = await dealList();
+  const badge = $("#n-deals"); const n = list.filter((d) => d.todo).length; badge.hidden = !n; badge.textContent = n;
+  if (!list.length) { pane.innerHTML = `<div class="panel empty"><h2>No deals yet</h2><p>Start a deal from any listing, or propose a swap from your barter matches. Offers, counteroffers and every stage up to completion are tracked here.</p><button class="btn btn-primary" type="button" data-go="matches">See your matches</button></div>`; pane.onclick = (e) => { if (e.target.closest("[data-go]")) { tab = "matches"; history.replaceState(null, "", "#matches"); show(); } }; return; }
+  const open = list.filter((d) => !["completed", "cancelled"].includes(d.stage)), closed = list.filter((d) => !open.includes(d));
+  const row = (d) => `<a class="panel deal-row" style="margin-bottom:10px;color:inherit;text-decoration:none" href="deal.html?id=${d.id}">
+      <div><div class="tags"><span class="tag tag-closed">${esc(DEAL_KINDS[d.kind] || d.kind)}</span><span class="tag ${d.stage === "completed" ? "tag-approved" : d.stage === "cancelled" ? "tag-rejected" : "tag-pending"}">${esc(stageName(d.stage))}</span></div>
+      <b style="display:block;margin-top:6px">${esc(d.title)}</b><span class="who">With ${esc(d.parties.filter((p) => p.user_id !== m.user.id).map((p) => p.business || "a member").join(", "))} · updated ${esc(when(d.updated_at))}</span></div>
+      ${d.todo ? `<span class="btn btn-primary btn-sm">${esc(d.todo)}</span>` : '<span class="small muted">Waiting for others</span>'}</a>`;
+  pane.innerHTML = `<p class="note" style="margin-top:0">A deal is binding only when every party approves the same terms and signs the final contract. DASKIES does not hold money or act as escrow.</p>
+    ${open.length ? `<h2>Open</h2>${open.map(row).join("")}` : ""}${closed.length ? `<h2 style="margin-top:24px">Closed</h2>${closed.map(row).join("")}` : ""}`;
   pane.onclick = null;
 }
 
@@ -219,3 +267,4 @@ async function saved() {
 }
 
 show();
+dealList().then((l) => { const n = l.filter((d) => d.todo).length, b = $("#n-deals"); if (b && n) { b.hidden = false; b.textContent = n; } }).catch(() => {});

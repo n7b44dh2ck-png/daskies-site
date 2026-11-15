@@ -1,5 +1,5 @@
 import { sb, $, esc, qs, header, card, money, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord } from "./core.js";
-import { vertical, isOil, LEVEL_NOTE } from "./taxonomy.js";
+import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js";
 
 const m = await header("explore.html");
 const main = $("#main");
@@ -71,6 +71,10 @@ if (mine) {
   act.innerHTML = `<h3>Send an enquiry</h3>
     <form id="eq"><div class="field"><label class="sr" for="body">Message</label><textarea id="body" maxlength="4000" required placeholder="Ask about price, quantity, inspection, timeline or a swap.">Hello, I'm interested in "${esc(l.title)}". </textarea></div>
     <button class="btn btn-primary" style="width:100%">Send enquiry</button></form>
+    <div class="dealbox"><h3>Ready to negotiate?</h3><p class="small muted" style="margin-top:-4px">Open a deal room to send a formal offer, counter and track every stage. Nothing is binding until both sides approve the same terms.</p>
+      <form id="df"><div class="field"><label for="dk">Deal type</label><select id="dk">${Object.entries(DEAL_KINDS).filter(([k]) => !["multi_barter", "purchase"].includes(k)).map(([k, n]) => `<option value="${k}"${k === defaultDealKind(l) ? " selected" : ""}>${esc(n)}</option>`).join("")}</select></div>
+      <div class="field"><label for="dl">Offer one of your listings with it <span class="muted">(needed for a barter)</span></label><select id="dl"><option value="">None</option></select></div>
+      <p class="err" id="dmsg" role="alert"></p><button class="btn btn-ghost" style="width:100%">Start a deal</button></form></div>
     <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn btn-quiet btn-sm" id="save" type="button">Save</button><button class="btn btn-quiet btn-sm" id="rep" type="button">Report this listing</button></div>`;
   $("#eq").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -80,6 +84,19 @@ if (mine) {
     const { data: conv, error: err } = await sb.rpc("start_enquiry", { p_listing: l.id, p_body: body });
     if (err) { toast(errMsg(err), true); busy(btn, false); return; }
     location.href = "dashboard.html?c=" + conv + "#messages";
+  });
+  sb.from("listings").select("id,title,status").eq("owner_id", m.user.id).in("status", ["approved", "pending"]).order("created_at", { ascending: false }).then(({ data }) => {
+    $("#dl").insertAdjacentHTML("beforeend", (data || []).map((x) => `<option value="${x.id}">${esc(x.title)}${x.status === "pending" ? " (waiting for review)" : ""}</option>`).join(""));
+  });
+  $("#df").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const kind = $("#dk").value, mineId = $("#dl").value, btn = $("#df button");
+    if (kind === "barter" && !mineId) { $("#dmsg").textContent = "Choose which of your listings you would give in the swap."; return; }
+    busy(btn, true, "Opening…");
+    const ids = mineId ? [mineId, l.id] : [l.id];
+    const { data: deal, error: err } = await sb.rpc("create_deal", { p_kind: kind, p_title: (kind === "barter" ? "Swap: " : "") + l.title.slice(0, 150), p_listings: ids });
+    if (err) { $("#dmsg").textContent = errMsg(err); busy(btn, false); return; }
+    location.href = "deal.html?id=" + deal;
   });
   $("#save").addEventListener("click", async (e) => {
     const { error: err } = await sb.from("saved_listings").insert({ user_id: m.user.id, listing_id: l.id });

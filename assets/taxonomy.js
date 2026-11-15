@@ -121,3 +121,7 @@ export const LEVEL_NOTE = "Verification shows which documents DASKIES has looked
 export const vertical = (id) => VERTICALS.find((v) => v.id === id);
 export const subcats = (id) => { const v = vertical(id); return v ? Object.entries(v.groups) : []; };
 export const isOil = (sub) => /oil/i.test(sub || "") && !/mill|DOC|cake|tank/i.test(sub || "");
+export const DEAL_STAGES = [["enquiry", "Enquiry"], ["discussion", "Discussion"], ["offer", "Offer"], ["counteroffer", "Counteroffer"], ["terms_agreed", "Terms agreed"], ["due_diligence", "Due diligence"], ["documentation", "Documentation"], ["contract_signed", "Contract signed"], ["settlement", "Payment / settlement"], ["delivery", "Delivery"], ["completed", "Completed"]];
+export const DEAL_KINDS = { sale: "Buy / sell", lease: "Lease", barter: "Barter (swap)", multi_barter: "Multi-party barter", commodity: "Commodity contract", service: "Service contract", partnership: "Project partnership", purchase: "Purchase" };
+export const stageName = (s) => s === "cancelled" ? "Cancelled" : ((DEAL_STAGES.find(([k]) => k === s) || [, s])[1]);
+export const defaultDealKind = (l) => l.vertical === "commodity" ? "commodity" : l.vertical === "projects" ? "partnership" : l.vertical === "barter-tech" ? "barter" : (l.deal_types || []).includes("Lease") && !(l.deal_types || []).includes("Sale") ? "lease" : "sale";

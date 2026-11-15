@@ -1,5 +1,5 @@
 import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord } from "./core.js";
-import { vertical, DOC_KINDS, LEVELS } from "./taxonomy.js";
+import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js";
 
 await header("admin.html");
 const m = await requireAuth();
@@ -7,7 +7,7 @@ if (!m) throw new Error("stop");
 const main = $("#main");
 if (!m.profile?.is_admin) { main.innerHTML = `<div class="panel empty"><h1>Admins only</h1><p>This page is for the DASKIES team.</p></div>`; throw new Error("stop"); }
 
-const TABS = [["queue", "Review queue"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["reports", "Reports"], ["users", "Users"], ["audit", "Audit log"]];
+const TABS = [["queue", "Review queue"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["reports", "Reports"], ["users", "Users"], ["audit", "Audit log"]];
 let tab = (location.hash || "#queue").slice(1);
 if (!TABS.some(([t]) => t === tab)) tab = "queue";
 main.innerHTML = `<h1>Admin</h1><div class="tabs" role="tablist">${TABS.map(([t, n]) => `<button role="tab" type="button" data-t="${t}" aria-selected="${t === tab}">${n}</button>`).join("")}</div><section id="pane"></section>`;
@@ -17,7 +17,7 @@ const pane = $("#pane");
 async function show() {
   $$(".tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.t === tab));
   pane.innerHTML = `<p class="muted">Loading…</p>`; pane.onclick = null;
-  try { await ({ queue, listings, businesses, documents, reports, users, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
+  try { await ({ queue, listings, businesses, documents, deals, reports, users, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
 }
 
 const sel = "*, businesses(name,verification_level), listing_photos(path,sort)";
@@ -100,6 +100,18 @@ async function reports() {
     <td><a href="listing.html?id=${r.listing_id}" target="_blank" rel="noopener">${esc(r.listings?.title || "listing")}</a></td><td>${esc(r.reason)}</td><td>${esc(r.status)}</td><td>${esc(day(r.created_at))}</td>
     <td>${r.status === "open" ? `<button class="btn btn-quiet btn-sm" type="button" data-close="${r.id}">Mark handled</button>` : ""}</td></tr>`).join("") || '<tr><td colspan="5" class="muted">No reports.</td></tr>'}</tbody></table></div>`;
   pane.onclick = async (e) => { const c = e.target.closest("[data-close]"); if (c) { const { error: er } = await sb.from("reports").update({ status: "closed" }).eq("id", c.dataset.close); er ? toast(errMsg(er), true) : show(); } };
+}
+
+async function deals() {
+  const [{ data, error }, { data: ps }] = await Promise.all([
+    sb.from("deals").select("*").order("updated_at", { ascending: false }).limit(300),
+    sb.from("deal_party_view").select("deal_id,business,position").order("position").limit(2000)
+  ]);
+  if (error) throw error;
+  const who = (id) => (ps || []).filter((p) => p.deal_id === id).map((p) => p.business || "member").join(", ");
+  pane.innerHTML = `<p class="small muted">${data.length} deals. Admins can read every deal and cancel one (for example after a fraud report), but cannot make offers or move stages.</p>
+    <div class="tablewrap"><table class="list"><thead><tr><th>Deal</th><th>Type</th><th>Stage</th><th>Parties</th><th>Updated</th></tr></thead><tbody>${data.map((d) => `<tr>
+    <td><a href="deal.html?id=${d.id}" target="_blank" rel="noopener">${esc(d.title)}</a></td><td>${esc(DEAL_KINDS[d.kind] || d.kind)}</td><td>${esc(stageName(d.stage))}</td><td class="small">${esc(who(d.id))}</td><td>${esc(when(d.updated_at))}</td></tr>`).join("") || '<tr><td colspan="5" class="muted">No deals yet.</td></tr>'}</tbody></table></div>`;
 }
 
 async function users() {
