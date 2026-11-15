@@ -384,6 +384,11 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
 .wa-inline:hover{background:#127A41}
 .wa-inline svg{width:20px;height:20px}
 
+/* keep our buttons clear of the hosting badge (bottom right), if one is shown */
+.has-badge .chat-btn{bottom:76px}
+.has-badge .wa-btn{bottom:144px}
+.has-badge .chat{bottom:208px;max-height:min(560px,calc(100vh - 230px))}
+
 /* registration steps */
 .reg-steps{list-style:none;margin:28px 0 0;padding:0;counter-reset:r;display:grid;gap:16px}
 .reg-steps li{display:grid;grid-template-columns:34px 1fr;gap:2px 12px;counter-increment:r}
@@ -1691,6 +1696,10 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     })();
     if(pick!=="en") setLang(pick,!!q);
   })();
+
+  // Make room for a hosting badge in the bottom-right corner when one appears
+  function badgeRoom(){ document.body.classList.toggle("has-badge", !!document.getElementById("nl-badge-frame")); }
+  badgeRoom(); if(window.MutationObserver) new MutationObserver(badgeRoom).observe(document.body,{childList:true});
 
   // Members page (/members): links lead back to the main page
   if(document.documentElement.classList.contains("members-mode")){
