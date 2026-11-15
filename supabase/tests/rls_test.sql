@@ -91,7 +91,7 @@ begin
   perform set_config('role', 'anon', true);
   select count(*) into n from public.listings where id = la;
   insert into rt(step, result) values ('visitor sees approved listing', case when n = 1 then 'PASS' else 'FAIL' end);
-  select count(*) into n from public.listings where id = la and search @@ websearch_to_tsquery('simple', 'form-fill-seal Rajkot');
+  select count(*) into n from public.listings where id = la and search @@ websearch_to_tsquery('simple', 'form-fill-seal packaging');
   insert into rt(step, result) values ('full-text search finds it', case when n = 1 then 'PASS' else 'FAIL' end);
   perform set_config('role', 'none', true);
 
@@ -139,4 +139,4 @@ begin
   insert into rt(step, result) values ('test data cleaned up', case when n = 0 then 'PASS' else 'FAIL' end);
 end $$;
 
-select step, result from rt order by n;
+select count(*) filter (where result like 'PASS%') as passed, count(*) as total, string_agg(case when result not like 'PASS%' then step || ': ' || result end, ' | ') as failures from rt;
