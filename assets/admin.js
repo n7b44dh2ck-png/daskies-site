@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord } from "./core.js?v=ec6dfcc9";
-import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=ec6dfcc9";
+import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord } from "./core.js?v=82c07e02";
+import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=82c07e02";
 
 await header("admin.html");
 const m = await requireAuth();
@@ -7,7 +7,7 @@ if (!m) throw new Error("stop");
 const main = $("#main");
 if (!m.profile?.is_admin) { main.innerHTML = `<div class="panel empty"><h1>Admins only</h1><p>This page is for the DASKIES team.</p></div>`; throw new Error("stop"); }
 
-const TABS = [["queue", "Review queue"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["fees", "Fees"], ["reports", "Reports"], ["users", "Users"], ["errors", "Errors"], ["audit", "Audit log"]];
+const TABS = [["queue", "Review queue"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["fees", "Fees"], ["payments", "Payments"], ["reports", "Reports"], ["users", "Users"], ["errors", "Errors"], ["audit", "Audit log"]];
 let tab = (location.hash || "#queue").slice(1);
 if (!TABS.some(([t]) => t === tab)) tab = "queue";
 main.innerHTML = `<h1>Admin</h1><div class="tabs" role="tablist">${TABS.map(([t, n]) => `<button role="tab" type="button" data-t="${t}" aria-selected="${t === tab}">${n}</button>`).join("")}</div><section id="pane"></section>`;
@@ -17,7 +17,7 @@ const pane = $("#pane");
 async function show() {
   $$(".tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.t === tab));
   pane.innerHTML = `<p class="muted">Loading…</p>`; pane.onclick = null;
-  try { await ({ queue, listings, businesses, documents, deals, fees, reports, users, errors, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
+  try { await ({ queue, listings, businesses, documents, deals, fees, payments, reports, users, errors, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
 }
 
 const sel = "*, businesses(name,verification_level), listing_photos(path,sort)";
@@ -115,6 +115,17 @@ async function deals() {
 }
 
 // Success fees: worked out by the database when a deal reaches Payment / settlement. Each party sees only their own.
+async function payments() {
+  const { data, error } = await sb.rpc("admin_payments");
+  if (error) throw error;
+  const rs = (p) => new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 0, maximumFractionDigits: 2 }).format((Number(p) || 0) / 100);
+  const paid = data.filter((x) => x.status === "paid");
+  pane.innerHTML = `<p class="small muted">${data.length} payments · ${paid.length} paid (${esc(rs(paid.reduce((t, x) => t + Number(x.amount_paise), 0)))} incl. GST). Online payments through Razorpay; amounts include 18% GST.</p>
+    ${data.length ? `<div class="tablewrap"><table class="list"><thead><tr><th>Date</th><th>Member</th><th>For</th><th>Amount</th><th>Status</th><th>Razorpay reference</th></tr></thead><tbody>
+    ${data.map((x) => `<tr><td>${esc(when(x.paid_at || x.created_at))}</td><td>${esc(x.full_name || "")}<br><span class="small muted">${esc(x.business || "")} · ${esc(x.email || "")}</span></td><td>${x.kind === "membership" ? "Full membership" : "Success fee"}</td><td>${esc(rs(x.amount_paise))}</td><td><span class="tag ${x.status === "paid" ? "tag-approved" : x.status === "failed" ? "tag-rejected" : "tag-pending"}">${x.status === "paid" ? "Paid" : x.status === "failed" ? "Failed" : "Started, not paid"}</span></td><td class="small">${esc(x.razorpay_payment_id || "")}<br><span class="muted">${esc(x.razorpay_order_id)}</span></td></tr>`).join("")}
+    </tbody></table></div>` : `<div class="panel empty"><p>No online payments yet.</p></div>`}`;
+}
+
 async function fees() {
   const { data, error } = await sb.rpc("admin_fees");
   if (error) throw error;

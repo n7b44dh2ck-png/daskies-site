@@ -1,6 +1,7 @@
-import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord } from "./core.js?v=ec6dfcc9";
-import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=ec6dfcc9";
-import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=ec6dfcc9";
+import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord } from "./core.js?v=82c07e02";
+import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=82c07e02";
+import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=82c07e02";
+import { paymentsOn } from "./pay.js?v=82c07e02";
 
 await header("dashboard.html");
 const m = await requireAuth();
@@ -33,6 +34,12 @@ async function show() {
   catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
 }
 
+function memberPanel() {
+  const until = m.profile?.member_until && new Date(m.profile.member_until) > new Date() ? m.profile.member_until : null;
+  if (until) return `<div class="panel" style="margin-bottom:16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h2 style="margin:0">Full member</h2><p class="small muted" style="margin:4px 0 0">Your full membership runs until ${esc(day(until))}.</p></div><a class="btn btn-ghost" href="pricing.html">Renew</a></div>`;
+  return `<div class="panel" style="margin-bottom:16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h2 style="margin:0">Free member</h2><p class="small muted" style="margin:4px 0 0">${paymentsOn() ? "Full membership: ₹15,000 + GST for 90 days, for unlimited listings, enquiries, barter matching and deal rooms." : "Every feature is open to every member at no charge until online payment opens."}</p></div><a class="btn ${paymentsOn() ? "btn-primary" : "btn-ghost"}" href="pricing.html">${paymentsOn() ? "Upgrade" : "See membership"}</a></div>`;
+}
+
 async function overview() {
   const mine = await myListings();
   const { count: convs } = await sb.from("conversations").select("id", { count: "exact", head: true });
@@ -43,6 +50,7 @@ async function overview() {
     <div class="panel grid" style="margin-bottom:16px"><h2>Next steps</h2>
       ${!m.business ? `<p>1. <a href="#profile" data-go="profile">Add your business profile</a></p>` : ""}
       <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-primary" href="post.html?kind=offer">List an offer</a><a class="btn btn-ghost" href="post.html?kind=need">Post a need</a><a class="btn btn-ghost" href="explore.html">Explore</a><button class="btn btn-ghost" type="button" data-go="matches">Find a barter match</button></div></div>
+    ${memberPanel()}
     <div class="panel"><h2>Verification</h2>${m.business ? levelBadge(m.business.verification_level) : ""}<p class="hint">${esc(LEVEL_NOTE)}</p>
       <p class="small">To move up a level, upload business documents under <a href="#documents" data-go="documents">Documents</a>. The team reviews them by hand.</p></div>`;
   pane.onclick = (e) => { const g = e.target.closest("[data-go]"); if (g) { e.preventDefault(); tab = g.dataset.go; history.replaceState(null, "", "#" + tab); show(); } };
@@ -215,7 +223,7 @@ async function profile() {
     try {
       await saveDetails(m, d, { industry: v("bi") || null, year_established: v("by") ? Number(v("by")) : null, products: v("bpr") || null,
         website: v("bw") || null, certifications: v("bce") || null, export_import: $("#bx").checked });
-      toast("Profile saved."); await (await import("./core.js?v=ec6dfcc9")).me(true); location.reload();
+      toast("Profile saved."); await (await import("./core.js?v=82c07e02")).me(true); location.reload();
     } catch (err) { $("#bmsg").textContent = errMsg(err); busy(btn, false); }
   });
   const lf = $("#lf");

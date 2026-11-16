@@ -1,5 +1,6 @@
-import { sb, $, $$, esc, qs, header, requireAuth, money, when, day, errMsg, busy, toast, levelBadge } from "./core.js?v=ec6dfcc9";
-import { DEAL_STAGES as STAGES, DEAL_KINDS as KIND } from "./taxonomy.js?v=ec6dfcc9";
+import { sb, $, $$, esc, qs, header, requireAuth, money, when, day, errMsg, busy, toast, levelBadge } from "./core.js?v=82c07e02";
+import { paymentsOn, pay } from "./pay.js?v=82c07e02";
+import { DEAL_STAGES as STAGES, DEAL_KINDS as KIND } from "./taxonomy.js?v=82c07e02";
 
 await header("dashboard.html");
 const m = await requireAuth();
@@ -35,7 +36,7 @@ function feeHTML() {
         <dt>Success fee (${esc(String(Number(mine.rate)))}%)</dt><dd>${esc(inr(mine.fee))}</dd><dt>GST (${esc(String(Number(mine.gst_rate)))}%)</dt><dd>${esc(inr(mine.gst))}</dd>
         <dt>Total payable</dt><dd><b>${esc(inr(Number(mine.fee) + Number(mine.gst)))}</b></dd><dt>Status</dt><dd><span class="tag ${mine.status === "due" ? "tag-pending" : mine.status === "cancelled" ? "tag-rejected" : "tag-approved"}">${esc(FEE_WORD[mine.status] || mine.status)}</span></dd></dl>
       ${mine.note ? `<p class="small">${esc(mine.note)}</p>` : ""}
-      ${mine.status === "due" ? `<p class="small"><b>How to pay:</b> DASKIES will send your GST invoice and payment details. Online payment by UPI, card or net banking is coming soon. Payment and settlement between the parties open once every party's fee is paid.</p>` : ""}</section>`;
+      ${mine.status === "due" && paymentsOn() && mine.currency === "INR" ? `<p style="margin:12px 0 4px"><button class="btn btn-primary" id="payFee" data-fee="${esc(mine.id)}" type="button">Pay ${esc(inr(Number(mine.fee) + Number(mine.gst)))} now</button></p><p class="small muted">UPI, card or net banking. Your GST invoice follows by email. Payment and settlement between the parties open once every party's fee is paid.</p>` : mine.status === "due" ? `<p class="small"><b>How to pay:</b> DASKIES will send your GST invoice and payment details. Payment and settlement between the parties open once every party's fee is paid.</p>` : ""}</section>`;
   }
   if (fees.length && m.profile?.is_admin) {
     return `<section class="panel feebox"><h2>Success fees <span class="small muted">admin view</span></h2><div class="tablewrap"><table class="list"><thead><tr><th>Party</th><th>Value</th><th>Fee</th><th>GST</th><th>Status</th></tr></thead><tbody>
@@ -143,6 +144,11 @@ function offerForm(prefill = {}) {
 function wire(cur) {
   const on = (sel, fn) => { const el = $(sel); if (el) el.addEventListener("click", fn); };
   on("#counter", () => offerForm(cur ? cur.terms : {}));
+  on("#payFee", async (e) => {
+    const b = e.currentTarget; busy(b, true, "Opening payment…");
+    try { await pay("fee", { fee_id: b.dataset.fee }); toast("Payment received. Thank you."); setTimeout(() => location.reload(), 900); }
+    catch (err) { busy(b, false); toast(err.message, !err.cancelled); }
+  });
   on("#approve", async (e) => { busy(e.target, true, "Approving…"); const { data, error } = await sb.rpc("approve_terms", { p_deal: id, p_offer: cur.id }); if (error) { toast(errMsg(error), true); busy(e.target, false); return; } toast(data === "terms_agreed" ? "All parties approved. Terms agreed." : "Approved. Waiting for the other parties."); refresh(); });
   on("#reject", async (e) => { const reason = prompt("Why are you rejecting? (optional, shown to the other parties)"); if (reason === null) return; busy(e.target, true); const { error } = await sb.rpc("reject_offer", { p_deal: id, p_offer: cur.id, p_reason: reason }); if (error) { toast(errMsg(error), true); busy(e.target, false); return; } toast("Rejected. Anyone can now make a counteroffer."); refresh(); });
   on("#advance", async (e) => { busy(e.target, true); const { error } = await sb.rpc("advance_stage", { p_deal: id, p_note: ($("#stNote") || {}).value || null }); if (error) { toast(errMsg(error), true); busy(e.target, false); return; } refresh(); });
