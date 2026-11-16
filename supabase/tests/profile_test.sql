@@ -39,6 +39,16 @@ begin
   insert into public.business_private (business_id, owner_id, address, postal_code, gstin) values (ba, a, '  14 GIDC Estate, Aji Road  ', ' 360003 ', '24aaacb1234c1z5');
   select gstin into t from public.business_private where owner_id = a;
   insert into rt(step, result) values ('GSTIN stored upper-case and trimmed', case when t = '24AAACB1234C1Z5' then 'PASS' else 'FAIL ' || coalesce(t, 'null') end);
+  if to_regprocedure('public.accept_terms(text)') is not null then
+    ok := public.profile_complete();
+    insert into rt(step, result) values ('details without accepting the Terms -> incomplete', case when not ok then 'PASS' else 'FAIL' end);
+    begin
+      execute 'select public.accept_terms(''1999-01-01'')';
+      insert into rt(step, result) values ('accepting an old Terms version is refused', 'FAIL');
+    exception when others then insert into rt(step, result) values ('accepting an old Terms version is refused', 'PASS');
+    end;
+    execute 'select public.accept_terms(public.current_terms_version())';
+  end if;
   ok := public.profile_complete();
   insert into rt(step, result) values ('all details given -> complete', case when ok then 'PASS' else 'FAIL' end);
   insert into public.listings (owner_id, business_id, kind, vertical, subcategory, title) values (a, ba, 'offer', 'industrial', 'Test', 'Profile test listing') returning id into la;
@@ -90,6 +100,7 @@ begin
   update public.profiles set full_name = 'Bhavin Buyer', phone = '98250 22222' where id = b;
   insert into public.businesses (owner_id, name, roles, city, state, country) values (b, 'Profile test Bharat', '{Buyer}', 'Surat', 'Gujarat', 'India') returning id into bb;
   insert into public.business_private (business_id, owner_id, address, postal_code) values (bb, b, 'Plot 7, Sachin GIDC', '394230');
+  if to_regprocedure('public.accept_terms(text)') is not null then execute 'select public.accept_terms(public.current_terms_version())'; end if;
   ok := public.profile_complete();
   insert into rt(step, result) values ('10-digit mobile without country code accepted', case when ok then 'PASS' else 'FAIL' end);
   cv := public.start_enquiry(la, 'Interested');

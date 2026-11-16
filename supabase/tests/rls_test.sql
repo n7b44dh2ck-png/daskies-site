@@ -30,6 +30,7 @@ begin
     update public.profiles set full_name = 'Test member', phone = '+91 98250 00000' where id = a;
     update public.businesses set roles = '{Seller}', city = coalesce(city, 'Rajkot'), state = 'Gujarat' where owner_id = a;
     insert into public.business_private (business_id, owner_id, address, postal_code) select id, a, '12 Test Industrial Estate', '360001' from public.businesses where owner_id = a;
+    if to_regprocedure('public.accept_terms(text)') is not null then execute 'select public.accept_terms(public.current_terms_version())'; end if;
   insert into public.listings (owner_id, business_id, kind, vertical, subcategory, title, description, price, status)
     values (a, ba, 'offer', 'industrial', 'Packaging machinery', 'Form-fill-seal line', 'Test listing for access rules', 1400000, 'approved') returning id, status into la, st;
   insert into rt(step, result) values ('member cannot self-approve on insert', case when st = 'pending' then 'PASS' else 'FAIL ' || st end);
@@ -105,6 +106,7 @@ begin
     update public.profiles set full_name = 'Test member', phone = '+91 98250 00000' where id = b;
     update public.businesses set roles = '{Seller}', city = coalesce(city, 'Rajkot'), state = 'Gujarat' where owner_id = b;
     insert into public.business_private (business_id, owner_id, address, postal_code) select id, b, '12 Test Industrial Estate', '360001' from public.businesses where owner_id = b;
+    if to_regprocedure('public.accept_terms(text)') is not null then execute 'select public.accept_terms(public.current_terms_version())'; end if;
   conv := public.start_enquiry(la, 'Is the price negotiable?');
   insert into public.messages (conversation_id, sender_id, body) values (conv, b, 'Can I inspect next week?');
   select count(*) into n from public.messages where conversation_id = conv;

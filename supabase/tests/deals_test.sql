@@ -28,6 +28,7 @@ begin
     update public.profiles set full_name = 'Test member', phone = '+91 98250 00000' where id = u;
     update public.businesses set roles = '{Seller}', city = coalesce(city, 'Rajkot'), state = 'Gujarat' where owner_id = u;
     insert into public.business_private (business_id, owner_id, address, postal_code) select id, u, '12 Test Industrial Estate', '360001' from public.businesses where owner_id = u;
+    if to_regprocedure('public.accept_terms(text)') is not null then execute 'select public.accept_terms(public.current_terms_version())'; end if;
     insert into public.listings (owner_id, business_id, kind, vertical, subcategory, title, price, wants_vertical)
       select u, id, 'offer', (array['industrial','commodity','storage'])[i], 'Test', 'Deal test listing ' || i, i * 100000, (array['commodity','storage','industrial'])[i]
       from public.businesses where owner_id = u;
