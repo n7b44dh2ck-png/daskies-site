@@ -1,7 +1,7 @@
 // Mandatory member details: one form used by sign-up, the completion step and the dashboard.
 // The database enforces the same rules; this only gives early, specific feedback.
-import { sb, $, $$, esc, TERMS_VERSION } from "./core.js";
-import { ROLES } from "./taxonomy.js";
+import { sb, $, $$, esc, TERMS_VERSION } from "./core.js?v=8646d7e7";
+import { ROLES } from "./taxonomy.js?v=8646d7e7";
 
 export const IN_STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
   "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"];
@@ -19,6 +19,7 @@ export function detailsFields(p = {}, { you = true, terms = false } = {}) {
       <div class="field" id="d_roles_f"><span class="flabel" id="d_roles_l">What does your business do? ${R} <span class="muted">(pick all that fit)</span></span>
         <div class="checks" role="group" aria-labelledby="d_roles_l">${ROLES.map((r) => `<label><input type="checkbox" name="d_role" value="${esc(r)}"${(p.roles || []).includes(r) ? " checked" : ""}> ${esc(r)}</label>`).join("")}</div></div>
       <div class="field"><label for="d_addr">Registered address ${R}</label><textarea id="d_addr" autocomplete="street-address" maxlength="300" rows="2" required placeholder="Building, street, area or industrial estate">${esc(p.address || "")}</textarea></div>
+      <div class="field"><label for="d_about">About your business <span class="muted">(optional)</span></label><textarea id="d_about" maxlength="3000" rows="3" placeholder="What you make, trade or offer, your capacity and the industries you serve">${esc(p.about || "")}</textarea><span class="hint">Shown on your business profile and listings.</span></div>
       <div class="row2"><div class="field"><label for="d_city">City ${R}</label><input id="d_city" autocomplete="address-level2" maxlength="80" required value="${esc(p.city || "")}"></div>
         <div class="field"><label for="d_state">State ${R}</label><input id="d_state" autocomplete="address-level1" maxlength="60" required list="d_states" value="${esc(p.state || "")}"><datalist id="d_states">${IN_STATES.map((s) => `<option value="${s}">`).join("")}</datalist></div></div>
       <div class="row2"><div class="field"><label for="d_pin">PIN / postal code ${R}</label><input id="d_pin" autocomplete="postal-code" inputmode="numeric" maxlength="10" required value="${esc(p.postal_code || "")}"></div>
@@ -35,7 +36,7 @@ export function readDetails() {
   const v = (id) => ($("#" + id) ? $("#" + id).value.trim() : undefined);
   return { full_name: v("d_name"), phone: v("d_phone"), name: v("d_biz"), roles: $$("input[name=d_role]:checked").map((c) => c.value),
     address: v("d_addr"), city: v("d_city"), state: v("d_state"), postal_code: (v("d_pin") || "").toUpperCase(), country: v("d_country") || "India", gstin: (v("d_gst") || "").toUpperCase().replace(/\s/g, ""),
-    terms: $("#d_terms") ? $("#d_terms").checked : null };
+    terms: $("#d_terms") ? $("#d_terms").checked : null, about: v("d_about") };
 }
 
 // Returns [[fieldId, message], ...]; empty when everything is fine.
@@ -80,7 +81,7 @@ export async function saveDetails(m, d, extra = {}, { you = true } = {}) {
     const { error } = await sb.from("profiles").update({ full_name: d.full_name, phone: d.phone }).eq("id", uid);
     if (error) throw error;
   }
-  const brow = { name: d.name, roles: d.roles, city: d.city, state: d.state, country: d.country, ...extra };
+  const brow = { name: d.name, roles: d.roles, city: d.city, state: d.state, country: d.country, ...(d.about !== undefined ? { description: d.about || null } : {}), ...extra };
   let business = m.business;
   if (business) {
     const { error } = await sb.from("businesses").update(brow).eq("id", business.id); if (error) throw error;
@@ -105,5 +106,5 @@ export function detailsOf(m) {
   const md = (m.user && m.user.user_metadata && m.user.user_metadata.details) || {};
   const p = m.profile || {}, b = m.business || {}, x = m.private || {};
   return { full_name: p.full_name || md.full_name || "", phone: p.phone || md.phone || "", name: b.name || md.name || "", roles: (b.roles && b.roles.length ? b.roles : md.roles) || [],
-    address: x.address || md.address || "", city: b.city || md.city || "", state: b.state || md.state || "", postal_code: x.postal_code || md.postal_code || "", country: b.country || md.country || "India", gstin: x.gstin || md.gstin || "" };
+    address: x.address || md.address || "", city: b.city || md.city || "", state: b.state || md.state || "", postal_code: x.postal_code || md.postal_code || "", country: b.country || md.country || "India", gstin: x.gstin || md.gstin || "", about: b.description || md.about || "" };
 }

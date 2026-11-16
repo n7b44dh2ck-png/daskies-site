@@ -1,5 +1,5 @@
-import { sb, $, esc, qs, header, errMsg, busy, toast, me, TERMS_VERSION } from "./core.js";
-import { detailsFields, termsBox, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js";
+import { sb, $, esc, qs, header, errMsg, busy, toast, me, TERMS_VERSION } from "./core.js?v=8646d7e7";
+import { detailsFields, termsBox, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=8646d7e7";
 
 const main = $("#main");
 const next = qs("next") || "dashboard.html";
@@ -8,7 +8,8 @@ let mode = qs("mode") || "signin";
 
 let m = await header("account.html");
 if (m.user && mode !== "reset") {
-  if (m.complete) { location.replace(safeNext); } else { mode = "complete"; }
+  // Already signed in on this device: say so plainly instead of jumping ahead, unless a page sent them here to continue.
+  if (m.complete || (m.profile && m.profile.is_admin)) { if (qs("next")) location.replace(safeNext); else mode = "already"; } else { mode = "complete"; }
 }
 if (!m.user && mode === "complete") mode = "signin";
 const afterIn = async () => { const mm = await me(true); location.replace(mm.complete || (mm.profile && mm.profile.is_admin) ? safeNext : "account.html?mode=complete&next=" + encodeURIComponent(safeNext)); };
@@ -17,6 +18,9 @@ sb.auth.onAuthStateChange((ev) => { if (ev === "PASSWORD_RECOVERY") { mode = "re
 
 function render() {
   const forms = {
+    already: m.user ? `<h1>You're signed in</h1><p>Signed in as <b>${esc(m.user.email)}</b> on this device. DASKIES keeps you signed in until you sign out.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><a class="btn btn-primary" href="${esc(safeNext)}">${safeNext.startsWith("dashboard.html") ? "Go to dashboard" : "Continue"}</a><button class="btn btn-ghost" type="button" id="out2">Sign out</button></div>
+      <p class="small muted" style="margin-top:14px">On a shared phone or computer, sign out when you're done. To use a different account, sign out first.</p>` : "",
     signin: `<h1>Sign in</h1><p class="muted">Welcome back to DASKIES.</p>
       <form id="f" novalidate>
         <div class="field"><label for="em">Email</label><input id="em" type="email" autocomplete="email" required></div>
@@ -62,8 +66,9 @@ function render() {
   };
   const wide = mode === "signup" || mode === "complete";
   main.innerHTML = `<div class="panel" style="max-width:${wide ? 720 : 460}px;margin:24px auto">${forms[mode] || forms.signin}</div>`;
-  $("#f").addEventListener("submit", submit);
+  const f = $("#f"); if (f) f.addEventListener("submit", submit);
   const out = $("#out"); if (out) out.addEventListener("click", async (e) => { e.preventDefault(); await sb.auth.signOut(); location.href = "index.html"; });
+  const out2 = $("#out2"); if (out2) out2.addEventListener("click", async () => { busy(out2, true); await sb.auth.signOut(); location.replace("account.html"); });
   const first = $("#f input"); if (first) first.focus();
 }
 

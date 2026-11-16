@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord } from "./core.js";
-import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js";
+import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord } from "./core.js?v=8646d7e7";
+import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=8646d7e7";
 
 await header("admin.html");
 const m = await requireAuth();
@@ -7,7 +7,7 @@ if (!m) throw new Error("stop");
 const main = $("#main");
 if (!m.profile?.is_admin) { main.innerHTML = `<div class="panel empty"><h1>Admins only</h1><p>This page is for the DASKIES team.</p></div>`; throw new Error("stop"); }
 
-const TABS = [["queue", "Review queue"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["fees", "Fees"], ["reports", "Reports"], ["users", "Users"], ["audit", "Audit log"]];
+const TABS = [["queue", "Review queue"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["fees", "Fees"], ["reports", "Reports"], ["users", "Users"], ["errors", "Errors"], ["audit", "Audit log"]];
 let tab = (location.hash || "#queue").slice(1);
 if (!TABS.some(([t]) => t === tab)) tab = "queue";
 main.innerHTML = `<h1>Admin</h1><div class="tabs" role="tablist">${TABS.map(([t, n]) => `<button role="tab" type="button" data-t="${t}" aria-selected="${t === tab}">${n}</button>`).join("")}</div><section id="pane"></section>`;
@@ -17,7 +17,7 @@ const pane = $("#pane");
 async function show() {
   $$(".tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.t === tab));
   pane.innerHTML = `<p class="muted">Loading…</p>`; pane.onclick = null;
-  try { await ({ queue, listings, businesses, documents, deals, fees, reports, users, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
+  try { await ({ queue, listings, businesses, documents, deals, fees, reports, users, errors, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
 }
 
 const sel = "*, businesses(name,verification_level), listing_photos(path,sort)";
@@ -145,6 +145,21 @@ async function fees() {
     if (er) return toast(errMsg(er), true);
     toast("Fee updated."); show();
   };
+}
+
+// Errors visitors and members hit in their browsers (recorded by assets/boot.js). A reference lets you match a WhatsApp report.
+async function errors() {
+  const { data, error } = await sb.from("client_errors").select("*").order("created_at", { ascending: false }).limit(300);
+  if (error) throw error;
+  const ids = [...new Set(data.map((e) => e.user_id).filter(Boolean))];
+  const { data: ps } = ids.length ? await sb.from("profiles").select("id,email,full_name").in("id", ids) : { data: [] };
+  const who = (id) => { const p = (ps || []).find((x) => x.id === id); return p ? p.full_name || p.email : id ? "member" : "visitor"; };
+  const day1 = data.filter((e) => Date.now() - new Date(e.created_at) < 864e5).length;
+  pane.innerHTML = `<p class="small muted">${data.length} recent reports · ${day1} in the last 24 hours. Each report is one error a person saw in their browser; the reference matches what they quote to you.</p>
+    <div class="tablewrap"><table class="list"><thead><tr><th>When</th><th>Ref</th><th>Page</th><th>Error</th><th>Who</th></tr></thead><tbody>${data.map((e) => `<tr>
+      <td>${esc(when(e.created_at))}</td><td><b>${esc(e.ref || "")}</b></td><td class="small">${esc(e.page || "")}</td>
+      <td><span class="small">${esc(e.message)}</span>${e.detail ? `<details class="small"><summary>Details</summary><pre style="white-space:pre-wrap;font-size:12px">${esc(e.detail)}</pre></details>` : ""}</td>
+      <td class="small">${esc(who(e.user_id))}<div class="muted">${esc((e.user_agent || "").replace(/^Mozilla\/5\.0 /, "").slice(0, 60))}</div></td></tr>`).join("") || '<tr><td colspan="5" class="muted">No errors reported. Good.</td></tr>'}</tbody></table></div>`;
 }
 
 async function users() {

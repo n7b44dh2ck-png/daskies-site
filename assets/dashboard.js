@@ -1,6 +1,6 @@
-import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord } from "./core.js";
-import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js";
-import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js";
+import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord } from "./core.js?v=8646d7e7";
+import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=8646d7e7";
+import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=8646d7e7";
 
 await header("dashboard.html");
 const m = await requireAuth();
@@ -200,7 +200,6 @@ async function profile() {
     <fieldset class="fs"><legend>More about the business <span class="muted">(optional)</span></legend>
       <div class="row2"><div class="field"><label for="bi">Industry</label><input id="bi" maxlength="120" value="${esc(b.industry || "")}"></div><div class="field"><label for="by">Year established</label><input id="by" type="number" min="1800" max="2100" value="${esc(b.year_established || "")}"></div></div>
       <div class="field"><label for="bpr">Products and services</label><input id="bpr" maxlength="1000" value="${esc(b.products || "")}"></div>
-      <div class="field"><label for="bd">About the business</label><textarea id="bd" maxlength="3000">${esc(b.description || "")}</textarea></div>
       <div class="row2"><div class="field"><label for="bw">Website</label><input id="bw" maxlength="200" value="${esc(b.website || "")}"></div><div class="field"><label for="bce">Certifications</label><input id="bce" maxlength="500" value="${esc(b.certifications || "")}"></div></div>
       <label class="small" style="display:flex;gap:8px"><input type="checkbox" id="bx"${b.export_import ? " checked" : ""} style="accent-color:var(--accent)"> We import or export</label></fieldset>
     <p class="small muted">Sign-in email: ${esc(m.user.email)}${m.profile?.terms_accepted_at ? ` · You accepted the <a href="terms.html">Terms</a> on ${esc(day(m.profile.terms_accepted_at))}` : ""} · Fields marked <span class="req">*</span> are required.</p>
@@ -214,9 +213,9 @@ async function profile() {
     if (showProblems(checkDetails(d))) { $("#bmsg").textContent = "Some details are missing or need fixing; see the marked fields."; return; }
     busy(btn, true);
     try {
-      await saveDetails(m, d, { industry: v("bi") || null, year_established: v("by") ? Number(v("by")) : null, products: v("bpr") || null, description: v("bd") || null,
+      await saveDetails(m, d, { industry: v("bi") || null, year_established: v("by") ? Number(v("by")) : null, products: v("bpr") || null,
         website: v("bw") || null, certifications: v("bce") || null, export_import: $("#bx").checked });
-      toast("Profile saved."); await (await import("./core.js")).me(true); location.reload();
+      toast("Profile saved."); await (await import("./core.js?v=8646d7e7")).me(true); location.reload();
     } catch (err) { $("#bmsg").textContent = errMsg(err); busy(btn, false); }
   });
   const lf = $("#lf");
