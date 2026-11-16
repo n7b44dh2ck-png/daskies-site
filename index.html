@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="assets/boot.js?v=05ce2f58"></script>
-<script src="assets/fx.js?v=05ce2f58"></script>
+<script src="assets/boot.js?v=ddcdfaa6"></script>
+<script src="assets/fx.js?v=ddcdfaa6"></script>
 <title>DASKIES — Lease, buy, sell or barter industrial capacity</title>
 <meta name="description" content="DASKIES is a B2B marketplace for Indian industry: lease idle capacity, buy and sell used machines, barter assets and source from Gujarat's export clusters.">
 <meta property="og:title" content="DASKIES: lease, buy, sell or barter industrial capacity">
@@ -85,7 +85,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .desk{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px 22px 20px;box-shadow:0 1px 0 var(--line),0 24px 48px -28px rgba(43,42,48,.30)}
 .desk-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
 .desk-top h2{font-size:1.15rem;font-stretch:118%;font-weight:800;margin:0}
-.desk-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end}
+.desk-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:end}
+.desk-row select{width:100%;min-width:0}
+.desk-val{white-space:nowrap}
 .desk-row label{display:block;font-size:14px;font-weight:650;color:var(--muted);margin-bottom:6px}
 .desk-val{font-size:1.35rem;min-width:7.2ch;text-align:right;padding-bottom:9px}
 .swap{display:flex;align-items:center;gap:12px;margin:12px 0;color:var(--muted);font-size:14px}
@@ -146,7 +148,7 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#B8B7BE}
 .price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
 .lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
-/* live listings (filled from the database by assets/home-live.js?v=05ce2f58) */
+/* live listings (filled from the database by assets/home-live.js?v=ddcdfaa6) */
 .live-block{margin-bottom:40px}
 .live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
 .live-head h3{margin:0}
@@ -1248,7 +1250,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     return "₹"+(Math.round(v*10)/10).toString()+" lakh";
   }
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-  // Prices follow the visitor's currency (assets/fx.js?v=05ce2f58): rupees in India, approximate US dollars elsewhere.
+  // Prices follow the visitor's currency (assets/fx.js?v=ddcdfaa6): rupees in India, approximate US dollars elsewhere.
   var FX=window.DSKFX||null;
   function usd(){ return !!(FX && FX.eff()==="USD"); }
   function fmtC(v){ var l=FX&&FX.label(v*1e5,"INR"); return l||fmt(v); }
@@ -1697,7 +1699,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   function load(code){
     if(code==="en") return Promise.resolve(null);
     if(cache[code]) return Promise.resolve(cache[code]);
-    return fetch("/i18n/"+code+".json?v=05ce2f58").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
+    return fetch("/i18n/"+code+".json?v=ddcdfaa6").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
   }
   var langWrap=$("#lang"), langBtn=$("#langBtn");
   function markMenu(code){
@@ -1760,6 +1762,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   }
 })();
 </script>
-<script type="module" src="assets/home-live.js?v=05ce2f58"></script>
+<script type="module" src="assets/home-live.js?v=ddcdfaa6"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, requireAuth, money, when, day, errMsg, busy, toast, levelBadge } from "./core.js?v=05ce2f58";
-import { DEAL_STAGES as STAGES, DEAL_KINDS as KIND } from "./taxonomy.js?v=05ce2f58";
+import { sb, $, $$, esc, qs, header, requireAuth, money, when, day, errMsg, busy, toast, levelBadge } from "./core.js?v=ddcdfaa6";
+import { DEAL_STAGES as STAGES, DEAL_KINDS as KIND } from "./taxonomy.js?v=ddcdfaa6";
 
 await header("dashboard.html");
 const m = await requireAuth();
