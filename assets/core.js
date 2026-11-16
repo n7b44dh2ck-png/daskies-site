@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import CONFIG from "./config.js?v=238cf24f";
-import { vertical, LEVELS } from "./taxonomy.js?v=238cf24f";
+import CONFIG from "./config.js?v=8668928d";
+import { vertical, LEVELS } from "./taxonomy.js?v=8668928d";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -110,17 +110,34 @@ export function levelBadge(level = 1) {
   return `<span class="level" title="${esc(LEVELS[n])}">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= n ? "on" : ""}"></i>`).join("")} Level ${n}: ${esc(LEVELS[n])}</span>`;
 }
 
+// Line drawings for the six verticals (the same drawings as the homepage).
+const VI = {
+  industrial: '<circle cx="12" cy="12" r="7.6" stroke-width="3.2" stroke-dasharray="2.9 3.07" stroke-linecap="butt"/><circle cx="12" cy="12" r="5.6"/><circle cx="12" cy="12" r="2.2"/>',
+  commodity: '<path d="M12 22V9"/><path d="M12 9c0-3 2-5 5-5 0 3-2 5-5 5zM12 13c0-3-2-5-5-5 0 3 2 5 5 5zM12 17c0-3 2-5 5-5 0 3-2 5-5 5z"/>',
+  "real-assets": '<path d="M3 21h18M5 21V9l5-3v15M10 21V4l9 4v13M13 10h3M13 13h3M13 16h3M7 12h1M7 15h1"/>',
+  storage: '<path d="M2 9l10-6 10 6v12H2z"/><path d="M6 21v-8h12v8M6 16h12"/>',
+  "barter-tech": '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
+  projects: '<path d="M3 21V10l6 3V10l6 3V6l6 3v12H3z"/><path d="M7 17h2M11 17h2M15 17h2"/>',
+  check: '<path d="M4 12.5l5 5L20 6.5" stroke-width="2.2"/>'
+};
+export const vicon = (id) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${VI[id] || VI.projects}</svg>`;
+
+// Page head: the charcoal plate at the top of explore, dashboard, deal room and post pages. Arguments are HTML.
+export const pagehead = ({ crumb = "", pre = "", title, lead = "", body = "", h = "h1" }) =>
+  `<div class="phead"><div class="phead-in">${crumb ? `<p class="crumb">${crumb}</p>` : ""}${pre}<${h} class="pt">${title}</${h}>${lead ? `<p class="plead">${lead}</p>` : ""}${body}</div></div>`;
+
 export function card(l) {
   const v = vertical(l.vertical);
   const photo = l.listing_photos && l.listing_photos.length ? [...l.listing_photos].sort((a, b) => a.sort - b.sort)[0] : null;
   const where = [l.city, l.country].filter(Boolean).join(", ");
-  return `<a class="card" href="listing.html?id=${esc(l.id)}">
-    <div class="ph">${photo ? `<img src="${esc(photoUrl(photo.path))}" alt="" loading="lazy">` : esc(v ? v.short : "")}</div>
+  const qty = l.quantity ? `${l.quantity} ${l.quantity_unit || ""}`.trim() : "";
+  return `<a class="card card-${l.kind === "need" ? "need" : "offer"}" href="listing.html?id=${esc(l.id)}">
+    <div class="ph${photo ? " has-photo" : ""}">${photo ? `<img src="${esc(photoUrl(photo.path))}" alt="" loading="lazy">` : `${vicon(l.vertical)}<span class="vl">${esc(v ? v.short : "")}</span>`}</div>
     <div class="bd">
       <div class="tags"><span class="tag tag-${l.kind}">${l.kind === "offer" ? "Available" : "Wanted"}</span>${l.status && l.status !== "approved" ? `<span class="tag tag-${l.status}">${esc(statusWord(l.status))}</span>` : ""}</div>
-      <span class="small muted">${esc(v ? v.name : "")} · ${esc(l.subcategory)}</span>
       <h3>${esc(l.title)}</h3>
-      <span class="small muted">${esc(where)}${l.quantity ? ` · ${esc(l.quantity)} ${esc(l.quantity_unit || "")}` : ""}</span>
+      <span class="sub">${esc(l.subcategory)}</span>
+      <span class="where">${esc([where, qty].filter(Boolean).join(" · "))}</span>
       <span class="price">${price(l.price, l.currency, l.price_unit)}</span>
     </div></a>`;
 }
@@ -168,7 +185,16 @@ export async function header(active) {
   document.body.appendChild(wa);
   const f = document.createElement("footer");
   f.className = "foot";
-  f.innerHTML = `<div class="wrap"><nav class="foot-links" aria-label="Policies"><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refunds.html">Refunds and cancellations</a><a href="about.html">About us</a><a href="contact.html">Contact us</a></nav>DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; do your own checks before any deal. © ${new Date().getFullYear()} Daskies.</div>`;
+  const CATS = [["leasing.html", "Industrial leasing"], ["machines.html", "Used machines"], ["storage.html", "Storage & warehousing"], ["agri.html", "Agriculture & commodities"], ["construction.html", "Construction at cost"], ["technology.html", "Technology & education"]];
+  const li = ([h, n]) => `<li><a href="${h}">${n}</a></li>`;
+  f.innerHTML = `<div class="wrap"><div class="foot-grid">
+    <div><a class="brand" href="index.html" aria-label="DASKIES home">${BIRD}<b>DASKIES</b></a><p class="foot-tag">The business network for Indian industry: lease, buy, sell, barter or donate.</p></div>
+    <div><h3>What you need</h3><ul>${CATS.map(li).join("")}</ul></div>
+    <div><h3>Platform</h3><ul>${[["explore.html", "Explore"], ["post.html?kind=offer", "List an offer"], ["post.html?kind=need", "Post a need"], ["index.html#how-it-works", "How it works"], ["pricing.html", "Membership"]].map(li).join("")}</ul></div>
+    <div><h3>Company</h3><ul>${[["about.html", "About us"], ["global-buyers.html", "Global buyers"], ["services.html", "Services"], ["partners.html", "Partner with us"], ["mailto:info@daskies.com", "info@daskies.com"]].map(li).join("")}</ul></div></div>
+    <div class="legal"><p>DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; do your own checks before any deal.</p>
+    <nav class="foot-links" aria-label="Policies"><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refunds.html">Refunds and cancellations</a><a href="about.html">About us</a><a href="contact.html">Contact us</a></nav>
+    <p class="copy">© ${new Date().getFullYear()} Daskies. All rights reserved.</p></div></div>`;
   document.body.appendChild(f);
   const badge = () => document.body.classList.toggle("has-badge", !!document.getElementById("nl-badge-frame"));
   badge(); new MutationObserver(badge).observe(document.body, { childList: true });

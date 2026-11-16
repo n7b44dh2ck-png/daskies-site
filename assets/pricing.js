@@ -1,6 +1,6 @@
 // Pricing page: shared header, plus paying for full membership when online payment is on.
-import { header, me, toast, busy, day } from "./core.js?v=238cf24f";
-import { paymentsOn, pay } from "./pay.js?v=238cf24f";
+import { header, me, toast, busy, day } from "./core.js?v=8668928d";
+import { paymentsOn, pay } from "./pay.js?v=8668928d";
 
 const m = await header("pricing.html");
 const btn = document.getElementById("upgrade"), line = document.getElementById("memberLine"), note = document.getElementById("payNote");

@@ -1,7 +1,7 @@
-import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord } from "./core.js?v=238cf24f";
-import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=238cf24f";
-import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=238cf24f";
-import { paymentsOn } from "./pay.js?v=238cf24f";
+import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord, pagehead } from "./core.js?v=8668928d";
+import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=8668928d";
+import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=8668928d";
+import { paymentsOn } from "./pay.js?v=8668928d";
 
 await header("dashboard.html");
 const m = await requireAuth();
@@ -11,8 +11,10 @@ const TABS = [["overview", "Overview"], ["listings", "My offers & needs"], ["mat
 let tab = (location.hash || "#overview").slice(1);
 if (!TABS.some(([t]) => t === tab)) tab = "overview";
 
-main.innerHTML = `<h1>${m.business ? esc(m.business.name) : "Welcome to DASKIES"}</h1>
-  <p class="muted" style="margin:0 0 18px">${esc(m.profile?.full_name || m.user.email)} · ${m.business ? levelBadge(m.business.verification_level) : "Add your business to start listing"}</p>
+const FIG = ["Live listings", "Waiting for review", "Needs posted", "Conversations"];
+main.innerHTML = `${pagehead({ title: m.business ? esc(m.business.name) : "Welcome to DASKIES",
+    lead: `${esc(m.profile?.full_name || m.user.email)} · ${m.business ? levelBadge(m.business.verification_level) : "Add your business to start listing"}`,
+    body: `<div class="pstats" id="pstats">${FIG.map((t) => `<div><b>–</b><span>${t}</span></div>`).join("")}</div>` })}
   ${qs("welcome") ? `<p class="note">Your account is ready. Add your business profile, then post what you have or what you need.</p>` : ""}
   ${qs("posted") ? `<p class="note">Sent for review. The DASKIES team checks every listing, usually within 48 hours; you'll see it marked Live here.</p>` : ""}
   <div class="tabs" role="tablist">${TABS.map(([t, n]) => `<button role="tab" type="button" data-t="${t}" aria-selected="${t === tab}">${n}<span class="count" id="n-${t}" hidden></span></button>`).join("")}</div>
@@ -29,6 +31,9 @@ async function myListings() {
 async function show() {
   clearInterval(poll);
   $$(".tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.t === tab));
+  const sel = $('.tabs [aria-selected="true"]'), bar = $(".tabs");
+  if (sel && bar.scrollWidth > bar.clientWidth) bar.scrollLeft = sel.offsetLeft - 24;
+  figures();
   pane.innerHTML = `<p class="muted">Loading…</p>`;
   try { await ({ overview, listings, matches, deals, messages, profile, documents, saved })[tab](); }
   catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
@@ -40,13 +45,16 @@ function memberPanel() {
   return `<div class="panel" style="margin-bottom:16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h2 style="margin:0">Free member</h2><p class="small muted" style="margin:4px 0 0">${paymentsOn() ? "Full membership: ₹15,000 + GST for 90 days, for unlimited listings, enquiries, barter matching and deal rooms." : "Every feature is open to every member at no charge until online payment opens."}</p></div><a class="btn ${paymentsOn() ? "btn-primary" : "btn-ghost"}" href="pricing.html">${paymentsOn() ? "Upgrade" : "See membership"}</a></div>`;
 }
 
-async function overview() {
+// The four figures in the head: live, waiting, needs, conversations.
+async function figures() {
   const mine = await myListings();
   const { count: convs } = await sb.from("conversations").select("id", { count: "exact", head: true });
   const c = (s) => mine.filter((l) => l.status === s).length;
-  pane.innerHTML = `${m.profile?.is_admin ? `<div class="panel adminbox" style="margin-bottom:16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h2 style="margin:0">You're a DASKIES admin</h2><p class="small muted" style="margin:4px 0 0">Review listings, members, documents, deals, fees and errors.</p></div><a class="btn btn-primary" href="admin.html">Open Admin</a></div>` : ""}<div class="cards" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr));margin-bottom:20px">
-      <div class="stat"><b>${c("approved")}</b>Live listings</div><div class="stat"><b>${c("pending")}</b>Waiting for review</div>
-      <div class="stat"><b>${mine.filter((l) => l.kind === "need").length}</b>Needs posted</div><div class="stat"><b>${convs || 0}</b>Conversations</div></div>
+  [c("approved"), c("pending"), mine.filter((l) => l.kind === "need").length, convs || 0].forEach((n, i) => { const b = $$("#pstats b")[i]; if (b) b.textContent = n; });
+}
+
+async function overview() {
+  pane.innerHTML = `${m.profile?.is_admin ? `<div class="panel adminbox" style="margin-bottom:16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h2 style="margin:0">You're a DASKIES admin</h2><p class="small muted" style="margin:4px 0 0">Review listings, members, documents, deals, fees and errors.</p></div><a class="btn btn-primary" href="admin.html">Open Admin</a></div>` : ""}
     <div class="panel grid" style="margin-bottom:16px"><h2>Next steps</h2>
       ${!m.business ? `<p>1. <a href="#profile" data-go="profile">Add your business profile</a></p>` : ""}
       <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-primary" href="post.html?kind=offer">List an offer</a><a class="btn btn-ghost" href="post.html?kind=need">Post a need</a><a class="btn btn-ghost" href="explore.html">Explore</a><button class="btn btn-ghost" type="button" data-go="matches">Find a barter match</button></div></div>
@@ -223,7 +231,7 @@ async function profile() {
     try {
       await saveDetails(m, d, { industry: v("bi") || null, year_established: v("by") ? Number(v("by")) : null, products: v("bpr") || null,
         website: v("bw") || null, certifications: v("bce") || null, export_import: $("#bx").checked });
-      toast("Profile saved."); await (await import("./core.js?v=238cf24f")).me(true); location.reload();
+      toast("Profile saved."); await (await import("./core.js?v=8668928d")).me(true); location.reload();
     } catch (err) { $("#bmsg").textContent = errMsg(err); busy(btn, false); }
   });
   const lf = $("#lf");

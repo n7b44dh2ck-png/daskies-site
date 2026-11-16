@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl } from "./core.js?v=238cf24f";
-import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=238cf24f";
+import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl, pagehead } from "./core.js?v=8668928d";
+import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=8668928d";
 
 await header("post.html?kind=" + (qs("kind") === "offer" ? "offer" : "need"));
 const m = await requireAuth();
@@ -51,11 +51,12 @@ function render() {
   const fields = v ? [...v.fields, ...(L.vertical === "commodity" && isOil(L.subcategory) ? v.oilFields : [])] : [];
   const proof = L.kind === "offer" && NEEDS_PROOF.includes(L.vertical);
   main.innerHTML = `
-  <h1>${editId ? "Edit listing" : L.kind === "offer" ? "List what you have" : "Post what you need"}</h1>
-  <p class="muted">Every listing is checked by the DASKIES team before it goes live. Contact details are never shown; members reach you through messages.</p>
+  ${pagehead({ crumb: `<a href="dashboard.html">Dashboard</a>`, title: editId ? "Edit listing" : L.kind === "offer" ? "List what you have" : "Post what you need",
+    lead: "Every listing is checked by the DASKIES team before it goes live. Contact details are never shown; members reach you through messages." })}
   <form id="pf" class="grid" novalidate>
     <div class="panel">
-      <div class="field"><span class="flabel">I want to</span><div class="seg" id="kind"><button type="button" data-k="offer" aria-pressed="${L.kind === "offer"}">Offer something (I have)</button><button type="button" data-k="need" aria-pressed="${L.kind === "need"}">Find something (I need)</button></div></div>
+      <h2>Describe it</h2>
+      <div class="field"><span class="flabel">I want to</span><div class="seg" id="kind"><button type="button" data-k="offer" aria-pressed="${L.kind === "offer"}">Offer what I have</button><button type="button" data-k="need" aria-pressed="${L.kind === "need"}">Find what I need</button></div></div>
       <div class="row2">
         <div class="field"><label for="vert">Vertical</label><select id="vert" required><option value="">Choose a vertical</option>${VERTICALS.map((x) => `<option value="${x.id}"${x.id === L.vertical ? " selected" : ""}>${esc(x.name)}</option>`).join("")}</select>${v ? `<span class="hint">${esc(v.blurb)}</span>` : ""}</div>
         <div class="field"><label for="sub">Category</label><select id="sub" required ${v ? "" : "disabled"}><option value="">Choose a category</option>${subcats(L.vertical).map(([g, items]) => `<optgroup label="${esc(g)}">${items.map((i) => `<option${i === L.subcategory ? " selected" : ""}>${esc(i)}</option>`).join("")}</optgroup>`).join("")}</select></div>
@@ -99,7 +100,7 @@ function render() {
       ${proof ? `<div class="field"><label for="rep">Valuation report (PDF or photo, up to 10 MB)</label><input id="rep" type="file" accept=".pdf,image/*">${editId ? '<span class="hint">Already sent one? Only add a file to replace it.</span>' : ""}</div>` : ""}
     </div>` : ""}
     <p class="err" id="msg" role="alert"></p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-primary" id="go">${editId ? "Save and send for review" : "Send for review"}</button><a class="btn btn-ghost" href="dashboard.html">Cancel</a></div>
+    <div class="formbar"><button class="btn btn-primary" id="go">${editId ? "Save and send for review" : "Send for review"}</button><a class="btn btn-ghost" href="dashboard.html">Cancel</a></div>
   </form>`;
 
   drawPhotos();

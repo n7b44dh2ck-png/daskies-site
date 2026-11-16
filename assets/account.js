@@ -1,5 +1,5 @@
-import { sb, $, esc, qs, header, errMsg, busy, toast, me, TERMS_VERSION } from "./core.js?v=238cf24f";
-import { detailsFields, termsBox, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=238cf24f";
+import { sb, $, esc, qs, header, errMsg, busy, toast, me, TERMS_VERSION, pagehead, vicon } from "./core.js?v=8668928d";
+import { detailsFields, termsBox, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=8668928d";
 
 const main = $("#main");
 const next = qs("next") || "dashboard.html";
@@ -113,7 +113,14 @@ function render() {
   };
   const wide = mode === "signup" || mode === "complete";
   const notice = linkErr && (mode === "signin" || mode === "forgot") ? `<p class="err" role="alert" style="margin-bottom:14px">${esc(errMsg({ message: linkErr }))}</p>` : "";
-  main.innerHTML = `<div class="panel" style="max-width:${wide ? 720 : 460}px;margin:24px auto">${notice}${forms[mode] || forms.signin}</div>`;
+  // Beside the form: what DASKIES is, in four plain facts.
+  const PTS = ["Free to join. Every member gives full business details, so you know who you're dealing with.",
+    "Contact details stay private. Members talk through DASKIES messages.",
+    "Every listing is checked by the DASKIES team before it goes live.",
+    "Sell, lease, swap or donate. Barter matching looks for two-, three- and four-party swaps."];
+  const side = pagehead({ h: "h2", title: "One network for what you have and what you need", lead: "List machines, space, capacity and stock, and find what your business needs.",
+    body: `<ul class="authpts">${PTS.map((t) => `<li>${vicon("check")}<span>${esc(t)}</span></li>`).join("")}</ul>` });
+  main.innerHTML = `<div class="auth${wide ? " wide" : ""}">${side}<div class="panel">${notice}${forms[mode] || forms.signin}</div></div>`;
   const f = $("#f"); if (f) f.addEventListener("submit", submit);
   const out = $("#out"); if (out) out.addEventListener("click", async (e) => { e.preventDefault(); await sb.auth.signOut(); location.href = "index.html"; });
   const out2 = $("#out2"); if (out2) out2.addEventListener("click", async () => { busy(out2, true); await sb.auth.signOut(); location.replace("account.html"); });

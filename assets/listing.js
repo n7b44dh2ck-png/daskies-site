@@ -1,5 +1,5 @@
-import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord } from "./core.js?v=238cf24f";
-import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=238cf24f";
+import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=8668928d";
+import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=8668928d";
 
 const m = await header("explore.html");
 const main = $("#main");
@@ -21,37 +21,43 @@ const fields = [...(v ? v.fields : []), ...(l.vertical === "commodity" && isOil(
 const details = fields.filter(([k]) => l.details && l.details[k] !== undefined && l.details[k] !== "")
   .map(([k, label, type]) => `<dt>${esc(label)}</dt><dd>${esc(type === "yesno" ? (l.details[k] ? "Yes" : "No") : l.details[k])}</dd>`).join("");
 
+const need = l.kind === "need";
+const media = photos.length
+  ? `<div class="gallery2${photos.length === 1 ? " one" : ""}"><div class="platewrap"><span class="plate true"><img src="${esc(photoUrl(photos[0].path))}" alt="Photo 1 of ${esc(l.title)}"></span></div>${photos.length > 1 ? `<div class="rest">${photos.slice(1, 3).map((p, i) => `<span class="plate true"><img src="${esc(photoUrl(p.path))}" alt="Photo ${i + 2}" loading="lazy"></span>`).join("")}</div>` : ""}</div>`
+  : `<div class="platewrap" style="--cut:48px"><div class="specbig${need ? " need" : ""}">${vicon(l.vertical)}<b>${esc(l.subcategory)}</b><span>${need ? "This is a requirement. If you have it, reply with photos and your terms." : "No photos yet. Ask the business for photos or an inspection in your enquiry."}</span></div></div>`;
+const facts = `${l.wants_in_exchange ? `<dt>Would take in exchange</dt><dd>${esc(l.wants_in_exchange)}</dd>` : ""}${l.expires_at ? `<dt>Open until</dt><dd>${esc(day(l.expires_at))}</dd>` : ""}${details}`;
 main.innerHTML = `
-  <p class="small"><a href="explore.html?v=${esc(l.vertical)}">${esc(v ? v.name : "")}</a> › ${esc(l.subcategory)}</p>
   ${mine && l.status !== "approved" ? `<p class="note"><b>${esc(statusWord(l.status))}.</b> ${l.status === "pending" ? "Only you and the DASKIES team can see this until it is approved." : l.admin_note ? "Note from DASKIES: " + esc(l.admin_note) : ""}</p>` : ""}
-  <div class="split detail">
-    <article>
-      <div class="tags" style="margin-bottom:8px"><span class="tag tag-${l.kind}">${l.kind === "offer" ? "Available" : "Wanted"}</span>${(l.deal_types || []).map((d) => `<span class="tag tag-closed">${esc(d)}</span>`).join("")}</div>
-      <h1>${esc(l.title)}</h1>
-      <p class="muted" style="margin:0 0 16px">${esc([l.city, l.state, l.country].filter(Boolean).join(", "))} · Listed ${esc(day(l.created_at))}</p>
-      ${photos.length ? `<div class="gallery" style="margin-bottom:20px"><img src="${esc(photoUrl(photos[0].path))}" alt="Photo 1 of ${esc(l.title)}"><div class="rest">${photos.slice(1, 3).map((p, i) => `<img src="${esc(photoUrl(p.path))}" alt="Photo ${i + 2}" loading="lazy">`).join("")}</div></div>` : ""}
-      <div class="panel" style="margin-bottom:16px">
-        <dl class="kv">
-          <dt>${l.kind === "offer" ? "Price" : "Budget"}</dt><dd><b>${price(l.price, l.currency, l.price_unit)}</b>${l.price ? `<span class="small muted" style="display:block;margin-top:4px" data-fxnote data-c="${esc(l.currency || "INR")}" data-o="${esc(money(l.price, l.currency, l.price_unit))}" hidden></span>` : ""}</dd>
-          ${l.quantity ? `<dt>Quantity</dt><dd>${esc(l.quantity)} ${esc(l.quantity_unit || "")}</dd>` : ""}
-          ${l.wants_in_exchange ? `<dt>Would take in exchange</dt><dd>${esc(l.wants_in_exchange)}</dd>` : ""}
-          ${l.expires_at ? `<dt>Open until</dt><dd>${esc(day(l.expires_at))}</dd>` : ""}
-          ${details}
-        </dl>
-      </div>
-      ${l.description ? `<h2>Description</h2><p style="white-space:pre-wrap">${esc(l.description)}</p>` : ""}
+  <div class="lhead">
+    <p class="crumbs"><a href="explore.html">Explore</a> › <a href="explore.html?v=${esc(l.vertical)}">${esc(v ? v.name : "")}</a> › ${esc(l.subcategory)}</p>
+    <div class="tags"><span class="tag tag-${l.kind}">${l.kind === "offer" ? "Available" : "Wanted"}</span>${(l.deal_types || []).map((d) => `<span class="tag tag-closed">${esc(d)}</span>`).join("")}</div>
+    <h1>${esc(l.title)}</h1>
+    <p class="where">${esc([l.city, l.state, l.country].filter(Boolean).join(", "))} · Listed ${esc(day(l.created_at))}</p>
+  </div>
+  <div class="ldetail">
+    <div class="l-media media">${media}</div>
+    <article class="l-body">
+      ${facts ? `<section class="panel" style="margin-bottom:22px"><h2>Details</h2><dl class="kv">${facts}</dl></section>` : ""}
+      ${l.description ? `<h2>Description</h2><p style="white-space:pre-wrap;line-height:1.6">${esc(l.description)}</p>` : ""}
       ${l.vertical === "projects" ? `<p class="note">DASKIES is not a bank, lender, investment adviser or exchange. Finance is arranged only through appropriately licensed partners. No returns are promised. Read the risks above and do your own due diligence.</p>` : ""}
-      <h2 style="margin-top:28px" id="mt">${l.kind === "offer" ? "Businesses that need this" : "Businesses that have this"}</h2>
+      <h2 style="margin-top:32px" id="mt">${l.kind === "offer" ? "Businesses that need this" : "Businesses that have this"}</h2>
       <div class="cards" id="matches"><p class="muted">Looking for matches…</p></div>
     </article>
-    <aside class="grid">
-      <div class="panel">
-        <h3>${esc(b.name || "Member business")}</h3>
+    <aside class="grid l-side">
+      <section class="panel pricecard${need ? " need" : ""}">
+        <p class="plabel">${need ? "Budget" : "Price"}</p>
+        <div class="bigprice">${price(l.price, l.currency, l.price_unit)}</div>
+        ${l.price ? `<span class="small muted" style="display:block" data-fxnote data-c="${esc(l.currency || "INR")}" data-o="${esc(money(l.price, l.currency, l.price_unit))}" hidden></span>` : ""}
+        ${l.quantity ? `<ul class="pfacts"><li><span>Quantity</span><b>${esc(l.quantity)} ${esc(l.quantity_unit || "")}</b></li></ul>` : ""}
+        <div class="actbox" id="act"></div>
+      </section>
+      <section class="panel">
+        <p class="plabel">${need ? "Wanted by" : "Offered by"}</p>
+        <h3 style="margin-top:4px">${esc(b.name || "Member business")}</h3>
         <p class="small muted" style="margin:0 0 8px">${esc([b.city, b.country].filter(Boolean).join(", "))}${b.year_established ? " · since " + esc(b.year_established) : ""}</p>
         ${levelBadge(b.verification_level)}
         <p class="hint" style="margin:8px 0 0">${esc(LEVEL_NOTE)}</p>
-      </div>
-      <div class="panel" id="act"></div>
+      </section>
     </aside>
   </div>`;
 

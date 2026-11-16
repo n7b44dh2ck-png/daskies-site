@@ -1,6 +1,6 @@
-import { sb, $, $$, esc, qs, header, requireAuth, money, when, day, errMsg, busy, toast, levelBadge } from "./core.js?v=238cf24f";
-import { paymentsOn, pay } from "./pay.js?v=238cf24f";
-import { DEAL_STAGES as STAGES, DEAL_KINDS as KIND } from "./taxonomy.js?v=238cf24f";
+import { sb, $, $$, esc, qs, header, requireAuth, money, when, day, errMsg, busy, toast, levelBadge, pagehead } from "./core.js?v=8668928d";
+import { paymentsOn, pay } from "./pay.js?v=8668928d";
+import { DEAL_STAGES as STAGES, DEAL_KINDS as KIND } from "./taxonomy.js?v=8668928d";
 
 await header("dashboard.html");
 const m = await requireAuth();
@@ -67,11 +67,11 @@ function render() {
   const iApproved = me().approved;
   const party = parties.some((p) => p.user_id === m.user.id);
   main.innerHTML = `
-  <p class="small"><a href="dashboard.html#deals">Your deals</a></p>
-  <div class="tags"><span class="tag tag-closed">${esc(KIND[deal.kind] || deal.kind)}</span>${deal.stage === "cancelled" ? '<span class="tag tag-rejected">Cancelled</span>' : ""}</div>
-  <h1 style="margin-top:8px">${esc(deal.title)}</h1>
-  <p class="muted small">Started ${esc(day(deal.created_at))} · Nothing is binding until every party approves the same terms and signs the final contract.</p>
-  <ol class="stages" aria-label="Deal stage">${STAGES.map(([s, n], i) => `<li class="${i < idx ? "done" : i === idx ? "now" : ""}"${i === idx ? ' aria-current="step"' : ""}>${esc(n)}</li>`).join("")}</ol>
+  ${pagehead({ crumb: `<a href="dashboard.html#deals">Your deals</a>`,
+    pre: `<div class="tags"><span class="tag tag-closed">${esc(KIND[deal.kind] || deal.kind)}</span>${deal.stage === "cancelled" ? '<span class="tag tag-rejected">Cancelled</span>' : ""}</div>`,
+    title: esc(deal.title),
+    lead: `Started ${esc(day(deal.created_at))}. Nothing is binding until every party approves the same terms and signs the final contract.`,
+    body: `<ol class="stages" aria-label="Deal stage">${STAGES.map(([s, n], i) => `<li class="${i < idx ? "done" : i === idx ? "now" : ""}"${i === idx ? ' aria-current="step"' : ""}>${esc(n)}</li>`).join("")}</ol>` })}
   <div class="split detail">
     <div class="grid">
       <section class="panel"><h2>${deal.kind === "multi_barter" || deal.kind === "barter" ? "Who gives what" : "Parties"}</h2>

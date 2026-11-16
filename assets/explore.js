@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, card, errMsg } from "./core.js?v=238cf24f";
-import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=238cf24f";
+import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=8668928d";
+import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=8668928d";
 
 await header("explore.html");
 const main = $("#main");
@@ -17,15 +17,13 @@ const INTENT = [
 const guess = (q) => (INTENT.find(([, re]) => re.test(q)) || [])[0];
 
 main.innerHTML = `
-  <h1>Explore opportunities</h1>
-  <p class="muted" style="margin:0 0 18px">What businesses have, and what they need. Contact details stay private; talk through DASKIES messages.</p>
-  <form id="sf" class="panel" style="padding:14px;margin-bottom:18px;display:flex;gap:10px;flex-wrap:wrap" role="search">
-    <label class="sr" for="q">Search</label>
-    <input class="input" id="q" style="flex:1;min-width:220px" placeholder="Try: soybean degummed oil Kandla, 500 HP machine, warehouse near Mundra" value="${esc(st.q)}">
-    <button class="btn btn-primary">Search</button>
-  </form>
+  ${pagehead({ title: "Explore opportunities", lead: "What businesses have, and what they need. Contact details stay private; you talk through DASKIES messages.",
+    body: `<form id="sf" class="psearch" role="search"><label class="sr" for="q">Search</label>
+      <input id="q" placeholder="Try: soybean degummed oil Kandla, 500 HP machine, warehouse near Mundra" value="${esc(st.q)}"><button class="btn btn-copper">Search</button></form>
+      <div class="vchips" id="vchips" role="group" aria-label="Verticals"><button type="button" data-v="">All</button>${VERTICALS.map((x) => `<button type="button" data-v="${x.id}">${vicon(x.id)}${esc(x.short)}</button>`).join("")}</div>` })}
   <div id="intent"></div>
   <div class="split">
+    <details class="filt" id="filt"><summary><span>Filters<span class="fcount" id="fcount" hidden></span></span></summary>
     <aside class="panel" style="padding:18px" aria-label="Filters">
       <div class="field"><span class="flabel">Show</span>
         <div class="seg" id="kind"><button type="button" data-k="">All</button><button type="button" data-k="offer">Available</button><button type="button" data-k="need">Wanted</button></div></div>
@@ -35,13 +33,18 @@ main.innerHTML = `
       <div class="field"><label for="c">City or country</label><input id="c" value="${esc(st.c)}" placeholder="e.g. Rajkot, Dubai"></div>
       <div class="field"><label for="sort">Sort</label><select id="sort"><option value="new">Newest first</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div>
       <button class="btn btn-ghost btn-sm" type="button" id="clear">Clear filters</button>
-    </aside>
+    </aside></details>
     <section aria-live="polite">
-      <p class="small muted" id="count"></p>
+      <div class="reshead"><p id="count"></p></div>
       <div class="cards" id="res"></div>
       <div style="text-align:center;margin-top:18px"><button class="btn btn-ghost" id="more" type="button" hidden>Show more</button></div>
     </section>
   </div>`;
+
+// Filters stay open beside the results on a wide screen; on a phone they fold under one "Filters" bar.
+const filt = $("#filt"), wide = matchMedia("(min-width: 901px)");
+const fold = () => { filt.open = wide.matches; };
+fold(); wide.addEventListener("change", fold);
 
 function fillSubcats() {
   const groups = st.v ? subcats(st.v) : [];
@@ -52,6 +55,9 @@ function fillSubcats() {
 function syncUI() {
   $("#v").value = st.v; $("#d").value = st.d; $("#sort").value = st.sort; fillSubcats();
   $$("#kind button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.k === st.k));
+  $$("#vchips button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === st.v));
+  const n = ["k", "v", "s", "d", "c"].filter((k) => st[k]).length + (st.sort !== "new" ? 1 : 0);
+  $("#fcount").hidden = !n; $("#fcount").textContent = n;
   const g = st.q && !st.v ? guess(st.q) : null;
   $("#intent").innerHTML = g ? `<p class="note" style="margin:0 0 16px">Looks like <b>${esc(vertical(g).name)}</b>. <button class="btn btn-quiet btn-sm" type="button" id="useIntent">Show only ${esc(vertical(g).short)}</button></p>` : "";
   if (g) $("#useIntent").addEventListener("click", () => { st.v = g; st.s = ""; run(); });
@@ -88,6 +94,7 @@ async function run(append = false) {
 }
 
 $("#sf").addEventListener("submit", (e) => { e.preventDefault(); st.q = $("#q").value.trim(); run(); });
+$("#vchips").addEventListener("click", (e) => { const b = e.target.closest("[data-v]"); if (b) { st.v = b.dataset.v; st.s = ""; run(); } });
 $("#kind").addEventListener("click", (e) => { const b = e.target.closest("[data-k]"); if (b) { st.k = b.dataset.k; run(); } });
 $("#v").addEventListener("change", (e) => { st.v = e.target.value; st.s = ""; run(); });
 $("#s").addEventListener("change", (e) => { st.s = e.target.value; run(); });
