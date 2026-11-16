@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="assets/boot.js?v=eeeccccf"></script>
+<script src="assets/fx.js?v=eeeccccf"></script>
+<title>Construction at cost — DASKIES</title>
+<meta name="description" content="Construction at cost on DASKIES: Own a shop, showroom, office or home at cost.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='12 28 314 230'%3E%3Cpath fill='%23FFB52E' d='M22,104 C78,106 140,128 182,163 C132,154 74,134 22,104 Z'/%3E%3Cpath fill='%231C8FD6' d='M18,36 C100,30 178,62 224,112 L232,150 C210,204 132,238 48,252 C100,220 146,190 173,161 C127,123 79,79 18,36 Z'/%3E%3Cpath fill='%23E8432F' d='M203,111 C211,86 234,69 259,69 C280,69 297,82 320,101 C298,104 289,110 285,120 C277,142 257,156 230,160 C224,141 216,125 203,111 Z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css?v=eeeccccf">
+</head>
+<body>
+<main class="wrap" id="main" tabindex="-1">
+<section class="mk-hero">
+  <div>
+    <p class="crumb"><a href="index.html#categories">Marketplaces</a> · Construction at cost</p>
+    <h1>Own a shop, showroom, office or home at cost</h1>
+    <p class="intro">People who want the same kind of property in the same area join one buyer group. We buy land in the area the group chooses and build it ready-to-use (turnkey) for a fixed charge agreed at the start. You pay for land and construction, not a builder&#x27;s profit. Landowners can also join as partners.</p>
+    <div class="mk-actions"><a class="btn btn-primary" href="#interest">Register your interest</a><a class="btn btn-ghost" href="explore.html?v=real-assets">See live listings</a></div>
+  </div>
+  <div class="platewrap" style="--cut:64px"><span class="plate"><img src="https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1400&q=72" srcset="https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=700&q=72 700w, https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1400&q=72 1400w" sizes="(max-width:900px) 100vw, 50vw" alt="A steel building frame rising beside a tower crane" decoding="async"></span></div>
+</section>
+<section class="mk-sec"><h2>How it works</h2><ol class="mk-steps"><li>Tell us what you want (shop, showroom, office, flat or villa), the area you prefer and your budget.</li><li>We group you with buyers who want the same thing in the same area.</li><li>Our team finds and buys land there for the group.</li><li>We build it ready-to-use for a fixed charge agreed before work starts.</li><li>You get your unit with clear ownership papers.</li></ol></section>
+<section class="mk-sec"><div class="mk-two"><div><h2>Who it's for</h2><ul><li>Retailers and showroom owners</li><li>Doctors, CAs and other professionals who need offices</li><li>Families buying a home</li><li>Landowners and developers looking for JV partners</li></ul></div><div class="mk-gain"><h2>What you gain</h2><ul><li>No builder profit: you pay land, construction and a fixed fee</li><li>You choose the location and design</li><li>Construction charge fixed before work starts</li></ul></div></div></section>
+
+<section class="mk-sec" id="interest">
+  <div class="mk-two" style="align-items:start">
+    <div>
+      <h2>Register your interest</h2>
+      <p class="muted" style="max-width:46ch;line-height:1.6">Tell us what you want and where. We group you with other buyers who want the same in that area. A group moves ahead once enough buyers have joined to acquire land there.</p>
+    </div>
+    <div class="panel">
+      <form id="btForm" name="buyer-group-interest" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="buyer-group-interest"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <div class="row2">
+          <div class="field" data-f="btType"><label for="btType">I want <span class="req">*</span></label>
+            <select id="btType" name="property-type"><option value="">Choose a type</option><option>Shop</option><option>Showroom</option><option>Office</option><option>Flat</option><option>Villa or bungalow</option><option>Warehouse</option></select></div>
+          <div class="field" data-f="btSize"><label for="btSize">Size (sq ft)</label><input id="btSize" name="size-sqft" type="number" min="50" inputmode="numeric" placeholder="e.g. 1,200"></div>
+        </div>
+        <div class="row2">
+          <div class="field" data-f="btArea"><label for="btArea">Preferred area <span class="req">*</span></label><input id="btArea" name="preferred-area" type="text" placeholder="City and locality"></div>
+          <div class="field" data-f="btBudget"><label for="btBudget"><span data-cur-only="INR">Budget (₹ lakh)</span><span data-cur-only="USD" hidden>Budget (US$)</span></label>
+            <input id="btBudget" name="budget-lakh" type="number" min="1" inputmode="decimal" placeholder="e.g. 80"><input type="hidden" name="budget-entered" id="btBudgetEntered"></div>
+        </div>
+        <div class="row2">
+          <div class="field" data-f="btName"><label for="btName">Your name <span class="req">*</span></label><input id="btName" name="name" type="text" autocomplete="name"></div>
+          <div class="field" data-f="btEmail"><label for="btEmail">Email <span class="req">*</span></label><input id="btEmail" name="email" type="email" autocomplete="email"></div>
+        </div>
+        <div class="field"><label for="btPhone">Phone or WhatsApp</label><input id="btPhone" name="phone" type="tel" autocomplete="tel" placeholder="+91"></div>
+        <p class="err" id="btErr" role="alert"></p>
+        <button class="btn btn-primary" type="submit" style="width:100%">Register interest</button>
+      </form>
+      <div id="btDone" tabindex="-1" hidden><h3 style="margin-top:0">Interest registered</h3><p style="margin:0">We'll group you with other buyers who want the same in that area and email you when the group moves ahead.</p></div>
+    </div>
+  </div>
+</section>
+<section class="mk-sec"><h2>Live on DASKIES</h2><div id="mkListings" data-v="real-assets" data-groups="" data-post="#interest" data-cta="Register your interest"><p class="muted">Loading listings…</p></div>
+  <p class="small muted" style="margin-top:12px">Every listing is reviewed for completeness before it goes live. Do your own checks before any deal.</p></section>
+<section class="mk-sec"><div class="mk-band"><div><h2>Pay in cash, as rent, or as a swap</h2><p>Every deal on DASKIES can be settled in cash, as rent, or as a straight swap (barter), with any difference paid in cash.</p></div><a class="btn btn-primary" href="account.html?mode=signup">Join DASKIES free</a></div></section>
+<section class="mk-sec"><h2>Other marketplaces</h2><div class="mk-more"><a href="leasing.html"><span class="platewrap" style="--cut:22px"><span class="plate"><img src="https://images.unsplash.com/photo-1652204775379-2b4ace437a2d?auto=format&fit=crop&w=600&q=72" srcset="https://images.unsplash.com/photo-1652204775379-2b4ace437a2d?auto=format&fit=crop&w=700&q=72 700w, https://images.unsplash.com/photo-1652204775379-2b4ace437a2d?auto=format&fit=crop&w=600&q=72 600w" sizes="(max-width:900px) 100vw, 50vw" alt="An empty factory shed with green steel columns" loading="lazy" decoding="async"></span></span>Industrial leasing</a><a href="machines.html"><span class="platewrap" style="--cut:22px"><span class="plate"><img src="https://images.unsplash.com/photo-1787039467622-ddec5c24320c?auto=format&fit=crop&w=600&q=72" srcset="https://images.unsplash.com/photo-1787039467622-ddec5c24320c?auto=format&fit=crop&w=700&q=72 700w, https://images.unsplash.com/photo-1787039467622-ddec5c24320c?auto=format&fit=crop&w=600&q=72 600w" sizes="(max-width:900px) 100vw, 50vw" alt="CNC machines in a bright workshop" loading="lazy" decoding="async"></span></span>Used machines</a><a href="storage.html"><span class="platewrap" style="--cut:22px"><span class="plate"><img src="https://images.unsplash.com/photo-1644079446600-219068676743?auto=format&fit=crop&w=600&q=72" srcset="https://images.unsplash.com/photo-1644079446600-219068676743?auto=format&fit=crop&w=700&q=72 700w, https://images.unsplash.com/photo-1644079446600-219068676743?auto=format&fit=crop&w=600&q=72 600w" sizes="(max-width:900px) 100vw, 50vw" alt="A long warehouse aisle with full shelves" loading="lazy" decoding="async"></span></span>Storage &amp; warehousing</a><a href="agri.html"><span class="platewrap" style="--cut:22px"><span class="plate"><img src="https://images.unsplash.com/photo-1764070254247-351def349875?auto=format&fit=crop&w=600&q=72" srcset="https://images.unsplash.com/photo-1764070254247-351def349875?auto=format&fit=crop&w=700&q=72 700w, https://images.unsplash.com/photo-1764070254247-351def349875?auto=format&fit=crop&w=600&q=72 600w" sizes="(max-width:900px) 100vw, 50vw" alt="Open sacks of grain and spices in a store" loading="lazy" decoding="async"></span></span>Agriculture &amp; commodities</a><a href="technology.html"><span class="platewrap" style="--cut:22px"><span class="plate"><img src="https://images.unsplash.com/photo-1640955785023-1854685dae05?auto=format&fit=crop&w=600&q=72" srcset="https://images.unsplash.com/photo-1640955785023-1854685dae05?auto=format&fit=crop&w=700&q=72 700w, https://images.unsplash.com/photo-1640955785023-1854685dae05?auto=format&fit=crop&w=600&q=72 600w" sizes="(max-width:900px) 100vw, 50vw" alt="Tweezers placing a microchip on a circuit board" loading="lazy" decoding="async"></span></span>Technology &amp; education</a></div></section>
+</main>
+<script type="module" src="assets/marketing.js?v=eeeccccf"></script>
+</body>
+</html>

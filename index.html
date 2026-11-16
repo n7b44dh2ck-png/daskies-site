@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="assets/boot.js?v=82c07e02"></script>
-<script src="assets/fx.js?v=82c07e02"></script>
+<script src="assets/boot.js?v=eeeccccf"></script>
+<script src="assets/fx.js?v=eeeccccf"></script>
 <title>DASKIES — Lease, buy, sell or barter industrial capacity</title>
 <meta name="description" content="DASKIES is a B2B marketplace for Indian industry: lease idle capacity, buy and sell used machines, barter assets and source from Gujarat's export clusters.">
 <meta property="og:title" content="DASKIES: lease, buy, sell or barter industrial capacity">
@@ -121,6 +121,38 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#A9B6B3}
 
 /* sections */
 .sec{padding:88px 0}
+/* Photo plates: cut corners like machined steel, a copper edge on the cut, one teal-to-copper grade */
+.plate{--cut:44px;--cut2:16px;position:relative;display:block;overflow:hidden;background:var(--charcoal);height:100%;
+  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut2)),calc(100% - var(--cut2)) 100%,0 100%,0 var(--cut))}
+.plate img{display:block;width:100%;height:100%;object-fit:cover;filter:saturate(.8) contrast(1.06);transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.plate::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;background:linear-gradient(155deg,rgba(14,111,104,.34) 0%,rgba(14,111,104,0) 55%,rgba(184,102,47,.24) 100%)}
+.platewrap{position:relative;display:block}
+.platewrap::before{content:"";position:absolute;z-index:2;left:0;top:var(--cut,44px);width:calc(var(--cut,44px) * 1.4142);height:3px;background:var(--plum);transform-origin:0 0;transform:rotate(-45deg)}
+.hero-visual{position:relative;padding:0 0 0 0}
+.hero-plate{--cut:72px;height:520px}
+.hero-plate .plate{--cut:72px;--cut2:24px}
+.hero-visual .desk{position:relative;z-index:3;margin:-210px 0 0 -56px;max-width:420px}
+.mkts{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:132px;gap:16px}
+.mkt{position:relative;display:block;text-decoration:none;color:#fff;--cut:40px}
+.mkt .platewrap,.mkt .plate{height:100%}
+.mkt .plate::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(19,40,43,0) 35%,rgba(19,40,43,.86) 100%)}
+.mkt-body{position:absolute;z-index:3;left:22px;right:22px;bottom:18px;display:flex;flex-direction:column;gap:4px}
+.mkt-body b{font-size:1.3rem;font-stretch:110%;letter-spacing:-.01em}
+.mkt-body span{font-size:15px;color:#E3ECEA;line-height:1.4;max-width:42ch}
+.mkt-body em{font-style:normal;font-size:14px;font-weight:650;color:#8FD3C8;margin-top:4px}
+.mkt:hover .plate img,.mkt:focus-visible .plate img{transform:scale(1.05)}
+.mkt-a{grid-column:span 7;grid-row:span 4}.mkt-b,.mkt-c{grid-column:span 5;grid-row:span 2}
+.mkt-d,.mkt-e,.mkt-f{grid-column:span 4;grid-row:span 2}
+.gbt-sec{background:var(--charcoal);color:#E6EEEC}
+.gbt-sec .d2{color:#fff}.gbt-sec .lede{color:#C9D6D3}
+.gbt{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.gbt-plate{--cut:64px;height:440px}.gbt-plate .plate{--cut:64px;--cut2:22px}
+.gbt-list{list-style:none;padding:0;margin:24px 0 28px;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px}
+.gbt-list li{padding-left:18px;position:relative;color:#fff}
+.gbt-list li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;background:var(--plum);transform:rotate(45deg)}
+.gbt-actions{display:flex;gap:12px;flex-wrap:wrap}
+.gbt-sec .btn-ghost{color:#fff;border-color:rgba(255,255,255,.5);background:transparent}
+@media (prefers-reduced-motion:reduce){.plate img{transition:none}}
 .sec-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:40px}
 .sec-head .lede{justify-self:end}
 .white{background:var(--surface)}
@@ -148,7 +180,7 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#A9B6B3}
 .price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
 .lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
-/* live listings (filled from the database by assets/home-live.js?v=82c07e02) */
+/* live listings (filled from the database by assets/home-live.js?v=eeeccccf) */
 .live-block{margin-bottom:40px}
 .live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
 .live-head h3{margin:0}
@@ -451,7 +483,10 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   .chat{right:16px;bottom:150px}
 }
 @media (max-width:960px){
-  .hero-grid,.form-grid,.gb-grid,.mem-grid,.contact,.bt-grid,.explorer,.pgrid,.partner{grid-template-columns:1fr}
+  .hero-grid,.form-grid,.gb-grid,.mem-grid,.contact,.bt-grid,.explorer,.pgrid,.partner,.gbt{grid-template-columns:1fr}
+  .hero-plate{height:300px}.hero-visual .desk{margin:-90px 12px 0 12px;max-width:none}
+  .mkts{grid-template-columns:1fr 1fr;grid-auto-rows:170px}.mkt-a,.mkt-b,.mkt-c,.mkt-d,.mkt-e,.mkt-f{grid-column:span 1;grid-row:span 1}.mkt-a{grid-column:span 2;grid-row:span 2}
+  .gbt-plate{height:280px}
   .svc-grid{grid-template-columns:1fr}
   .svc-item:nth-child(odd){border-right:0;padding-right:0}
   .svc-item:nth-child(even){padding-left:0}
@@ -484,6 +519,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   .desk-foot{flex-direction:column;align-items:stretch}
   .wrap{padding:0 18px}
   .sec{padding:64px 0}
+  .mkts{grid-template-columns:1fr;grid-auto-rows:200px}.mkt-a{grid-column:span 1;grid-row:span 1}
+  .mkt-body b{font-size:1.15rem}.gbt-list{grid-template-columns:1fr}
   .grid3,.mini{grid-template-columns:1fr}
   .frow{grid-template-columns:1fr}
   form.listing,.result{padding:20px}
@@ -552,11 +589,10 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     </a>
     <nav class="nav" id="nav" aria-label="Main">
       <a href="explore.html">Explore</a>
-      <a href="#categories">Categories</a>
-      <a href="#build-together">Own at cost</a>
-      <a href="#marketplace">Marketplace</a>
-      <a href="#services">Services</a>
-      <a href="#global-buyers">Global buyers</a>
+      <a href="#categories">Marketplaces</a>
+      <a href="global-buyers.html">Global buyers</a>
+      <a href="services.html">Services</a>
+      <a href="#how-it-works">How it works</a>
       <a href="#membership">Membership</a>
       <a href="post.html?kind=offer" class="nav-join nav-list">List an asset</a>
       <a href="account.html?mode=signup" class="nav-join">Join free</a>
@@ -598,6 +634,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
       </div>
     </div>
 
+    <div class="hero-visual">
+    <div class="platewrap hero-plate"><span class="plate"><img src="https://images.unsplash.com/photo-1716191299945-4c5b89703971?auto=format&fit=crop&w=1400&q=72" srcset="https://images.unsplash.com/photo-1716191299945-4c5b89703971?auto=format&fit=crop&w=700&q=72 700w, https://images.unsplash.com/photo-1716191299945-4c5b89703971?auto=format&fit=crop&w=1400&q=72 1400w" sizes="(max-width:960px) 100vw, 46vw" alt="A wide factory floor with yellow safety rails" fetchpriority="high" decoding="async"></span></div>
     <aside class="desk" aria-labelledby="deskTitle">
       <div class="desk-top">
         <h2 id="deskTitle">Barter desk</h2>
@@ -628,6 +666,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
         <a class="btn btn-primary btn-sm" href="#list-asset" id="deskGo">Find a counterparty</a>
       </div>
     </aside>
+    </div>
   </div>
 </section>
 
@@ -644,83 +683,20 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
 <section class="sec" id="categories">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="d2">Six ways to earn, save or give</h2>
-      <p class="lede">Pick a category to see how it works, who it is for and what you gain. Every deal can be paid in cash, as rent, or as a swap (barter).</p>
+      <h2 class="d2">Six marketplaces, one network</h2>
+      <p class="lede">Every deal can be paid in cash, as rent, or as a swap (barter).</p>
     </div>
-    <div class="explorer">
-      <div class="tabs" role="tablist" aria-label="Categories" id="tabs"></div>
-      <div class="panel" role="tabpanel" id="panel" tabindex="0" aria-live="polite"></div>
+    <div class="mkts">
+      <a class="mkt mkt-a" href="leasing.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1652204775379-2b4ace437a2d?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1652204775379-2b4ace437a2d?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1652204775379-2b4ace437a2d?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="An empty factory shed with green steel columns" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Industrial leasing</b><span>Turn idle factories and spare shifts into monthly income</span><em>See the marketplace</em></span></a>
+      <a class="mkt mkt-b" href="machines.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1787039467622-ddec5c24320c?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1787039467622-ddec5c24320c?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1787039467622-ddec5c24320c?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="CNC machines in a bright workshop" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Used machines</b><span>Release the cash locked in machinery</span><em>See the marketplace</em></span></a>
+      <a class="mkt mkt-c" href="storage.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1644079446600-219068676743?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1644079446600-219068676743?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1644079446600-219068676743?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="A long warehouse aisle with full shelves" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Storage & warehousing</b><span>Fill empty space, or find the right space fast</span><em>See the marketplace</em></span></a>
+      <a class="mkt mkt-d" href="agri.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1764070254247-351def349875?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1764070254247-351def349875?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1764070254247-351def349875?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="Open sacks of grain and spices in a store" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Agriculture & commodities</b><span>Bulk trade, straight from origin</span><em>See the marketplace</em></span></a>
+      <a class="mkt mkt-e" href="construction.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="A steel building frame rising beside a tower crane" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Construction at cost</b><span>Own a shop, showroom, office or home at cost</span><em>See the marketplace</em></span></a>
+      <a class="mkt mkt-f" href="technology.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1640955785023-1854685dae05?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1640955785023-1854685dae05?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1640955785023-1854685dae05?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="Tweezers placing a microchip on a circuit board" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Technology & education</b><span>Share, sell or donate technology and learning</span><em>See the marketplace</em></span></a>
     </div>
   </div>
 </section>
 
-<section class="sec rose" id="build-together">
-  <div class="wrap bt-grid">
-    <div>
-      <h2 class="d2">Own a shop, showroom, office or home at cost</h2>
-      <p class="lede">Retailers, professionals and families who want the same kind of property in the same area join one buyer group. We acquire land where the group wants it and build turnkey for a fixed charge, so you pay for land and construction, not a developer's margin.</p>
-      <ul class="bt-points">
-        <li><b>You choose the area</b><span>Tell us the city and locality. Groups form around real demand, not a developer's land bank.</span></li>
-        <li><b>Fixed construction charge, agreed upfront</b><span>Land, construction and our fee are set out before work starts.</span></li>
-        <li><b>Turnkey delivery with clear title</b><span>We handle approvals, construction and handover of your finished unit.</span></li>
-      </ul>
-    </div>
-    <div>
-      <form class="interest" id="btForm" name="buyer-group-interest" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-        <input type="hidden" name="form-name" value="buyer-group-interest"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-        <h3 class="d3" style="font-size:1.3rem;margin-bottom:16px">Register your interest</h3>
-        <div class="frow">
-          <div class="field" data-f="btType">
-            <label class="flabel" for="btType">I want <span class="req">*</span></label>
-            <select id="btType" name="property-type"><option value="">Choose a type</option><option>Shop</option><option>Showroom</option><option>Office</option><option>Flat</option><option>Villa or bungalow</option><option>Warehouse</option></select>
-            <div class="err">Choose what you want to own.</div>
-          </div>
-          <div class="field" data-f="btSize">
-            <label class="flabel" for="btSize">Size (sq ft)</label>
-            <input id="btSize" name="size-sqft" type="number" min="50" inputmode="numeric" placeholder="e.g. 1,200">
-          </div>
-        </div>
-        <div class="frow">
-          <div class="field" data-f="btArea">
-            <label class="flabel" for="btArea">Preferred area <span class="req">*</span></label>
-            <input id="btArea" name="preferred-area" type="text" placeholder="City and locality">
-            <div class="err">Add the city and locality you prefer.</div>
-          </div>
-          <div class="field" data-f="btBudget">
-            <label class="flabel" for="btBudget"><span data-cur-only="INR">Budget (₹ lakh)</span><span data-cur-only="USD" hidden>Budget (US$)</span></label>
-            <input id="btBudget" name="budget-lakh" type="number" min="1" inputmode="decimal" placeholder="e.g. 80"><input type="hidden" name="budget-entered" id="btBudgetEntered">
-          </div>
-        </div>
-        <div class="frow">
-          <div class="field" data-f="btName">
-            <label class="flabel" for="btName">Your name <span class="req">*</span></label>
-            <input id="btName" name="name" type="text" autocomplete="name">
-            <div class="err">Add your name.</div>
-          </div>
-          <div class="field" data-f="btEmail">
-            <label class="flabel" for="btEmail">Email <span class="req">*</span></label>
-            <input id="btEmail" name="email" type="email" autocomplete="email">
-            <div class="err">Enter a valid email address.</div>
-          </div>
-        </div>
-        <div class="field">
-          <label class="flabel" for="btPhone">Phone or WhatsApp</label>
-          <input id="btPhone" name="phone" type="tel" autocomplete="tel" placeholder="+91">
-        </div>
-        <button class="btn btn-primary" type="submit" style="width:100%">Register interest</button>
-      </form>
-      <div class="bt-done" id="btDone" tabindex="-1">
-        <div class="result-top" style="margin-bottom:16px">
-          <span class="okdot"><svg width="22" height="22"><use href="#i-check"/></svg></span>
-          <div><h3 class="d3">Interest registered</h3><p class="small" id="btSummary" style="margin:0"></p></div>
-        </div>
-        <p style="margin:0">We'll group you with other buyers who want the same in that area. A group moves ahead once enough buyers have joined to acquire land there.</p>
-        
-        <button class="btn btn-ghost" type="button" id="btAgain" style="margin-top:16px">Register another interest</button>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="sec white" id="marketplace">
   <div class="wrap">
@@ -936,45 +912,20 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   </div>
 </section>
 
-<section class="sec rose" id="services">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 class="d2">Extra help from the DASKIES team</h2>
-      <p class="lede">Joining and your first listings are free. If you want more buyers, more trust, or someone to handle the deal for you, add a service. Price on request, based on deal size.</p>
-    </div>
-    <div class="svc-grid" id="svcGrid"></div>
-  </div>
-</section>
 
-<section class="sec" id="global-buyers">
-  <div class="wrap gb-grid">
+<section class="sec gbt-sec" id="global-buyers">
+  <div class="wrap gbt">
+    <div class="platewrap gbt-plate"><span class="plate"><img src="https://images.unsplash.com/photo-1769837496184-32831581c55a?auto=format&fit=crop&w=1200&q=72" srcset="https://images.unsplash.com/photo-1769837496184-32831581c55a?auto=format&fit=crop&w=700&q=72 700w, https://images.unsplash.com/photo-1769837496184-32831581c55a?auto=format&fit=crop&w=1200&q=72 1200w" sizes="(max-width:960px) 100vw, 50vw" alt="Container ships and cranes at a busy port" loading="lazy" decoding="async"></span></div>
     <div>
       <h2 class="d2">Make it in Gujarat. Ship from Mundra.</h2>
       <p class="lede">For importers in the US, Europe, the Gulf and Africa: lease running capacity or contract production with Gujarat's exporters instead of building your own plant.</p>
-      <ul class="svc">
-        <li><b>Lease a running plant</b><span>Factories with machinery, power and trained staff, on monthly or long-term terms.</span></li>
-        <li><b>Contract manufacturing</b><span>Parts and products made to your drawings and brand, from a pilot batch to full containers.</span></li>
-        <li><b>Bulk sourcing</b><span>Edible oils, groundnuts, cumin, castor oil, cotton and pulses, with grade and packing agreed in writing.</span></li>
-        <li><b>One team, start to finish</b><span>Video walkthroughs, site visits, samples, third-party inspection and export paperwork, in your time zone.</span></li>
+      <ul class="gbt-list">
+        <li><b>Lease a running plant</b></li>
+        <li><b>Contract manufacturing</b></li>
+        <li><b>Bulk sourcing</b></li>
+        <li><b>One team, start to finish</b></li>
       </ul>
-      <div style="margin-top:24px"><button class="btn btn-primary" type="button" data-req="Sourcing call with the Global Buyer Desk">Book a sourcing call</button></div>
-    </div>
-    <div>
-      <table class="clusters">
-        <caption class="sr">Gujarat export clusters</caption>
-        <thead><tr><th scope="col">What's made</th><th scope="col">Where</th><th scope="col">Ports</th></tr></thead>
-        <tbody>
-          <tr><td>Auto components and bearings</td><td>Rajkot, Ahmedabad, Sanand</td><td><span class="port">Mundra</span><span class="port">Pipavav</span></td></tr>
-          <tr><td>Ceramic tiles and sanitaryware</td><td>Morbi</td><td><span class="port">Mundra</span><span class="port">Kandla</span></td></tr>
-          <tr><td>Brass parts and fittings</td><td>Jamnagar</td><td><span class="port">Mundra</span></td></tr>
-          <tr><td>Pumps, motors, castings, machine tools</td><td>Rajkot, Ahmedabad</td><td><span class="port">Mundra</span><span class="port">Pipavav</span></td></tr>
-          <tr><td>Chemicals, dyes and APIs</td><td>Ankleshwar, Vapi, Dahej</td><td><span class="port">Hazira</span><span class="port">Dahej</span></td></tr>
-          <tr><td>Textiles and denim</td><td>Ahmedabad, Surat</td><td><span class="port">Hazira</span><span class="port">Mundra</span></td></tr>
-          <tr><td>Pharma and healthcare</td><td>Ahmedabad, Vadodara</td><td><span class="port">Mundra</span></td></tr>
-          <tr><td>Spices, groundnut, dehydrated onion</td><td>Unjha, Gondal, Mahuva</td><td><span class="port">Mundra</span><span class="port">Pipavav</span></td></tr>
-        </tbody>
-      </table>
-      <p class="fema">Leasing, contract manufacturing and investment by foreign companies in India follow FEMA and FDI rules. We introduce you to Indian lawyers, chartered accountants and customs brokers to structure the deal correctly.</p>
+      <div class="gbt-actions"><a class="btn btn-primary" href="global-buyers.html">See the Global Buyer Desk</a><button class="btn btn-ghost" type="button" data-req="Sourcing call with the Global Buyer Desk">Book a sourcing call</button></div>
     </div>
   </div>
 </section>
@@ -1031,26 +982,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   </div>
 </section>
 
-<section class="sec rose" id="partners">
-  <div class="wrap partner">
-    <div>
-      <h2 class="d2">Earn with DASKIES</h2>
-      <p class="lede">Brokers, chartered accountants, valuers, consultants and industry associations already know who has idle assets and who needs them. Refer them to DASKIES and earn a referral fee on every deal that closes.</p>
-      <div class="ptypes"><span>Property and machinery brokers</span><span>Chartered accountants</span><span>Registered valuers</span><span>Export consultants</span><span>Industry associations</span><span>Banks and NBFCs</span></div>
-      <button class="btn btn-primary" type="button" data-req="Partner programme">Become a partner</button>
-    </div>
-    <div class="earnbox">
-      <h3 class="d3">How referrals work</h3>
-      <ol>
-        <li>Register as a partner and get your referral details.</li>
-        <li>Introduce a seller, buyer or overseas client to us.</li>
-        <li>We track the deal from listing to closing.</li>
-        <li>You're paid your referral fee when the deal closes.</li>
-      </ol>
-      <p class="small" style="margin:14px 0 0">Referral fees are agreed in writing when you join.</p>
-    </div>
-  </div>
-</section>
 
 <section class="sec" id="faq">
   <div class="wrap">
@@ -1105,8 +1036,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
         <p style="margin:14px 0 0;max-width:36ch">The business network for Indian industry: lease, buy, sell, barter or donate.</p>
       </div>
       <div><h3>Categories</h3><ul id="footCats"></ul></div>
-      <div><h3>Platform</h3><ul><li><a href="#marketplace">Marketplace</a></li><li><a href="#list-asset">Register and list</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#services">Services</a></li><li><a href="#membership">Membership</a></li><li><a href="#partners">Partner with us</a></li><li><a href="#faq">FAQ</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
-      <div><h3>Contact</h3><ul><li><a href="mailto:info@daskies.com">info@daskies.com</a></li><li><a href="#global-buyers">Global buyers</a></li><li>Gujarat, India</li></ul></div>
+      <div><h3>Platform</h3><ul><li><a href="#marketplace">Marketplace</a></li><li><a href="#list-asset">Register and list</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="services.html">Services</a></li><li><a href="#membership">Membership</a></li><li><a href="#faq">FAQ</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
+      <div><h3>Contact</h3><ul><li><a href="mailto:info@daskies.com">info@daskies.com</a></li><li><a href="global-buyers.html">Global buyers</a></li><li><a href="services.html">Services</a></li><li><a href="partners.html">Partner with us</a></li><li>Gujarat, India</li></ul></div>
     </div>
     <div class="legal">
       <p>DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; please do your own due diligence before any deal.</p>
@@ -1250,7 +1181,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     return "₹"+(Math.round(v*10)/10).toString()+" lakh";
   }
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-  // Prices follow the visitor's currency (assets/fx.js?v=82c07e02): rupees in India, approximate US dollars elsewhere.
+  // Prices follow the visitor's currency (assets/fx.js?v=eeeccccf): rupees in India, approximate US dollars elsewhere.
   var FX=window.DSKFX||null;
   function usd(){ return !!(FX && FX.eff()==="USD"); }
   function fmtC(v){ var l=FX&&FX.label(v*1e5,"INR"); return l||fmt(v); }
@@ -1289,27 +1220,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   var tick = LIST.slice(0,9).map(function(l){return '<span><i></i><b>'+esc(DEAL[l.deal])+'</b>'+esc(l.title)+'<small>'+esc(l.where.split(",")[0])+'</small></span>'}).join("");
   $("#ticker").innerHTML = '<span><i></i><b>Sample</b>Opportunities shown are examples</span>'+tick+'<span aria-hidden="true"><i></i><b>Sample</b>Opportunities shown are examples</span>'+tick;
 
-  // Category explorer
-  var tabs=$("#tabs"), panel=$("#panel"), activeCat="infra";
-  tabs.innerHTML = CATS.map(function(c){return '<button type="button" class="tab" role="tab" id="tab-'+c.id+'" aria-controls="panel" data-tab="'+c.id+'"><span class="ti"><svg width="20" height="20"><use href="#i-'+c.id+'"/></svg></span>'+esc(c.tab)+'</button>'}).join("");
-  function li(a){return a.map(function(x){return '<li>'+esc(x)+'</li>'}).join("")}
-  function showCat(id, focus){
-    var c=CATS.filter(function(x){return x.id===id})[0]; if(!c) return; activeCat=id;
-    $$(".tab").forEach(function(t){var on=t.dataset.tab===id; t.setAttribute("aria-selected",on); t.tabIndex=on?0:-1; if(on&&focus) t.focus()});
-    panel.setAttribute("aria-labelledby","tab-"+id);
-    panel.innerHTML='<p class="kicker">'+esc(c.name)+'</p><h3 class="promise">'+esc(c.promise)+'</h3><p class="intro">'+esc(c.intro)+'</p>'+
-      '<div class="pgrid"><div><h4>How it works</h4><ol class="how">'+li(c.how)+'</ol></div>'+
-      '<div><h4>Who it\'s for</h4><ul class="dots">'+li(c.who)+'</ul><h4>What you gain</h4><ul class="dots">'+li(c.gain)+'</ul></div></div>'+
-      '<div class="panel-cta"><a class="btn btn-primary" href="'+c.href+'">'+esc(c.cta)+'</a><a class="btn btn-ghost" href="#marketplace" data-cat="'+c.id+'">See sample listings</a></div>';
-  }
-  tabs.addEventListener("click",function(e){var t=e.target.closest("[data-tab]"); if(t) showCat(t.dataset.tab)});
-  tabs.addEventListener("keydown",function(e){
-    var i=CATS.map(function(c){return c.id}).indexOf(activeCat), n=CATS.length;
-    if(e.key==="ArrowDown"||e.key==="ArrowRight"){e.preventDefault(); showCat(CATS[(i+1)%n].id,true)}
-    if(e.key==="ArrowUp"||e.key==="ArrowLeft"){e.preventDefault(); showCat(CATS[(i-1+n)%n].id,true)}
-  });
-  showCat("infra");
-  $("#footCats").innerHTML = CATS.map(function(c){return '<li><a href="#marketplace" data-cat="'+c.id+'">'+esc(c.name)+'</a></li>'}).join("");
+  var CAT_PAGE={"infra": "construction.html", "lease": "leasing.html", "machines": "machines.html", "tech": "technology.html", "agri": "agri.html", "storage": "storage.html"};
+  $("#footCats").innerHTML = CATS.map(function(c){return '<li><a href="'+CAT_PAGE[c.id]+'">'+esc(c.name)+'</a></li>'}).join("");
 
   // Marketplace
   function card(l){
@@ -1487,38 +1399,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   });
   $("#regAgain").addEventListener("click",function(){ $("#regForm").reset(); $$("#regForm .field.bad").forEach(function(f){f.classList.remove("bad")}); $("#regDone").classList.remove("show"); $("#regForm").style.display=""; $("#gName").focus(); });
 
-  // Build together interest form
-  $("#btForm").addEventListener("submit",function(e){
-    e.preventDefault(); var bad=false;
-    bad = setBad("btType",!$("#btType").value) || bad;
-    bad = setBad("btArea",$("#btArea").value.trim().length<2) || bad;
-    bad = setBad("btName",$("#btName").value.trim().length<2) || bad;
-    bad = setBad("btEmail",!emailOk($("#btEmail").value.trim())) || bad;
-    if(bad){var f=$("#btForm .field.bad input, #btForm .field.bad select"); if(f) f.focus(); return}
-    var b=parseFloat($("#btBudget").value), sz=parseFloat($("#btSize").value), bIn=$("#btBudget"), bTyped=bIn.value, dollars=usd()&&b>0;
-    $("#btSummary").textContent = $("#btType").value+" in "+$("#btArea").value.trim()+(sz>0?", about "+Math.round(sz).toLocaleString("en-IN")+" sq ft":"")+(b>0?", budget "+(dollars?"US$"+Math.round(b).toLocaleString("en-US"):fmt(b)):"");
-    var form=$("#btForm"), btn=form.querySelector("button[type=submit]"); busy(btn,true);
-    $("#btBudgetEntered").value = dollars ? "US$ "+bTyped : "";
-    if(dollars){ var bl=lakhOf(b); bIn.value = bl==null ? "" : String(bl); }
-    var body=encodeForm(form); bIn.value=bTyped;
-    send(body).then(function(){ busy(btn,false); form.style.display="none"; var d=$("#btDone"); d.classList.add("show"); d.focus(); })
-      .catch(function(){ busy(btn,false); alertIn(form,FAIL); });
-  });
-  $("#btAgain").addEventListener("click",function(){ $("#btForm").reset(); $$("#btForm .field.bad").forEach(function(f){f.classList.remove("bad")}); $("#btDone").classList.remove("show"); $("#btForm").style.display=""; });
 
 
-  // Services
-  var SVC = [
-    {i:"star", t:"Featured listings", d:"Put your listing at the top of its category and in the weekly digest sent to members.", f:"Sellers who want buyers this month"},
-    {i:"shield", t:"Business verification", d:"We review your registration, GST and ownership documents and add a verification badge to your profile.", f:"Anyone dealing with new counterparties"},
-    {i:"handshake", t:"Deal manager", d:"A DASKIES manager finds the other party, values swaps, negotiates and handles paperwork until the deal is done.", f:"Larger or more complex deals"},
-    {i:"globe", t:"Global Buyer Desk", d:"Factory shortlists, video walkthroughs, site visits, samples and inspection for overseas buyers, on a retainer or per deal.", f:"Importers in the US, Europe, the Gulf and Africa"},
-    {i:"scale", t:"Valuation support", d:"No valuation report yet? We connect you with registered valuers for machinery, property and stock.", f:"Sellers listing for the first time"},
-    {i:"mega", t:"Advertising and sponsorship", d:"Category sponsorship, banner placements and digest features for dealers, logistics firms, lenders and service providers.", f:"Businesses selling to Indian industry"}
-  ];
-  $("#svcGrid").innerHTML = SVC.map(function(x){
-    return '<div class="svc-item"><span class="ti"><svg width="24" height="24"><use href="#i-'+x.i+'"/></svg></span><div><h3>'+esc(x.t)+'</h3><p>'+esc(x.d)+'</p><span class="for">For: '+esc(x.f)+'</span></div><button class="linkbtn" type="button" data-req="'+esc(x.t)+'">Request</button></div>';
-  }).join("");
 
   // Service request modal
   var rmodal=$("#reqModal"), rLast=null;
@@ -1532,6 +1414,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     if(e.target.closest("[data-rclose]")||e.target===rmodal) closeReq();
   });
   document.addEventListener("keydown",function(e){ if(e.key==="Escape" && rmodal.classList.contains("open")) closeReq(); });
+  (function(){ var q=null; try{ q=new URLSearchParams(location.search).get("req"); }catch(e){} if(q) setTimeout(function(){ openReq(q.slice(0,80)); },300); })();
   $("#rf").addEventListener("submit",function(e){
     e.preventDefault(); var bad=false;
     bad = setBad("rn",$("#rn").value.trim().length<2) || bad;
@@ -1699,7 +1582,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   function load(code){
     if(code==="en") return Promise.resolve(null);
     if(cache[code]) return Promise.resolve(cache[code]);
-    return fetch("/i18n/"+code+".json?v=82c07e02").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
+    return fetch("/i18n/"+code+".json?v=eeeccccf").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
   }
   var langWrap=$("#lang"), langBtn=$("#langBtn");
   function markMenu(code){
@@ -1746,7 +1629,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   function applyCur(){
     var u=usd();
     $("#fValue").setAttribute("placeholder", u?"e.g. 30000":"e.g. 28");
-    $("#btBudget").setAttribute("placeholder", u?"e.g. 100000":"e.g. 80");
     if(u||fxWalked){ fxWalked=true; walk(document.body); observe(); }
   }
   if(FX){ FX.on(applyCur); applyCur(); }
@@ -1762,6 +1644,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   }
 })();
 </script>
-<script type="module" src="assets/home-live.js?v=82c07e02"></script>
+<script type="module" src="assets/home-live.js?v=eeeccccf"></script>
 </body>
 </html>
