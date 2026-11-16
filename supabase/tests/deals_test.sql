@@ -134,6 +134,7 @@ begin
   perform set_config('role', 'none', true);
 
   delete from public.audit_log where entity_id in (la, lb, lc);
+  if to_regclass('public.notifications') is not null then execute 'delete from public.notifications where body like ''Latest: Deal test listing %'''; end if;
   delete from auth.users where id in (a, b, c, x, adm);
   select count(*) into n from public.deals where id in (d, d3);
   insert into rt(step, result) values ('test data cleaned up', case when n = 0 then 'PASS' else 'FAIL ' || n end);

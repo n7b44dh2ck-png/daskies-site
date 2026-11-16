@@ -133,6 +133,7 @@ begin
   perform set_config('role', 'none', true);
 
   -- cleanup: everything created above
+  if to_regclass('public.notifications') is not null then execute 'delete from public.notifications where body like ''Latest: Form-fill-seal line'''; end if;
   delete from auth.users where id in (a, b, c);
   delete from public.audit_log where entity_id = la;
   select count(*) into n from public.listings where id = la;
