@@ -172,3 +172,24 @@ table.list{width:100%;border-collapse:collapse;background:#fff;border:1px solid 
 .profbar{background:var(--amber-tint);border-bottom:1px solid #EBCB91;font-size:14.5px;padding:10px 0}
 .profbar a{font-weight:700;color:var(--ink);margin-left:4px}
 .checks label{white-space:nowrap}
+/* policy pages, pricing, fees, terms box */
+.doc{max-width:760px}
+.doc h2{font-size:1.2rem;margin:28px 0 8px}
+.doc p,.doc li{line-height:1.6}
+.doc ul{padding-left:20px}
+.doc li{margin-bottom:8px}
+.lead{font-size:1.1rem}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.plan{display:flex;flex-direction:column;gap:6px}
+.plan ul{padding-left:18px;margin:6px 0 16px;flex:1}
+.plan li{margin-bottom:6px}
+.plan .btn{align-self:flex-start}
+.plan-main{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.plan-price{font-size:2rem;font-weight:800;margin:0}
+.plan-price span{font-size:.95rem;font-weight:500;color:var(--muted)}
+@media (max-width:700px){.plans{grid-template-columns:1fr}}
+.foot-links{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:10px}
+.foot-links a{color:var(--ink);font-weight:600}
+.feebox{border-color:var(--accent);box-shadow:inset 4px 0 0 var(--accent)}
+.termsbox label{display:flex;gap:10px;align-items:flex-start;font-weight:500;font-size:14.5px;line-height:1.45}
+.termsbox input{margin-top:3px;accent-color:var(--accent);width:18px;height:18px;flex:0 0 18px}

@@ -18,6 +18,31 @@ async function load() {
     sb.from("deal_events").select("*").eq("deal_id", id).order("created_at", { ascending: false })
   ]);
   deal = d.data; parties = p.data || []; offers = o.data || []; events = e.data || [];
+  // Fees exist only from Payment / settlement onwards; members see only their own (database rule).
+  const f = deal && ["settlement", "delivery", "completed", "cancelled"].includes(deal.stage) ? await sb.from("deal_fees").select("*").eq("deal_id", id) : { data: [] };
+  fees = f.data || [];
+}
+let fees = [];
+const inr = (v) => new Intl.NumberFormat("en-IN", { style: "currency", currency: deal.currency || "INR", minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(Number(v) || 0);
+const FEE_WORD = { due: "Due", paid: "Paid, thank you", waived: "Waived", cancelled: "Cancelled (deal cancelled)" };
+function feeHTML() {
+  const mine = fees.find((x) => x.user_id === m.user.id);
+  if (mine) {
+    const basisLabel = mine.basis_source === "none" ? "Deal value" : mine.basis_source === "agreed" ? (deal.kind.includes("barter") ? "Agreed value of what you give" : "Agreed deal value") : "Value confirmed by DASKIES";
+    return `<section class="panel feebox"><h2>Your DASKIES success fee</h2>
+      <p class="small muted" style="margin-top:-6px">Only you and DASKIES can see this. It is set out in the Terms you accepted when you joined.</p>
+      <dl class="kv"><dt>${esc(basisLabel)}</dt><dd>${mine.basis_source === "none" ? "DASKIES will confirm it with you" : esc(inr(mine.basis))}</dd>
+        <dt>Success fee (${esc(String(Number(mine.rate)))}%)</dt><dd>${esc(inr(mine.fee))}</dd><dt>GST (${esc(String(Number(mine.gst_rate)))}%)</dt><dd>${esc(inr(mine.gst))}</dd>
+        <dt>Total payable</dt><dd><b>${esc(inr(Number(mine.fee) + Number(mine.gst)))}</b></dd><dt>Status</dt><dd><span class="tag ${mine.status === "due" ? "tag-pending" : mine.status === "cancelled" ? "tag-rejected" : "tag-approved"}">${esc(FEE_WORD[mine.status] || mine.status)}</span></dd></dl>
+      ${mine.note ? `<p class="small">${esc(mine.note)}</p>` : ""}
+      ${mine.status === "due" ? `<p class="small"><b>How to pay:</b> DASKIES will send your GST invoice and payment details. Online payment by UPI, card or net banking is coming soon. Delivery opens once every party's fee is settled.</p>` : ""}</section>`;
+  }
+  if (fees.length && m.profile?.is_admin) {
+    return `<section class="panel feebox"><h2>Success fees <span class="small muted">admin view</span></h2><div class="tablewrap"><table class="list"><thead><tr><th>Party</th><th>Value</th><th>Fee</th><th>GST</th><th>Status</th></tr></thead><tbody>
+      ${fees.map((x) => `<tr><td>${esc(nameOf(x.user_id))}</td><td>${esc(inr(x.basis))}</td><td>${esc(inr(x.fee))} (${esc(String(Number(x.rate)))}%)</td><td>${esc(inr(x.gst))}</td><td>${esc(FEE_WORD[x.status] || x.status)}</td></tr>`).join("")}</tbody></table></div>
+      <p class="small"><a href="admin.html#fees">Manage fees</a></p></section>`;
+  }
+  return "";
 }
 const nameOf = (uid) => (parties.find((p) => p.user_id === uid) || {}).business || (uid === m.user.id ? "You" : "A party");
 const me = () => parties.find((p) => p.user_id === m.user.id) || {};
@@ -62,7 +87,10 @@ function render() {
       <section class="panel" id="offerForm" hidden></section>
       ${party && open && !negotiating ? `<section class="panel"><h2>Next step</h2>${deal.stage === "delivery"
         ? `<p>When you have received what was agreed, confirm completion. The deal completes when every party confirms.</p>${me().completed ? '<span class="tag tag-approved">You confirmed</span>' : '<button class="btn btn-primary" id="complete" type="button">Confirm completion</button>'}`
+        : deal.stage === "settlement" && (fees.find((x) => x.user_id === m.user.id) || {}).status === "due"
+        ? `<p>Settle payments between the parties as agreed, and your DASKIES success fee below. Delivery opens once every party's fee is settled.</p><button class="btn btn-primary" type="button" disabled>Move to: Delivery</button>`
         : `<div class="field"><label for="stNote">Note for the other parties (optional)</label><input id="stNote" maxlength="500" placeholder="e.g. Inspection report shared, contract signed on 20 Nov"></div><button class="btn btn-primary" id="advance" type="button">Move to: ${esc(STAGES[idx + 1] ? STAGES[idx + 1][1] : "")}</button>`}</section>` : ""}
+      ${feeHTML()}
       ${party && deal.stage === "enquiry" ? `<section class="panel"><button class="btn btn-ghost" id="advance" type="button">Mark as in discussion</button></section>` : ""}
       <section class="panel"><h2>Documents</h2><p class="hint" style="margin-top:-6px">Templates filled from ${agreed ? "the agreed terms" : "the latest offer"}. Have a lawyer review before anyone signs. DASKIES does not hold money or act as escrow.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" data-doc="offer" type="button">Offer sheet</button><button class="btn btn-ghost btn-sm" data-doc="mou" type="button">MOU</button>${deal.kind.includes("barter") ? '<button class="btn btn-ghost btn-sm" data-doc="barter" type="button">Barter agreement</button>' : ""}<button class="btn btn-ghost btn-sm" data-doc="delivery" type="button">Delivery confirmation</button><button class="btn btn-ghost btn-sm" data-doc="settlement" type="button">Settlement statement</button></div></section>

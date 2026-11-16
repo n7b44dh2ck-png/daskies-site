@@ -1,5 +1,5 @@
-import { sb, $, esc, qs, header, errMsg, busy, toast, me } from "./core.js";
-import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js";
+import { sb, $, esc, qs, header, errMsg, busy, toast, me, TERMS_VERSION } from "./core.js";
+import { detailsFields, termsBox, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js";
 
 const main = $("#main");
 const next = qs("next") || "dashboard.html";
@@ -25,13 +25,14 @@ function render() {
         <button class="btn btn-primary" style="width:100%">Sign in</button>
       </form>
       <p class="small"><a href="?mode=forgot">Forgot password?</a> · New here? <a href="?mode=signup&next=${encodeURIComponent(safeNext)}">Create a free account</a></p>`,
-    signup: `<h1>Join DASKIES free</h1><p class="muted">DASKIES is a network for businesses. Every member gives their full business details, so you know who you're dealing with. The first 2,000 businesses get a free founding membership.</p>
+    signup: `<h1>Join DASKIES</h1><p class="muted">DASKIES is a network for businesses. Every member gives their full business details, so you know who you're dealing with. Joining is free; see <a href="pricing.html" target="_blank" rel="noopener">Pricing</a> for full membership.</p>
       <form id="f" novalidate>
         ${detailsFields(detailsOf({}))}
         <fieldset class="fs"><legend>Sign-in</legend>
           <div class="row2"><div class="field"><label for="em">Email <span class="req" aria-hidden="true">*</span></label><input id="em" type="email" autocomplete="email" required></div>
           <div class="field"><label for="pw">Password <span class="req" aria-hidden="true">*</span></label><input id="pw" type="password" autocomplete="new-password" minlength="8" required><span class="hint">At least 8 characters.</span></div></div></fieldset>
-        <label class="small" style="display:flex;gap:8px;align-items:flex-start;margin-bottom:14px"><input type="checkbox" id="ok" style="margin-top:4px;accent-color:var(--accent)"> I confirm these details are true, and I will list only what I own or am authorised to represent.</label>
+        <label class="small" style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px"><input type="checkbox" id="ok" style="margin-top:4px;accent-color:var(--accent)"> I confirm these details are true, and I will list only what I own or am authorised to represent.</label>
+        ${termsBox()}
         <p class="hint" style="margin-top:-6px">Fields marked <span class="req">*</span> are required.</p>
         <p class="err" id="msg" role="alert"></p>
         <button class="btn btn-primary" style="width:100%">Create account</button>
@@ -39,7 +40,7 @@ function render() {
       <p class="small">Already a member? <a href="?mode=signin&next=${encodeURIComponent(safeNext)}">Sign in</a></p>`,
     complete: `<h1>Complete your business profile</h1><p class="muted">DASKIES is a network for businesses. These details are required before you can post, enquire, message or start deals.${m.user ? ` Signed in as <b>${esc(m.user.email)}</b>.` : ""}</p>
       <form id="f" novalidate>
-        ${m.user ? detailsFields(detailsOf(m)) : ""}
+        ${m.user ? detailsFields(detailsOf(m), { terms: m.profile?.terms_version !== TERMS_VERSION }) : ""}
         <p class="hint">Fields marked <span class="req">*</span> are required.</p>
         <p class="err" id="msg" role="alert"></p>
         <button class="btn btn-primary" style="width:100%">Save and continue</button>

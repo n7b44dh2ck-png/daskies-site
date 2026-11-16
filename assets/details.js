@@ -1,6 +1,6 @@
 // Mandatory member details: one form used by sign-up, the completion step and the dashboard.
 // The database enforces the same rules; this only gives early, specific feedback.
-import { sb, $, $$, esc } from "./core.js";
+import { sb, $, $$, esc, TERMS_VERSION } from "./core.js";
 import { ROLES } from "./taxonomy.js";
 
 export const IN_STATES = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
@@ -10,7 +10,7 @@ const R = '<span class="req" aria-hidden="true">*</span>';
 const isIndia = (c) => /^\s*india\s*$/i.test(c || "");
 
 // p = { full_name, phone, name, roles, city, state, country, address, postal_code, gstin }
-export function detailsFields(p = {}, { you = true } = {}) {
+export function detailsFields(p = {}, { you = true, terms = false } = {}) {
   return `${you ? `<fieldset class="fs"><legend>You</legend>
       <div class="row2"><div class="field"><label for="d_name">Full name ${R}</label><input id="d_name" autocomplete="name" maxlength="120" required value="${esc(p.full_name || "")}"></div>
       <div class="field"><label for="d_phone">Mobile number ${R}</label><input id="d_phone" type="tel" autocomplete="tel" maxlength="30" required placeholder="+91 98250 12345" value="${esc(p.phone || "")}"><span class="hint">Private. Used by the DASKIES team only.</span></div></div></fieldset>` : ""}
@@ -25,13 +25,17 @@ export function detailsFields(p = {}, { you = true } = {}) {
         <div class="field"><label for="d_country">Country ${R}</label><input id="d_country" autocomplete="country-name" maxlength="60" required value="${esc(p.country || "India")}"></div></div>
       <div class="field"><label for="d_gst">GSTIN <span class="muted">(optional, Indian businesses)</span></label><input id="d_gst" maxlength="15" autocapitalize="characters" placeholder="24AAACB1234C1Z5" value="${esc(p.gstin || "")}"></div>
       <p class="hint">Your address, PIN, GSTIN and mobile are seen only by you and the DASKIES team. Other members see your business name, city and verification level.</p>
-    </fieldset>`;
+    </fieldset>${terms ? termsBox() : ""}`;
 }
+
+export const termsBox = () => `
+    <div class="fs"><div class="field termsbox" id="d_terms_f"><label><input type="checkbox" id="d_terms"> <span>I agree to the DASKIES <a href="terms.html" target="_blank" rel="noopener">Terms</a>, including the success fee on completed deals, and the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>. ${R}</span></label></div></div>`;
 
 export function readDetails() {
   const v = (id) => ($("#" + id) ? $("#" + id).value.trim() : undefined);
   return { full_name: v("d_name"), phone: v("d_phone"), name: v("d_biz"), roles: $$("input[name=d_role]:checked").map((c) => c.value),
-    address: v("d_addr"), city: v("d_city"), state: v("d_state"), postal_code: (v("d_pin") || "").toUpperCase(), country: v("d_country") || "India", gstin: (v("d_gst") || "").toUpperCase().replace(/\s/g, "") };
+    address: v("d_addr"), city: v("d_city"), state: v("d_state"), postal_code: (v("d_pin") || "").toUpperCase(), country: v("d_country") || "India", gstin: (v("d_gst") || "").toUpperCase().replace(/\s/g, ""),
+    terms: $("#d_terms") ? $("#d_terms").checked : null };
 }
 
 // Returns [[fieldId, message], ...]; empty when everything is fine.
@@ -50,6 +54,7 @@ export function checkDetails(d, { you = true } = {}) {
   if (isIndia(d.country) ? !/^[1-9][0-9]{5}$/.test(d.postal_code) : !/^[A-Z0-9][A-Z0-9 -]{2,9}$/.test(d.postal_code)) e.push(["d_pin", isIndia(d.country) ? "Add a 6-digit PIN code." : "Add the postal code."]);
   if ((d.country || "").length < 2) e.push(["d_country", "Add the country."]);
   if (d.gstin && !/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(d.gstin)) e.push(["d_gst", "That GSTIN doesn't look right (15 characters, like 24AAACB1234C1Z5). Leave it empty if you don't have one."]);
+  if (d.terms === false) e.push(["d_terms_f", "Tick the box to accept the Terms and Privacy Policy."]);
   return e;
 }
 
@@ -89,6 +94,10 @@ export async function saveDetails(m, d, extra = {}, { you = true } = {}) {
     ? await sb.from("business_private").update(prow).eq("owner_id", uid)
     : await sb.from("business_private").insert({ ...prow, business_id: business.id, owner_id: uid });
   if (pe) throw pe;
+  if (d.terms === true) {
+    const { error: te } = await sb.rpc("accept_terms", { p_version: TERMS_VERSION });
+    if (te) throw te;
+  }
 }
 
 // Flattens what we know about a member into the form's shape.

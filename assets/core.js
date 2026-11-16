@@ -79,8 +79,11 @@ export function missing(m) {
   if (t(b.city).length < 2) out.push("city");
   if (t(b.state).length < 2) out.push("state");
   if (t(b.country).length < 2) out.push("country");
+  if (p.terms_version !== TERMS_VERSION) out.push("acceptance of the Terms");
   return out;
 }
+// Must match public.current_terms_version() in the database (supabase/005_fees_terms.sql).
+export const TERMS_VERSION = "2026-11-16";
 const here = () => location.pathname.replace(/^\//, "") + location.search + location.hash;
 export const completeUrl = (next = here()) => "account.html?mode=complete&next=" + encodeURIComponent(next);
 
@@ -153,7 +156,7 @@ export async function header(active) {
   document.body.appendChild(wa);
   const f = document.createElement("footer");
   f.className = "foot";
-  f.innerHTML = `<div class="wrap">DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; do your own checks before any deal. © ${new Date().getFullYear()} Daskies.</div>`;
+  f.innerHTML = `<div class="wrap"><nav class="foot-links" aria-label="Policies"><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refunds.html">Refunds and cancellations</a><a href="index.html#contact">Contact</a></nav>DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; do your own checks before any deal. © ${new Date().getFullYear()} Daskies.</div>`;
   document.body.appendChild(f);
   const badge = () => document.body.classList.toggle("has-badge", !!document.getElementById("nl-badge-frame"));
   badge(); new MutationObserver(badge).observe(document.body, { childList: true });

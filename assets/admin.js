@@ -7,7 +7,7 @@ if (!m) throw new Error("stop");
 const main = $("#main");
 if (!m.profile?.is_admin) { main.innerHTML = `<div class="panel empty"><h1>Admins only</h1><p>This page is for the DASKIES team.</p></div>`; throw new Error("stop"); }
 
-const TABS = [["queue", "Review queue"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["reports", "Reports"], ["users", "Users"], ["audit", "Audit log"]];
+const TABS = [["queue", "Review queue"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["fees", "Fees"], ["reports", "Reports"], ["users", "Users"], ["audit", "Audit log"]];
 let tab = (location.hash || "#queue").slice(1);
 if (!TABS.some(([t]) => t === tab)) tab = "queue";
 main.innerHTML = `<h1>Admin</h1><div class="tabs" role="tablist">${TABS.map(([t, n]) => `<button role="tab" type="button" data-t="${t}" aria-selected="${t === tab}">${n}</button>`).join("")}</div><section id="pane"></section>`;
@@ -17,7 +17,7 @@ const pane = $("#pane");
 async function show() {
   $$(".tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.t === tab));
   pane.innerHTML = `<p class="muted">Loading…</p>`; pane.onclick = null;
-  try { await ({ queue, listings, businesses, documents, deals, reports, users, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
+  try { await ({ queue, listings, businesses, documents, deals, fees, reports, users, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
 }
 
 const sel = "*, businesses(name,verification_level), listing_photos(path,sort)";
@@ -112,6 +112,39 @@ async function deals() {
   pane.innerHTML = `<p class="small muted">${data.length} deals. Admins can read every deal and cancel one (for example after a fraud report), but cannot make offers or move stages.</p>
     <div class="tablewrap"><table class="list"><thead><tr><th>Deal</th><th>Type</th><th>Stage</th><th>Parties</th><th>Updated</th></tr></thead><tbody>${data.map((d) => `<tr>
     <td><a href="deal.html?id=${d.id}" target="_blank" rel="noopener">${esc(d.title)}</a></td><td>${esc(DEAL_KINDS[d.kind] || d.kind)}</td><td>${esc(stageName(d.stage))}</td><td class="small">${esc(who(d.id))}</td><td>${esc(when(d.updated_at))}</td></tr>`).join("") || '<tr><td colspan="5" class="muted">No deals yet.</td></tr>'}</tbody></table></div>`;
+}
+
+// Success fees: worked out by the database when a deal reaches Payment / settlement. Each party sees only their own.
+async function fees() {
+  const { data, error } = await sb.rpc("admin_fees");
+  if (error) throw error;
+  const inr = (v, c) => new Intl.NumberFormat("en-IN", { style: "currency", currency: c || "INR", minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(Number(v) || 0);
+  const due = data.filter((f) => f.status === "due");
+  const sum = (arr, k) => arr.reduce((s, f) => s + (f.currency === "INR" ? Number(f[k]) : 0), 0);
+  pane.innerHTML = `<p class="small muted">${data.length} fees · ${due.length} due (${esc(inr(sum(due, "fee") + sum(due, "gst")))} incl. GST, INR deals). Members see their fee only from Payment / settlement. Delivery stays locked until every party's fee is paid or waived.</p>
+    <div class="tablewrap"><table class="list"><thead><tr><th>Deal and party</th><th>Value</th><th>Fee</th><th>GST</th><th>Status</th><th>Action</th></tr></thead><tbody>${data.map((f) => `<tr>
+      <td><a href="deal.html?id=${f.deal_id}" target="_blank" rel="noopener">${esc(f.deal_title)}</a><div class="small">${esc(f.business || "")}</div><div class="small muted">${esc(stageName(f.stage))} · ${esc(day(f.created_at))}</div>${f.note ? `<div class="small muted">${esc(f.note)}</div>` : ""}</td>
+      <td>${esc(inr(f.basis, f.currency))}<div class="small muted">${esc({ agreed: "agreed value", admin: "set by admin", valuation: "valuation report", none: "no value yet" }[f.basis_source] || f.basis_source)}</div></td>
+      <td>${esc(inr(f.fee, f.currency))}<div class="small muted">${esc(String(Number(f.rate)))}%</div></td><td>${esc(inr(f.gst, f.currency))}</td>
+      <td><span class="tag ${f.status === "due" ? "tag-pending" : f.status === "cancelled" ? "tag-rejected" : "tag-approved"}">${esc(f.status)}</span>${f.paid_ref ? `<div class="small muted">Ref ${esc(f.paid_ref)}</div>` : ""}</td>
+      <td>${f.status === "cancelled" ? "" : `<div style="display:flex;gap:6px;flex-wrap:wrap">${f.status !== "paid" ? `<button class="btn btn-primary btn-sm" type="button" data-fee="${f.id}" data-act="paid">Mark paid</button>` : ""}${f.status === "due" ? `<button class="btn btn-ghost btn-sm" type="button" data-fee="${f.id}" data-act="waived">Waive</button>` : ""}<button class="btn btn-quiet btn-sm" type="button" data-fee="${f.id}" data-act="adjust">Change value or rate</button></div>`}</td></tr>`).join("") || '<tr><td colspan="6" class="muted">No fees yet. They appear when a deal reaches Payment / settlement.</td></tr>'}</tbody></table></div>`;
+  pane.onclick = async (e) => {
+    const b = e.target.closest("[data-fee]"); if (!b) return;
+    const args = { p_id: b.dataset.fee, p_status: null, p_basis: null, p_rate: null, p_note: null, p_ref: null };
+    if (b.dataset.act === "paid") { const ref = prompt("Payment reference (UPI / bank / Razorpay ID):"); if (ref === null) return; args.p_status = "paid"; args.p_ref = ref.trim().slice(0, 120); }
+    else if (b.dataset.act === "waived") { const why = prompt("Why waive this fee? (shown to the member)"); if (why === null) return; args.p_status = "waived"; args.p_note = why.trim().slice(0, 500) || null; }
+    else {
+      const v = prompt("New value in the deal currency (e.g. from the valuation report). Leave empty to keep it:"); if (v === null) return;
+      const r = prompt("New rate in % (e.g. 5, or lower above Rs 1 crore). Leave empty to keep it:"); if (r === null) return;
+      const why = prompt("Reason (shown to the member):"); if (why === null) return;
+      if (v.trim() && !(Number(v) >= 0)) return toast("Value must be a number.", true);
+      if (r.trim() && !(Number(r) >= 0 && Number(r) <= 20)) return toast("Rate must be between 0 and 20.", true);
+      args.p_basis = v.trim() ? Number(v) : null; args.p_rate = r.trim() ? Number(r) : null; args.p_note = why.trim().slice(0, 500) || null;
+    }
+    const { error: er } = await sb.rpc("admin_update_fee", args);
+    if (er) return toast(errMsg(er), true);
+    toast("Fee updated."); show();
+  };
 }
 
 async function users() {
