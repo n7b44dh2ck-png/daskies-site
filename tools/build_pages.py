@@ -77,7 +77,7 @@ def page(fname, title, desc, body):
 def more(skip):
     tiles = "".join(f'<a href="{m["slug"]}.html"><span class="platewrap" style="--cut:22px"><span class="plate">{img(m["photo"], m["alt"], 600)}</span></span>{E(m["name"])}</a>'
                     for m in MARKETS if m["slug"] != skip)
-    return f'<section class="mk-sec"><h2>Other marketplaces</h2><div class="mk-more">{tiles}</div></section>'
+    return f'<section class="mk-sec"><h2>More ways to deal</h2><div class="mk-more">{tiles}</div></section>'
 
 BUYER_FORM = """
 <section class="mk-sec" id="interest">
@@ -120,7 +120,7 @@ for m in MARKETS:
     body = f"""
 <section class="mk-hero">
   <div>
-    <p class="crumb"><a href="index.html#categories">Marketplaces</a> · {E(m['name'])}</p>
+    <p class="crumb"><a href="index.html#categories">What you need</a> · {E(m['name'])}</p>
     <h1>{E(m['promise'])}</h1>
     <p class="intro">{E(m['intro'])}</p>
     <div class="mk-actions"><a class="btn btn-primary" href="{E(m['post'])}">{E(m['cta'])}</a><a class="btn btn-ghost" href="{explore}">See live listings</a></div>

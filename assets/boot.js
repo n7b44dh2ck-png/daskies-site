@@ -66,6 +66,7 @@
       if (src.indexOf(location.origin) === 0) report("Failed to load " + src.replace(location.origin, ""), null, true);
       return;
     }
+    if (t && t !== window && t.nodeType === 1) return;   // a photo or other media that didn't load is not a page error
     var msg = e.message || "";
     if (/(^|\s)stop$/.test(msg) || (e.error && e.error.message === "stop")) return;   // intentional halt after a redirect
     if (msg === "Script error." || !ours(e.filename)) return;                          // browser extensions, other sites

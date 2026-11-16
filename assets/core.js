@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import CONFIG from "./config.js?v=eeeccccf";
-import { vertical, LEVELS } from "./taxonomy.js?v=eeeccccf";
+import CONFIG from "./config.js?v=238cf24f";
+import { vertical, LEVELS } from "./taxonomy.js?v=238cf24f";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -132,7 +132,10 @@ const WA = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
 export async function header(active) {
   const m = await me();
   const page = (p, label) => `<a href="${p}"${active === p ? ' aria-current="page"' : ""}>${label}</a>`;
-  const links = [page("explore.html", "Explore"), page("post.html?kind=need", "Post a need"), page("post.html?kind=offer", "List an offer")];
+  const MK = ["leasing.html", "machines.html", "storage.html", "agri.html", "construction.html", "technology.html"];
+  const links = [page("explore.html", "Explore"),
+    `<a href="index.html#categories"${MK.includes(active) ? ' aria-current="page"' : ""}>What you need</a>`,
+    page("post.html?kind=need", "Post a need"), page("post.html?kind=offer", "List an offer")];
   if (m.user) links.push(page("dashboard.html", "Dashboard"));
   if (m.profile && m.profile.is_admin) links.push(page("admin.html", "Admin"));
   links.push(m.user ? `<a href="index.html" class="nav-m" data-signout>Sign out</a>` : `<a href="account.html" class="nav-m">Sign in</a>`);
