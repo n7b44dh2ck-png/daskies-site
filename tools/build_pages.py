@@ -79,6 +79,14 @@ def more(skip):
                     for m in MARKETS if m["slug"] != skip)
     return f'<section class="mk-sec"><h2>More ways to deal</h2><div class="mk-more">{tiles}</div></section>'
 
+GUIDE_FOR = {"machines": ("guide-sell-used-machine.html", "How to sell a used industrial machine in India"),
+             "leasing": ("guide-lease-shed-warehouse.html", "Leasing an industrial shed or warehouse: what to check"),
+             "storage": ("guide-lease-shed-warehouse.html", "Leasing an industrial shed or warehouse: what to check"),
+             "agri": ("guide-barter-gst.html", "How business barter works in India, and how GST treats it")}
+def guide_line(slug):
+    g = GUIDE_FOR.get(slug)
+    return f'<section class="mk-sec"><p class="guide-line">Guide: <a href="{g[0]}">{E(g[1])}</a></p></section>' if g else ""
+
 BUYER_FORM = """
 <section class="mk-sec" id="interest">
   <div class="mk-two" style="align-items:start">
@@ -133,6 +141,7 @@ for m in MARKETS:
 <section class="mk-sec"><h2>Live on DASKIES</h2><div id="mkListings" data-v="{m['v']}" data-groups="{E(m['groups'])}" data-post="{E(m['post'])}" data-cta="{E(m['cta'])}"><p class="muted">Loading listings…</p></div>
   <p class="small muted" style="margin-top:12px">Every listing is reviewed for completeness before it goes live. Do your own checks before any deal.</p></section>
 <section class="mk-sec"><div class="mk-band"><div><h2>Pay in cash, as rent, or as a swap</h2><p>Every deal on DASKIES can be settled in cash, as rent, or as a straight swap (barter), with any difference paid in cash.</p></div><a class="btn btn-primary" href="account.html?mode=signup">Join DASKIES free</a></div></section>
+{guide_line(m['slug'])}
 {more(m['slug'])}
 """
     page(f"{m['slug']}.html", m["name"], f"{m['name']} on DASKIES: {m['promise']}.", body)
@@ -206,4 +215,70 @@ page("partners.html", "Partner with DASKIES", "Brokers, chartered accountants, v
 <section class="mk-sec"><h2>Who partners with us</h2><div class="mk-two"><ul><li>Property and machinery brokers</li><li>Chartered accountants</li><li>Registered valuers</li></ul><ul><li>Export consultants</li><li>Industry associations</li><li>Banks and NBFCs</li></ul></div></section>
 {more('')}
 """)
-print("built", [m["slug"] for m in MARKETS] + ["global-buyers", "services", "partners"])
+# ---------- Audience pages: startups and established businesses ----------
+def ways(items):
+    return "".join(f'<div class="svc-card"><h3>{E(t)}</h3><p>{E(d)}</p><a class="btn btn-ghost btn-sm" href="{E(h)}">{E(c)}</a></div>' for t, d, h, c in items)
+
+def audience(fname, crumb, h1, intro, actions, photo_id, alt, skip, ways_title, items, steps, who, gain, band_t, band_p, band_btn, guides):
+    lis = lambda xs: "".join(f"<li>{E(x)}</li>" for x in xs)
+    g = "".join(f'<li><a href="{E(h)}">{E(t)}</a></li>' for h, t in guides)
+    page(fname, crumb, intro, f"""
+<section class="mk-hero">
+  <div>
+    <p class="crumb"><a href="index.html">DASKIES</a> · {E(crumb)}</p>
+    <h1>{E(h1)}</h1>
+    <p class="intro">{E(intro)}</p>
+    <div class="mk-actions">{actions}</div>
+  </div>
+  <div class="platewrap" style="--cut:64px"><span class="plate">{img(photo_id, alt, 1400, eager=True)}</span></div>
+</section>
+<section class="mk-sec"><h2>{E(ways_title)}</h2><div class="svc-cards">{ways(items)}</div></section>
+<section class="mk-sec"><h2>How it works</h2><ol class="mk-steps">{lis(steps)}</ol></section>
+<section class="mk-sec"><div class="mk-two"><div><h2>Who it's for</h2><ul>{lis(who)}</ul></div><div class="mk-gain"><h2>What you gain</h2><ul>{lis(gain)}</ul></div></div></section>
+<section class="mk-sec"><div class="mk-band"><div><h2>{E(band_t)}</h2><p>{E(band_p)}</p></div>{band_btn}</div></section>
+<section class="mk-sec"><h2>Guides worth reading first</h2><ul class="guide-links">{g}</ul></section>
+{more(skip)}
+""")
+
+STEPS = ["Join free and add your business details. Every member does, so you know who you're dealing with.",
+         "Post what you have or what you need, or search what others have listed.",
+         "Message businesses privately through DASKIES. Contact details stay private until you both choose to share them.",
+         "Agree terms in a deal room. Nothing is binding until every party approves the same terms."]
+
+audience("for-startups.html", "For startups", "Start making without buying a factory",
+  "Most of a new manufacturer's money goes into land, sheds and machines before the first sale. On DASKIES you can lease capacity that already exists, buy proven used machines, rent storage only when you need it, and swap what you make for what you need.",
+  '<a class="btn btn-primary" href="account.html?mode=signup">Join DASKIES free</a><a class="btn btn-ghost" href="post.html?kind=need">Post what you need</a>',
+  "1716191300020-b52dec5b70a8", "A line of electrical equipment on a factory floor", "",
+  "Six ways to start lean", [
+    ("Lease a line, a shed or a spare shift", "Rent factory space, a running production line or a second shift by the month, instead of building your own.", "leasing.html", "See industrial leasing"),
+    ("Contract manufacturing and job work", "Have parts or products made to your drawings by factories that have idle machines and trained staff.", "leasing.html", "Find capacity"),
+    ("Buy proven used machines", "Get machines for less than new, inspect them before you pay, or rent them first.", "machines.html", "See used machines"),
+    ("Rent storage only when you need it", "Short or long-term warehouse, cold storage and tank space near ports, farms and industrial areas.", "storage.html", "See storage"),
+    ("Swap instead of paying cash", "Trade your products or services for machines, space or stock. Any gap in value is settled in cash.", "guide-barter-gst.html", "How barter works"),
+    ("License technology and know-how", "License software, designs or processes from companies that already have them, instead of building from zero.", "technology.html", "See technology")],
+  STEPS,
+  ["Hardware and product startups", "D2C brands that need a manufacturer", "Food and agri-processing startups", "Exporters testing a new product"],
+  ["Spend on growth, not on buildings", "Start production in weeks, not years", "Test a product before you commit to machines", "Keep cash by swapping instead of paying"],
+  "Tell us what you need", "Post a requirement in a few minutes. Businesses that have it can reply to you directly through DASKIES.",
+  '<a class="btn btn-primary" href="post.html?kind=need">Post a need</a>',
+  [("guide-barter-gst.html", "How business barter works in India, and how GST treats it"), ("guide-lease-shed-warehouse.html", "Leasing an industrial shed or warehouse: what to check")])
+
+audience("for-businesses.html", "For established businesses", "Make idle assets earn again",
+  "Every established business has something standing still: a machine replaced by a newer one, a shed half empty, a second shift that never started, stock that didn't sell. DASKIES puts these in front of businesses that need them, in India and abroad, for cash, rent or a swap.",
+  '<a class="btn btn-primary" href="post.html?kind=offer">List what you have</a><a class="btn btn-ghost" href="explore.html">See what others need</a>',
+  "1787039467622-ddec5c24320c", "CNC machines in a bright workshop", "machines",
+  "What you can put to work", [
+    ("Sell, rent out or swap old machines", "Release the cash locked in machines you no longer use, or swap them for ones you need.", "machines.html", "See used machines"),
+    ("Rent out empty sheds and floors", "Turn unused factory space into monthly rent from companies that need capacity now.", "leasing.html", "See industrial leasing"),
+    ("Fill spare shifts with job work", "Use idle machines and staff for contract manufacturing for other companies.", "leasing.html", "List spare capacity"),
+    ("Rent out warehouse space", "Earn from empty warehouse, cold storage or tank space, short or long-term.", "storage.html", "See storage"),
+    ("Reach overseas buyers", "Importers in the US, Europe, the Gulf and Africa look for running capacity and contract production in Gujarat.", "global-buyers.html", "See Global buyers"),
+    ("Donate what you no longer need", "Give old computers, machines, tools or training to schools and skill centres.", "technology.html", "See technology and education")],
+  STEPS,
+  ["Family-run manufacturers and MSMEs", "Factories upgrading or closing a line", "Traders with surplus or seasonal stock", "Owners of industrial land and buildings"],
+  ["Cash or rent from things that earn nothing today", "Buyers who give their full business details", "Swaps when cash is tight, with any difference paid in cash", "A deal manager for larger deals, if you want one"],
+  "Not sure what it's worth?", "We connect you with registered valuers for machinery, property and stock, so you can list with a value buyers trust.",
+  '<a class="btn btn-primary" href="services.html">See valuation support</a>',
+  [("guide-sell-used-machine.html", "How to sell a used industrial machine in India"), ("guide-lease-shed-warehouse.html", "Leasing an industrial shed or warehouse: what to check"), ("guide-barter-gst.html", "How business barter works in India, and how GST treats it")])
+
+print("built", [m["slug"] for m in MARKETS] + ["global-buyers", "services", "partners", "for-startups", "for-businesses"])

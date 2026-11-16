@@ -1,5 +1,5 @@
-import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=8668928d";
-import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=8668928d";
+import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=4ab08f1a";
+import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=4ab08f1a";
 
 const m = await header("explore.html");
 const main = $("#main");
@@ -8,11 +8,31 @@ const id = qs("id");
 const { data: l, error } = id ? await sb.from("listings")
   .select("*, listing_photos(path,sort), businesses(name,city,country,verification_level,roles,year_established,description,export_import)")
   .eq("id", id).maybeSingle() : { data: null };
+// Search and share tags for this listing (Google reads them after the page runs).
+function headTag(sel, make, attr, val) {
+  let el = document.head.querySelector(sel);
+  if (!el) { el = document.createElement(make[0]); Object.entries(make[1]).forEach(([k, x]) => el.setAttribute(k, x)); document.head.appendChild(el); }
+  el.setAttribute(attr, val);
+}
+const noindex = () => headTag('meta[name="robots"]', ["meta", { name: "robots" }], "content", "noindex, follow");
 if (error || !l) {
+  noindex();
   main.innerHTML = `<div class="panel empty"><h1>Listing not found</h1><p>It may have been closed or is still waiting for review.</p><a class="btn btn-primary" href="explore.html">Explore opportunities</a></div>`;
   throw new Error("stop");
 }
-document.title = `${l.title} — DASKIES`;
+document.title = `${l.title} | DASKIES`;
+{
+  const vv = vertical(l.vertical), place = [l.city, l.state, l.country].filter(Boolean).join(", ");
+  const d = `${l.kind === "offer" ? "Available" : "Wanted"}: ${l.title}. ${l.subcategory}${vv ? " (" + vv.short + ")" : ""}${place ? " in " + place : ""}. ${money(l.price, l.currency, l.price_unit)}. Message the business privately on DASKIES.`.slice(0, 300);
+  const url = "https://daskies.com/listing.html?id=" + encodeURIComponent(l.id);
+  headTag('meta[name="description"]', ["meta", { name: "description" }], "content", d);
+  headTag('link[rel="canonical"]', ["link", { rel: "canonical" }], "href", url);
+  headTag('meta[property="og:title"]', ["meta", { property: "og:title" }], "content", document.title);
+  headTag('meta[property="og:description"]', ["meta", { property: "og:description" }], "content", d);
+  headTag('meta[property="og:url"]', ["meta", { property: "og:url" }], "content", url);
+  if (l.status !== "approved") noindex();
+  else headTag('meta[name="robots"]', ["meta", { name: "robots" }], "content", "index, follow, max-image-preview:large");
+}
 const v = vertical(l.vertical);
 const mine = m.user && m.user.id === l.owner_id;
 const b = l.businesses || {};

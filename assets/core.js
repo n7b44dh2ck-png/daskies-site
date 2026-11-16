@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import CONFIG from "./config.js?v=8668928d";
-import { vertical, LEVELS } from "./taxonomy.js?v=8668928d";
+import CONFIG from "./config.js?v=4ab08f1a";
+import { vertical, LEVELS } from "./taxonomy.js?v=4ab08f1a";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -190,7 +190,7 @@ export async function header(active) {
   f.innerHTML = `<div class="wrap"><div class="foot-grid">
     <div><a class="brand" href="index.html" aria-label="DASKIES home">${BIRD}<b>DASKIES</b></a><p class="foot-tag">The business network for Indian industry: lease, buy, sell, barter or donate.</p></div>
     <div><h3>What you need</h3><ul>${CATS.map(li).join("")}</ul></div>
-    <div><h3>Platform</h3><ul>${[["explore.html", "Explore"], ["post.html?kind=offer", "List an offer"], ["post.html?kind=need", "Post a need"], ["index.html#how-it-works", "How it works"], ["pricing.html", "Membership"]].map(li).join("")}</ul></div>
+    <div><h3>Platform</h3><ul>${[["explore.html", "Explore"], ["post.html?kind=offer", "List an offer"], ["post.html?kind=need", "Post a need"], ["index.html#how-it-works", "How it works"], ["pricing.html", "Membership"], ["for-startups.html", "For startups"], ["for-businesses.html", "For established businesses"], ["guides.html", "Guides"]].map(li).join("")}</ul></div>
     <div><h3>Company</h3><ul>${[["about.html", "About us"], ["global-buyers.html", "Global buyers"], ["services.html", "Services"], ["partners.html", "Partner with us"], ["mailto:info@daskies.com", "info@daskies.com"]].map(li).join("")}</ul></div></div>
     <div class="legal"><p>DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; do your own checks before any deal.</p>
     <nav class="foot-links" aria-label="Policies"><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refunds.html">Refunds and cancellations</a><a href="about.html">About us</a><a href="contact.html">Contact us</a></nav>
