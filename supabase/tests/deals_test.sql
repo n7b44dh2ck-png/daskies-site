@@ -84,13 +84,13 @@ begin
     insert into rt(step, result) values ('no new offers after terms agreed', 'FAIL');
   exception when others then insert into rt(step, result) values ('no new offers after terms agreed', 'PASS');
   end;
-  for i in 1..4 loop st := public.advance_stage(d, null); end loop;
+  for i in 1..3 loop st := public.advance_stage(d, null); end loop;
   if to_regclass('public.deal_fees') is not null then
     perform set_config('role', 'none', true);
     execute format('update public.deal_fees set status = %L where deal_id = %L', 'waived', d);
     perform set_config('role', 'authenticated', true);
   end if;
-  st := public.advance_stage(d, null);
+  st := public.advance_stage(d, null); st := public.advance_stage(d, null);
   insert into rt(step, result) values ('stages advance to delivery', case when st = 'delivery' then 'PASS' else 'FAIL ' || st end);
   r := public.confirm_completion(d);
   insert into rt(step, result) values ('one party confirming is not enough', case when r = 'waiting' then 'PASS' else 'FAIL ' || r end);

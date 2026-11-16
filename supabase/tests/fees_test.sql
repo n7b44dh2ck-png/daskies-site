@@ -1,4 +1,4 @@
--- DASKIES fees test: fees appear only at Payment/settlement, privately per party; delivery waits for fees. Cleans up after itself.
+-- DASKIES fees test: fees appear only when the contract is signed, privately per party; payment/settlement waits for fees. Cleans up after itself.
 create temp table if not exists rt (n serial, step text, result text);
 truncate rt;
 grant all on rt to authenticated, anon;
@@ -43,20 +43,20 @@ begin
   perform set_config('request.jwt.claims', json_build_object('sub', a, 'role', 'authenticated')::text, true);
   perform set_config('role', 'authenticated', true);
   perform public.approve_terms(d, o);
-  perform public.advance_stage(d, null); perform public.advance_stage(d, null); perform public.advance_stage(d, null); -- due diligence, documentation, contract signed
+  perform public.advance_stage(d, null); perform public.advance_stage(d, null); -- due diligence, documentation
   select count(*) into n from public.deal_fees where deal_id = d;
-  insert into rt(step, result) values ('no fee exists before Payment / settlement', case when n = 0 then 'PASS' else 'FAIL ' || n end);
+  insert into rt(step, result) values ('no fee exists before the contract is signed', case when n = 0 then 'PASS' else 'FAIL ' || n end);
   st := public.advance_stage(d, 'Contract signed');
   select count(*) into n from public.deal_fees where deal_id = d;
-  insert into rt(step, result) values ('at settlement a party sees only their own fee', case when st = 'settlement' and n = 1 then 'PASS' else 'FAIL ' || st || ' ' || n end);
+  insert into rt(step, result) values ('on contract signed a party sees only their own fee', case when st = 'contract_signed' and n = 1 then 'PASS' else 'FAIL ' || st || ' ' || n end);
   select fee into v from public.deal_fees where deal_id = d and user_id = a;
   insert into rt(step, result) values ('fee is 5% of the agreed price', case when v = 50000 then 'PASS' else 'FAIL ' || v end);
   select gst into v from public.deal_fees where deal_id = d and user_id = a;
   insert into rt(step, result) values ('GST is 18% of the fee', case when v = 9000 then 'PASS' else 'FAIL ' || v end);
   begin
     perform public.advance_stage(d, null);
-    insert into rt(step, result) values ('delivery waits until fees are settled', 'FAIL');
-  exception when others then insert into rt(step, result) values ('delivery waits until fees are settled', case when sqlerrm like 'Delivery opens once%' then 'PASS' else 'FAIL ' || sqlerrm end);
+    insert into rt(step, result) values ('payment and settlement wait until fees are paid', 'FAIL');
+  exception when others then insert into rt(step, result) values ('payment and settlement wait until fees are paid', case when sqlerrm like 'Payment and settlement open once%' then 'PASS' else 'FAIL ' || sqlerrm end);
   end;
   begin
     update public.deal_fees set status = 'paid' where deal_id = d;
@@ -87,8 +87,8 @@ begin
   perform set_config('role', 'authenticated', true);
   begin
     perform public.advance_stage(d, null);
-    insert into rt(step, result) values ('one unpaid fee still blocks delivery', 'FAIL');
-  exception when others then insert into rt(step, result) values ('one unpaid fee still blocks delivery', 'PASS');
+    insert into rt(step, result) values ('one unpaid fee still blocks payment and settlement', 'FAIL');
+  exception when others then insert into rt(step, result) values ('one unpaid fee still blocks payment and settlement', 'PASS');
   end;
   perform set_config('role', 'none', true);
   perform set_config('request.jwt.claims', json_build_object('sub', adm, 'role', 'authenticated')::text, true);
@@ -98,7 +98,7 @@ begin
   perform set_config('request.jwt.claims', json_build_object('sub', b, 'role', 'authenticated')::text, true);
   perform set_config('role', 'authenticated', true);
   st := public.advance_stage(d, null);
-  insert into rt(step, result) values ('paid and waived fees open delivery', case when st = 'delivery' then 'PASS' else 'FAIL ' || st end);
+  insert into rt(step, result) values ('paid and waived fees open payment and settlement', case when st = 'settlement' then 'PASS' else 'FAIL ' || st end);
   perform set_config('role', 'none', true);
   select count(*) into n from public.notifications where user_id = a and title = 'DASKIES received your success fee';
   insert into rt(step, result) values ('member told when payment is received', case when n = 1 then 'PASS' else 'FAIL ' || n end);
@@ -112,7 +112,7 @@ begin
   perform set_config('request.jwt.claims', json_build_object('sub', b, 'role', 'authenticated')::text, true);
   perform set_config('role', 'authenticated', true);
   perform public.approve_terms(d2, o);
-  for i in 1..4 loop perform public.advance_stage(d2, null); end loop;
+  for i in 1..3 loop perform public.advance_stage(d2, null); end loop;
   select fee into v from public.deal_fees where deal_id = d2;
   insert into rt(step, result) values ('swap: B''s fee is 5% of what B gives (36 lakh)', case when v = 180000 then 'PASS' else 'FAIL ' || v end);
   perform public.cancel_deal(d2, 'Changed plans');
@@ -131,7 +131,7 @@ begin
   perform set_config('request.jwt.claims', json_build_object('sub', a, 'role', 'authenticated')::text, true);
   perform set_config('role', 'authenticated', true);
   perform public.approve_terms(d3, o);
-  for i in 1..4 loop perform public.advance_stage(d3, null); end loop;
+  for i in 1..3 loop perform public.advance_stage(d3, null); end loop;
   select count(*) into n from public.deal_fees where deal_id = d3 and note like 'Deals above Rs 1 crore%';
   insert into rt(step, result) values ('large deal fee notes the rate is open to agreement', case when n = 1 then 'PASS' else 'FAIL ' || n end);
   perform set_config('role', 'none', true);
