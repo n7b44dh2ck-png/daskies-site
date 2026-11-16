@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import CONFIG from "./config.js?v=cf25345b";
-import { vertical, LEVELS } from "./taxonomy.js?v=cf25345b";
+import CONFIG from "./config.js?v=267b52c1";
+import { vertical, LEVELS } from "./taxonomy.js?v=267b52c1";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -28,6 +28,8 @@ export const day = (d) => new Date(d).toLocaleDateString(undefined, { day: "nume
 export function errMsg(e) {
   const m = (e && (e.message || e.error_description || e.msg)) || String(e || "Something went wrong");
   if (/Invalid login credentials/i.test(m)) return "Email or password is wrong.";
+  if (/Email not confirmed/i.test(m)) return "Confirm your email first: open the link we sent when you joined.";
+  if (/expired|invalid.*(link|token|otp)|otp_expired/i.test(m)) return "That email link has expired or was already used. Ask for a new one below.";
   if (/already registered|already been registered/i.test(m)) return "An account with this email already exists. Sign in instead.";
   if (/Password should be/i.test(m)) return "Use a password of at least 8 characters.";
   if (/rate limit|too many/i.test(m)) return "Too many tries. Wait a minute and try again.";
