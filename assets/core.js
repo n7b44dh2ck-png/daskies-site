@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import CONFIG from "./config.js?v=ddcdfaa6";
-import { vertical, LEVELS } from "./taxonomy.js?v=ddcdfaa6";
+import CONFIG from "./config.js?v=84abb442";
+import { vertical, LEVELS } from "./taxonomy.js?v=84abb442";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -165,7 +165,7 @@ export async function header(active) {
   document.body.appendChild(wa);
   const f = document.createElement("footer");
   f.className = "foot";
-  f.innerHTML = `<div class="wrap"><nav class="foot-links" aria-label="Policies"><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refunds.html">Refunds and cancellations</a><a href="index.html#contact">Contact</a></nav>DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; do your own checks before any deal. © ${new Date().getFullYear()} Daskies.</div>`;
+  f.innerHTML = `<div class="wrap"><nav class="foot-links" aria-label="Policies"><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refunds.html">Refunds and cancellations</a><a href="about.html">About us</a><a href="contact.html">Contact us</a></nav>DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; do your own checks before any deal. © ${new Date().getFullYear()} Daskies.</div>`;
   document.body.appendChild(f);
   const badge = () => document.body.classList.toggle("has-badge", !!document.getElementById("nl-badge-frame"));
   badge(); new MutationObserver(badge).observe(document.body, { childList: true });

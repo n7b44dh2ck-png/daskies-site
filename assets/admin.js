@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord } from "./core.js?v=ddcdfaa6";
-import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=ddcdfaa6";
+import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord } from "./core.js?v=84abb442";
+import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=84abb442";
 
 await header("admin.html");
 const m = await requireAuth();

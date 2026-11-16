@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl } from "./core.js?v=ddcdfaa6";
-import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=ddcdfaa6";
+import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl } from "./core.js?v=84abb442";
+import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=84abb442";
 
 await header("post.html?kind=" + (qs("kind") === "offer" ? "offer" : "need"));
 const m = await requireAuth();
