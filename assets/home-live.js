@@ -1,7 +1,7 @@
 // Homepage: live listings from the database, and a signed-in member's header.
 // While the marketplace is empty the page keeps its clearly labelled samples.
-import { sb, esc, money, photoUrl } from "./core.js?v=267b52c1";
-import { vertical } from "./taxonomy.js?v=267b52c1";
+import { sb, esc, money, price, photoUrl } from "./core.js?v=05ce2f58";
+import { vertical } from "./taxonomy.js?v=05ce2f58";
 
 const $ = (s) => document.querySelector(s);
 const ICON = { industrial: "lease", commodity: "agri", "real-assets": "infra", storage: "storage", "barter-tech": "tech", projects: "infra" };
@@ -35,7 +35,7 @@ function card(l) {
       <span class="tag ${l.kind === "need" ? "tag-need" : "tag-offer"}">${l.kind === "need" ? "Need" : "Offer"}</span></a>
     <div class="card-body"><span class="small">${esc(v.name || "")}</span><h3 translate="no"><a href="listing.html?id=${l.id}">${esc(l.title)}</a></h3>
       <span class="where" translate="no">${esc(where)}</span>
-      <span class="price num">${l.price ? esc(money(l.price, l.currency, l.price_unit)) : "Price on request"}</span>
+      <span class="price num">${l.price ? price(l.price, l.currency, l.price_unit) : "Price on request"}</span>
       <a class="btn btn-ghost btn-sm" href="listing.html?id=${l.id}">View listing</a></div></article>`;
 }
 

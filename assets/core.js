@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import CONFIG from "./config.js?v=267b52c1";
-import { vertical, LEVELS } from "./taxonomy.js?v=267b52c1";
+import CONFIG from "./config.js?v=05ce2f58";
+import { vertical, LEVELS } from "./taxonomy.js?v=05ce2f58";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -21,6 +21,13 @@ export function money(v, cur = "INR", unit = "") {
     try { s = new Intl.NumberFormat("en", { style: "currency", currency: cur, maximumFractionDigits: 0 }).format(n); } catch { s = `${cur} ${n}`; }
   }
   return unit ? `${s} ${unit}` : s;
+}
+// A price while browsing: fx.js shows it in the visitor's currency (≈ US$ overseas, ₹ in India).
+// The seller's own price stays in the page as the fallback. Contracts and fees use money(), not this.
+export function price(v, cur = "INR", unit = "") {
+  const s = esc(money(v, cur, unit));
+  if (v === null || v === undefined || v === "" || !isFinite(Number(v))) return s;
+  return `<span class="pz" data-v="${Number(v)}" data-c="${esc(cur || "INR")}"${unit ? ` data-u="${esc(unit)}"` : ""}>${s}</span>`;
 }
 export const when = (d) => new Date(d).toLocaleString(undefined, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 export const day = (d) => new Date(d).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
@@ -114,7 +121,7 @@ export function card(l) {
       <span class="small muted">${esc(v ? v.name : "")} · ${esc(l.subcategory)}</span>
       <h3>${esc(l.title)}</h3>
       <span class="small muted">${esc(where)}${l.quantity ? ` · ${esc(l.quantity)} ${esc(l.quantity_unit || "")}` : ""}</span>
-      <span class="price">${esc(money(l.price, l.currency, l.price_unit))}</span>
+      <span class="price">${price(l.price, l.currency, l.price_unit)}</span>
     </div></a>`;
 }
 export const statusWord = (s) => ({ pending: "Waiting for review", approved: "Live", rejected: "Not approved", closed: "Closed", draft: "Draft" }[s] || s);

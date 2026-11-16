@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="assets/boot.js?v=267b52c1"></script>
+<script src="assets/boot.js?v=05ce2f58"></script>
+<script src="assets/fx.js?v=05ce2f58"></script>
 <title>DASKIES — Lease, buy, sell or barter industrial capacity</title>
 <meta name="description" content="DASKIES is a B2B marketplace for Indian industry: lease idle capacity, buy and sell used machines, barter assets and source from Gujarat's export clusters.">
 <meta property="og:title" content="DASKIES: lease, buy, sell or barter industrial capacity">
@@ -145,7 +146,7 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#B8B7BE}
 .price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
 .lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
-/* live listings (filled from the database by assets/home-live.js?v=267b52c1) */
+/* live listings (filled from the database by assets/home-live.js?v=05ce2f58) */
 .live-block{margin-bottom:40px}
 .live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
 .live-head h3{margin:0}
@@ -273,6 +274,9 @@ table.clusters{width:100%;border-collapse:collapse;background:#fff;border:1px so
 .foot a{color:#E4E3E8;text-decoration:none}
 .foot a:hover{color:#F6B3CB;text-decoration:underline}
 .foot :focus-visible{outline-color:#F6B3CB}
+.foot .curpick{display:inline-flex;align-items:center;gap:6px;margin-left:16px;color:#E4E3E8;white-space:nowrap}
+.foot .curpick select{font:inherit;padding:2px 6px;border-radius:6px;border:1px solid #6B6A73;background:#3A3940;color:#fff}
+.pz[title]{cursor:help}
 .legal{color:#A9A8B1;border-top:1px solid rgba(255,255,255,.14);margin-top:40px;padding-top:20px;font-size:13.5px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .legal p{margin:0;max-width:80ch}
 
@@ -602,7 +606,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
           <label for="offer">You offer</label>
           <select id="offer"></select>
         </div>
-        <div class="desk-val num" id="offerVal">₹50 lakh</div>
+        <div class="desk-val num pz" id="offerVal" data-c="INR" data-v="5000000">₹50 lakh</div>
       </div>
       <div class="swap" aria-hidden="true"><span><svg width="18" height="18"><use href="#i-swap"/></svg></span></div>
       <div class="desk-row">
@@ -610,11 +614,11 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
           <label for="need">You need</label>
           <select id="need"></select>
         </div>
-        <div class="desk-val num" id="needVal">₹65 lakh</div>
+        <div class="desk-val num pz" id="needVal" data-c="INR" data-v="6500000">₹65 lakh</div>
       </div>
       <div class="balance pay" id="balance" aria-live="polite">
         <span class="bl" id="balLabel">You add in cash</span>
-        <span class="bv num" id="balVal">₹15 lakh</span>
+        <span class="bv num pz" id="balVal" data-c="INR" data-v="1500000">₹15 lakh</span>
         <span class="bn" id="balNote">The rest is settled as a straight swap.</span>
       </div>
       <div class="desk-foot">
@@ -681,8 +685,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
             <div class="err">Add the city and locality you prefer.</div>
           </div>
           <div class="field" data-f="btBudget">
-            <label class="flabel" for="btBudget">Budget (₹ lakh)</label>
-            <input id="btBudget" name="budget-lakh" type="number" min="1" inputmode="decimal" placeholder="e.g. 80">
+            <label class="flabel" for="btBudget"><span data-cur-only="INR">Budget (₹ lakh)</span><span data-cur-only="USD" hidden>Budget (US$)</span></label>
+            <input id="btBudget" name="budget-lakh" type="number" min="1" inputmode="decimal" placeholder="e.g. 80"><input type="hidden" name="budget-entered" id="btBudgetEntered">
           </div>
         </div>
         <div class="frow">
@@ -839,9 +843,9 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
             <div class="err">Choose the category your asset belongs to.</div>
           </div>
           <div class="field" data-f="value">
-            <label class="flabel" for="fValue">Valuation (₹ lakh) <span class="req">*</span></label>
-            <input id="fValue" name="value" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="e.g. 28">
-            <div class="err">Enter the valuation in lakh, for example 28.</div>
+            <label class="flabel" for="fValue"><span data-cur-only="INR">Valuation (₹ lakh)</span><span data-cur-only="USD" hidden>Valuation (US$)</span> <span class="req">*</span></label>
+            <input id="fValue" name="value" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="e.g. 28"><input type="hidden" name="value-entered" id="fValueEntered">
+            <div class="err"><span data-cur-only="INR">Enter the valuation in lakh, for example 28.</span><span data-cur-only="USD" hidden>Enter the valuation in US dollars, for example 30000.</span></div>
           </div>
         </div>
 
@@ -1050,7 +1054,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   <div class="wrap">
     <div class="sec-head">
       <h2 class="d2">Questions businesses ask us</h2>
-      <p class="lede">Can't find your answer? Use the chat, WhatsApp us, or write to contact@daskies.com.</p>
+      <p class="lede">Can't find your answer? Use the chat, WhatsApp us, or write to info@daskies.com.</p>
     </div>
     <div class="faq">
       <details><summary>How do I list something?</summary><p>Register free on this page. We confirm your membership by email within 48 hours. Then you get a private members link to send full details: 3 photos, a description and a valuation report. We review it before it goes live.</p></details>
@@ -1076,7 +1080,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
       </div>
       <div class="mailbox">
         <p style="margin:0 0 6px">Email</p>
-        <a href="mailto:contact@daskies.com">contact@daskies.com</a>
+        <a href="mailto:info@daskies.com">info@daskies.com</a>
         <p style="margin-top:14px;font-size:14.5px">Or open the chat at the bottom right for quick answers.</p>
         <form class="digest" id="digest" name="digest" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
           <input type="hidden" name="form-name" value="digest"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
@@ -1100,11 +1104,11 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
       </div>
       <div><h3>Categories</h3><ul id="footCats"></ul></div>
       <div><h3>Platform</h3><ul><li><a href="#marketplace">Marketplace</a></li><li><a href="#list-asset">Register and list</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#services">Services</a></li><li><a href="#membership">Membership</a></li><li><a href="#partners">Partner with us</a></li><li><a href="#faq">FAQ</a></li><li><a href="pricing.html">Pricing</a></li></ul></div>
-      <div><h3>Contact</h3><ul><li><a href="mailto:contact@daskies.com">contact@daskies.com</a></li><li><a href="#global-buyers">Global buyers</a></li><li>Gujarat, India</li></ul></div>
+      <div><h3>Contact</h3><ul><li><a href="mailto:info@daskies.com">info@daskies.com</a></li><li><a href="#global-buyers">Global buyers</a></li><li>Gujarat, India</li></ul></div>
     </div>
     <div class="legal">
       <p>DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; please do your own due diligence before any deal.</p>
-      <p><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="refunds.html">Refunds and cancellations</a></p>
+      <p class="foot-links"><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="refunds.html">Refunds and cancellations</a></p>
       <p>© 2026 Daskies. All rights reserved.</p>
     </div>
   </div>
@@ -1244,6 +1248,13 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     return "₹"+(Math.round(v*10)/10).toString()+" lakh";
   }
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  // Prices follow the visitor's currency (assets/fx.js?v=05ce2f58): rupees in India, approximate US dollars elsewhere.
+  var FX=window.DSKFX||null;
+  function usd(){ return !!(FX && FX.eff()==="USD"); }
+  function fmtC(v){ var l=FX&&FX.label(v*1e5,"INR"); return l||fmt(v); }
+  function pz(v){ return '<span class="pz" data-c="INR" data-v="'+Math.round(v*1e5)+'">'+fmt(v)+'</span>'; }
+  function setPz(el,v,txt){ el.removeAttribute("data-x"); el.removeAttribute("title"); el.setAttribute("data-v",Math.round(v*1e5)); el.textContent=txt||fmt(v); if(FX) FX.paint(); }
+  function lakhOf(dollars){ var r=FX&&FX.conv(dollars,"USD","INR"); return r==null?null:Math.round(r/1e5*100)/100; }
 
   // Barter desk
   var OFFERS = [
@@ -1263,10 +1274,10 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   NEEDS.forEach(function(o,i){need.add(new Option(o.t,i))});
   function desk(){
     var a=OFFERS[offer.value].v, b=NEEDS[need.value].v, d=b-a, bal=$("#balance");
-    $("#offerVal").textContent=fmt(a); $("#needVal").textContent=fmt(b);
+    setPz($("#offerVal"),a); setPz($("#needVal"),b);
     bal.className="balance "+(d>0?"pay":d<0?"get":"even");
     $("#balLabel").textContent = d>0?"You add in cash":d<0?"You receive in cash":"Even swap";
-    $("#balVal").textContent = d===0?"₹0":fmt(Math.abs(d));
+    setPz($("#balVal"),Math.abs(d),d===0?"₹0":null);
     $("#balNote").textContent = d===0?"Value for value, no cash needed.":"The rest is settled as a straight swap.";
   }
   offer.addEventListener("change",desk); need.addEventListener("change",desk); desk();
@@ -1303,7 +1314,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     return '<article class="card"><div class="ph t-'+l.cat+'"><span class="tag">Sample</span><span class="deal">'+DEAL[l.deal]+'</span>'+
       '<svg aria-hidden="true"><use href="#i-'+l.cat+'"/></svg></div>'+
       '<div class="card-body"><span class="small">'+esc(catName(l.cat))+'</span><h3>'+esc(l.title)+'</h3><span class="where">'+esc(l.where)+'</span>'+
-      '<span class="price num">'+fmt(l.value)+(l.unit?' <small>'+esc(l.unit)+'</small>':'')+'</span>'+
+      '<span class="price num">'+pz(l.value)+(l.unit?' <small>'+esc(l.unit)+'</small>':'')+'</span>'+
       '<div class="lock"><span class="blur" aria-hidden="true">+91 98••• •••12</span><button type="button" data-join data-why="contact"><svg width="16" height="16"><use href="#i-lock"/></svg>Unlock contact</button></div></div></article>';
   }
   var current="all";
@@ -1330,7 +1341,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     if(!isMultipart) opts.headers={"Content-Type":"application/x-www-form-urlencoded"};
     return fetch("/", opts).then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r; });
   }
-  var FAIL="Couldn't send. Check your connection and try again, or email contact@daskies.com.";
+  var FAIL="Couldn't send. Check your connection and try again, or email info@daskies.com.";
   function busy(btn,on,label){ if(!btn) return; if(on){btn.dataset.l=btn.textContent; btn.textContent=label||"Sending…"; btn.disabled=true} else {btn.textContent=btn.dataset.l||btn.textContent; btn.disabled=false} }
 
   function alertIn(form,msg){ var a=form.querySelector(".send-err"); if(!a){a=document.createElement("p"); a.className="err send-err"; a.style.display="block"; a.setAttribute("role","alert"); form.appendChild(a);} a.textContent=msg; }
@@ -1400,7 +1411,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
 
   $("#listForm").addEventListener("submit",function(e){
     e.preventDefault();
-    var v=parseFloat($("#fValue").value), probs=[];
+    var v=parseFloat($("#fValue").value), probs=[], typed=$("#fValue").value;
+    if(usd() && v>0){ var lk=lakhOf(v); $("#fValueEntered").value="US$ "+typed; v=lk||0; } else $("#fValueEntered").value="";
     if(setBad("member",$("#fMember").value.trim().length<3)) probs.push("member ID");
     if(setBad("cat",!fCat.value)) probs.push("category");
     if(setBad("value",!(v>0))) probs.push("valuation");
@@ -1423,7 +1435,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     var item={cat:fCat.value, value:v, title:$("#fTitle").value.trim(), where:$("#fWhere").value.trim(), deal:($('input[name=deal]:checked')||{}).value||"Sale"};
     $("#fCatName").value=catName(item.cat);
     var btn=$("#listSubmit"); busy(btn,true,"Preparing photos…");
-    buildListing().then(function(fd){ btn.textContent="Sending…"; return send(fd,true); }).then(function(){ busy(btn,false); lastListing={title:item.title, email:$("#fEmail").value.trim()}; showResult(item); })
+    var fv=$("#fValue"); if(usd()) fv.value=String(v); var built=buildListing(); fv.value=typed;
+    built.then(function(fd){ btn.textContent="Sending…"; return send(fd,true); }).then(function(){ busy(btn,false); lastListing={title:item.title, email:$("#fEmail").value.trim()}; showResult(item); })
       .catch(function(err){ busy(btn,false); sum.innerHTML=esc(err&&err.message==="too-big"?"Your photos and report together are too large to send. Use a smaller valuation report (under 3 MB) and try again.":FAIL); sum.classList.add("show"); sum.scrollIntoView({block:"center"}); });
   });
 
@@ -1431,15 +1444,15 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     var lo=item.value*0.75, hi=item.value*1.25;
     var same=LIST.filter(function(l){return l.cat===item.cat});
     var inRange=same.filter(function(l){return l.value>=lo && l.value<=hi});
-    $("#resMeta").textContent = item.title+", "+catName(item.cat)+", "+fmt(item.value)+", "+item.where;
+    $("#resMeta").textContent = item.title+", "+catName(item.cat)+", "+fmtC(item.value)+", "+item.where;
     $("#simTitle").textContent = "Similar listings in "+catName(item.cat);
     var shown;
     if(inRange.length){
       shown=inRange;
-      $("#simNote").textContent = "Same category, priced between "+fmt(Math.round(lo*10)/10)+" and "+fmt(Math.round(hi*10)/10)+". Sample listings.";
+      $("#simNote").textContent = "Same category, priced between "+fmtC(Math.round(lo*10)/10)+" and "+fmtC(Math.round(hi*10)/10)+". Sample listings.";
     } else {
       shown=same.slice().sort(function(a,b){return Math.abs(a.value-item.value)-Math.abs(b.value-item.value)}).slice(0,2);
-      $("#simNote").textContent = shown.length ? "Nothing yet between "+fmt(Math.round(lo*10)/10)+" and "+fmt(Math.round(hi*10)/10)+". Closest in this category (sample listings):" : "No listings in this category yet. We'll alert you when one arrives.";
+      $("#simNote").textContent = shown.length ? "Nothing yet between "+fmtC(Math.round(lo*10)/10)+" and "+fmtC(Math.round(hi*10)/10)+". Closest in this category (sample listings):" : "No listings in this category yet. We'll alert you when one arrives.";
     }
     $("#similar").innerHTML = shown.slice(0,4).map(card).join("");
     $("#listForm").style.display="none";
@@ -1480,10 +1493,13 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     bad = setBad("btName",$("#btName").value.trim().length<2) || bad;
     bad = setBad("btEmail",!emailOk($("#btEmail").value.trim())) || bad;
     if(bad){var f=$("#btForm .field.bad input, #btForm .field.bad select"); if(f) f.focus(); return}
-    var b=parseFloat($("#btBudget").value), sz=parseFloat($("#btSize").value);
-    $("#btSummary").textContent = $("#btType").value+" in "+$("#btArea").value.trim()+(sz>0?", about "+Math.round(sz).toLocaleString("en-IN")+" sq ft":"")+(b>0?", budget "+fmt(b):"");
+    var b=parseFloat($("#btBudget").value), sz=parseFloat($("#btSize").value), bIn=$("#btBudget"), bTyped=bIn.value, dollars=usd()&&b>0;
+    $("#btSummary").textContent = $("#btType").value+" in "+$("#btArea").value.trim()+(sz>0?", about "+Math.round(sz).toLocaleString("en-IN")+" sq ft":"")+(b>0?", budget "+(dollars?"US$"+Math.round(b).toLocaleString("en-US"):fmt(b)):"");
     var form=$("#btForm"), btn=form.querySelector("button[type=submit]"); busy(btn,true);
-    send(encodeForm(form)).then(function(){ busy(btn,false); form.style.display="none"; var d=$("#btDone"); d.classList.add("show"); d.focus(); })
+    $("#btBudgetEntered").value = dollars ? "US$ "+bTyped : "";
+    if(dollars){ var bl=lakhOf(b); bIn.value = bl==null ? "" : String(bl); }
+    var body=encodeForm(form); bIn.value=bTyped;
+    send(body).then(function(){ busy(btn,false); form.style.display="none"; var d=$("#btDone"); d.classList.add("show"); d.focus(); })
       .catch(function(){ busy(btn,false); alertIn(form,FAIL); });
   });
   $("#btAgain").addEventListener("click",function(){ $("#btForm").reset(); $$("#btForm .field.bad").forEach(function(f){f.classList.remove("bad")}); $("#btDone").classList.remove("show"); $("#btForm").style.display=""; });
@@ -1589,7 +1605,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   var chat=$("#chat"), log=$("#chatLog"), opts=$("#chatOpts"), cb=$("#chatBtn");
   var QA = [
     ["Own a shop, office or home at cost","Tell us what you want, the area you prefer and your budget under Own at cost on this page. We group you with buyers who want the same there, buy the land and build it ready-to-use for a fixed charge."],
-    ["I'm an overseas buyer looking for a factory or production line","Welcome. Register free with your product, volume, preferred place in India and timeline. Our team shortlists factories and arranges a video walkthrough. You can also write to contact@daskies.com."],
+    ["I'm an overseas buyer looking for a factory or production line","Welcome. Register free with your product, volume, preferred place in India and timeline. Our team shortlists factories and arranges a video walkthrough. You can also write to info@daskies.com."],
     ["I want to lease out empty space, machines or capacity","Register free under List an asset. After we confirm your membership, you get a members link to send 3 photos, a description and a valuation report."],
     ["Buy, sell or barter used machinery","Register free under List an asset and tell us the machine: make, model, year, condition and price. Swaps can be balanced with cash."],
     ["Donate or share technology or education","Register free and choose Donate or share. We match computers, machines, software, books or training with schools, colleges and skill centres that need them."],
@@ -1642,6 +1658,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     if(mine.get(n)!==v) orig.set(n,v);
     var en=orig.get(n), out=en;
     if(curLang!=="en"){ var t=lookup(norm(en)); if(t!=null) out=en.match(/^\s*/)[0]+t+en.match(/\s*$/)[0]; }
+    if(FX && !(n.parentElement && n.parentElement.closest(".pz"))) out=FX.text(out);
     mine.set(n,out); if(out!==v) n.nodeValue=out;
   }
   function doAttrs(el){
@@ -1680,7 +1697,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   function load(code){
     if(code==="en") return Promise.resolve(null);
     if(cache[code]) return Promise.resolve(cache[code]);
-    return fetch("/i18n/"+code+".json?v=267b52c1").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
+    return fetch("/i18n/"+code+".json?v=05ce2f58").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
   }
   var langWrap=$("#lang"), langBtn=$("#langBtn");
   function markMenu(code){
@@ -1722,6 +1739,16 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     if(pick!=="en") setLang(pick,!!q);
   })();
 
+  // Currency: rupee amounts in the page text and the value fields follow the visitor's currency.
+  var fxWalked=false;
+  function applyCur(){
+    var u=usd();
+    $("#fValue").setAttribute("placeholder", u?"e.g. 30000":"e.g. 28");
+    $("#btBudget").setAttribute("placeholder", u?"e.g. 100000":"e.g. 80");
+    if(u||fxWalked){ fxWalked=true; walk(document.body); observe(); }
+  }
+  if(FX){ FX.on(applyCur); applyCur(); }
+
   // Make room for a hosting badge in the bottom-right corner when one appears
   function badgeRoom(){ document.body.classList.toggle("has-badge", !!document.getElementById("nl-badge-frame")); }
   badgeRoom(); if(window.MutationObserver) new MutationObserver(badgeRoom).observe(document.body,{childList:true});
@@ -1733,6 +1760,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   }
 })();
 </script>
-<script type="module" src="assets/home-live.js?v=267b52c1"></script>
+<script type="module" src="assets/home-live.js?v=05ce2f58"></script>
 </body>
 </html>

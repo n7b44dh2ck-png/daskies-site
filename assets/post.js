@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl } from "./core.js?v=267b52c1";
-import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=267b52c1";
+import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl } from "./core.js?v=05ce2f58";
+import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=05ce2f58";
 
 await header("post.html?kind=" + (qs("kind") === "offer" ? "offer" : "need"));
 const m = await requireAuth();
@@ -8,7 +8,7 @@ const main = $("#main");
 const editId = qs("id");
 const NEEDS_PROOF = ["industrial", "real-assets", "storage"]; // offers here need 3 photos + valuation report
 
-let L = { kind: qs("kind") === "offer" ? "offer" : "need", vertical: qs("v") || "", subcategory: "", deal_types: [], currency: "INR", country: m.business?.country || "India", city: m.business?.city || "", details: {} };
+let L = { kind: qs("kind") === "offer" ? "offer" : "need", vertical: qs("v") || "", subcategory: "", deal_types: [], currency: /^india$/i.test(m.business?.country || "India") ? "INR" : "USD", country: m.business?.country || "India", city: m.business?.city || "", details: {} };
 let existingPhotos = [];
 if (editId) {
   const { data } = await sb.from("listings").select("*, listing_photos(id,path,sort)").eq("id", editId).eq("owner_id", m.user.id).maybeSingle();

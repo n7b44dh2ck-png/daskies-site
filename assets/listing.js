@@ -1,5 +1,5 @@
-import { completeUrl, sb, $, esc, qs, header, card, money, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord } from "./core.js?v=267b52c1";
-import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=267b52c1";
+import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord } from "./core.js?v=05ce2f58";
+import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=05ce2f58";
 
 const m = await header("explore.html");
 const main = $("#main");
@@ -32,7 +32,7 @@ main.innerHTML = `
       ${photos.length ? `<div class="gallery" style="margin-bottom:20px"><img src="${esc(photoUrl(photos[0].path))}" alt="Photo 1 of ${esc(l.title)}"><div class="rest">${photos.slice(1, 3).map((p, i) => `<img src="${esc(photoUrl(p.path))}" alt="Photo ${i + 2}" loading="lazy">`).join("")}</div></div>` : ""}
       <div class="panel" style="margin-bottom:16px">
         <dl class="kv">
-          <dt>${l.kind === "offer" ? "Price" : "Budget"}</dt><dd><b>${esc(money(l.price, l.currency, l.price_unit))}</b></dd>
+          <dt>${l.kind === "offer" ? "Price" : "Budget"}</dt><dd><b>${price(l.price, l.currency, l.price_unit)}</b>${l.price ? `<span class="small muted" style="display:block;margin-top:4px" data-fxnote data-c="${esc(l.currency || "INR")}" data-o="${esc(money(l.price, l.currency, l.price_unit))}" hidden></span>` : ""}</dd>
           ${l.quantity ? `<dt>Quantity</dt><dd>${esc(l.quantity)} ${esc(l.quantity_unit || "")}</dd>` : ""}
           ${l.wants_in_exchange ? `<dt>Would take in exchange</dt><dd>${esc(l.wants_in_exchange)}</dd>` : ""}
           ${l.expires_at ? `<dt>Open until</dt><dd>${esc(day(l.expires_at))}</dd>` : ""}
