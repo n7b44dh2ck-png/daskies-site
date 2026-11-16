@@ -3,6 +3,12 @@
 // Secrets (Supabase > Edge Functions > Secrets): RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
+// Supabase provides its keys under new names (SUPABASE_*_KEYS) and, on older projects, the legacy ones.
+function supaKey(kind: "secret" | "publishable") {
+  try { const j = JSON.parse(Deno.env.get(kind === "secret" ? "SUPABASE_SECRET_KEYS" : "SUPABASE_PUBLISHABLE_KEYS") || "{}"); if (j.default) return j.default as string; } catch { /* fall back */ }
+  return Deno.env.get(kind === "secret" ? "SUPABASE_SERVICE_ROLE_KEY" : "SUPABASE_ANON_KEY") || "";
+}
+
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -21,10 +27,10 @@ Deno.serve(async (req) => {
     const keyId = Deno.env.get("RAZORPAY_KEY_ID"), keySecret = Deno.env.get("RAZORPAY_KEY_SECRET");
     if (!keyId || !keySecret) return json({ error: "Online payment isn't switched on yet. Write to info@daskies.com to pay." }, 503);
     const url = Deno.env.get("SUPABASE_URL")!;
-    const asUser = createClient(url, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: req.headers.get("Authorization") || "" } } });
+    const asUser = createClient(url, supaKey("publishable"), { global: { headers: { Authorization: req.headers.get("Authorization") || "" } } });
     const { data: { user } } = await asUser.auth.getUser();
     if (!user) return json({ error: "Sign in to pay." }, 401);
-    const admin = createClient(url, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const admin = createClient(url, supaKey("secret"));
 
     const body = await req.json().catch(() => ({}));
     const kind = body.kind;

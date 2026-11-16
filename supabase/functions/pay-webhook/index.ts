@@ -4,6 +4,12 @@
 // Razorpay Dashboard > Webhooks: URL .../functions/v1/pay-webhook, events payment.captured, order.paid, payment.failed.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
+// Supabase provides its keys under new names (SUPABASE_*_KEYS) and, on older projects, the legacy ones.
+function supaKey(kind: "secret" | "publishable") {
+  try { const j = JSON.parse(Deno.env.get(kind === "secret" ? "SUPABASE_SECRET_KEYS" : "SUPABASE_PUBLISHABLE_KEYS") || "{}"); if (j.default) return j.default as string; } catch { /* fall back */ }
+  return Deno.env.get(kind === "secret" ? "SUPABASE_SERVICE_ROLE_KEY" : "SUPABASE_ANON_KEY") || "";
+}
+
 async function hmacHex(secret: string, message: string) {
   const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(message));
@@ -29,7 +35,7 @@ Deno.serve(async (req) => {
   const order = pay?.order_id || evt?.payload?.order?.entity?.id;
   if (!order) return new Response("ignored", { status: 200 });
 
-  const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+  const admin = createClient(Deno.env.get("SUPABASE_URL")!, supaKey("secret"));
   if (evt.event === "payment.captured" || evt.event === "order.paid") {
     const { error } = await admin.rpc("apply_payment", { p_order: order, p_payment: pay?.id || "webhook" });
     if (error) { console.error("apply_payment", error.message); return new Response("retry", { status: 500 }); }

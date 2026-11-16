@@ -2,6 +2,12 @@
 // Razorpay signs order_id|payment_id with the key secret; only a matching signature marks it paid.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
+// Supabase provides its keys under new names (SUPABASE_*_KEYS) and, on older projects, the legacy ones.
+function supaKey(kind: "secret" | "publishable") {
+  try { const j = JSON.parse(Deno.env.get(kind === "secret" ? "SUPABASE_SECRET_KEYS" : "SUPABASE_PUBLISHABLE_KEYS") || "{}"); if (j.default) return j.default as string; } catch { /* fall back */ }
+  return Deno.env.get(kind === "secret" ? "SUPABASE_SERVICE_ROLE_KEY" : "SUPABASE_ANON_KEY") || "";
+}
+
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -28,7 +34,7 @@ Deno.serve(async (req) => {
     const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET");
     if (!keySecret) return json({ error: "Online payment isn't switched on yet." }, 503);
     const url = Deno.env.get("SUPABASE_URL")!;
-    const asUser = createClient(url, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: req.headers.get("Authorization") || "" } } });
+    const asUser = createClient(url, supaKey("publishable"), { global: { headers: { Authorization: req.headers.get("Authorization") || "" } } });
     const { data: { user } } = await asUser.auth.getUser();
     if (!user) return json({ error: "Sign in again to finish." }, 401);
 
@@ -37,7 +43,7 @@ Deno.serve(async (req) => {
     if (!order || !payment || !signature) return json({ error: "The payment details are incomplete." }, 400);
     if (!same(await hmacHex(keySecret, order + "|" + payment), signature)) return json({ error: "We couldn't confirm this payment. If money left your account, write to info@daskies.com with the payment reference." }, 400);
 
-    const admin = createClient(url, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const admin = createClient(url, supaKey("secret"));
     const { data: p } = await admin.from("payments").select("user_id, kind").eq("razorpay_order_id", order).maybeSingle();
     if (!p || p.user_id !== user.id) return json({ error: "We couldn't find this payment." }, 404);
     const { data: result, error } = await admin.rpc("apply_payment", { p_order: order, p_payment: payment });
