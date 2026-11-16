@@ -49,8 +49,8 @@
     d.className = "errbar";
     d.innerHTML = '<span>' + (text || "Something went wrong on this page.") + ' Reload to try again. If it keeps happening, WhatsApp us and quote <b>' + ref + '</b>.</span>' +
       '<button type="button" class="errbar-reload">Reload</button><button type="button" class="errbar-x" aria-label="Dismiss">×</button>';
-    d.style.cssText = "position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#2E2D33;color:#fff;padding:12px 14px;border-radius:10px;font:15px/1.4 Archivo,system-ui,sans-serif;box-shadow:0 12px 32px -12px rgba(0,0,0,.5);max-width:720px;margin:0 auto";
-    d.querySelector(".errbar-reload").style.cssText = "margin-left:auto;background:#fff;color:#2E2D33;border:0;border-radius:6px;padding:8px 14px;font-weight:700;cursor:pointer";
+    d.style.cssText = "position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#142A2E;color:#fff;padding:12px 14px;border-radius:10px;font:15px/1.4 Archivo,system-ui,sans-serif;box-shadow:0 12px 32px -12px rgba(0,0,0,.5);max-width:720px;margin:0 auto";
+    d.querySelector(".errbar-reload").style.cssText = "margin-left:auto;background:#fff;color:#142A2E;border:0;border-radius:6px;padding:8px 14px;font-weight:700;cursor:pointer";
     d.querySelector(".errbar-x").style.cssText = "background:none;border:0;color:#fff;font-size:22px;line-height:1;cursor:pointer;padding:0 4px";
     d.querySelector(".errbar-reload").onclick = function () { location.reload(); };
     d.querySelector(".errbar-x").onclick = function () { d.remove(); };
