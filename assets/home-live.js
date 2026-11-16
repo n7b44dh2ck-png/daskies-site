@@ -1,7 +1,7 @@
 // Homepage: live listings from the database, and a signed-in member's header.
 // While the marketplace is empty the page keeps its clearly labelled samples.
-import { sb, esc, money, photoUrl } from "./core.js?v=8646d7e7";
-import { vertical } from "./taxonomy.js?v=8646d7e7";
+import { sb, esc, money, photoUrl } from "./core.js?v=cf25345b";
+import { vertical } from "./taxonomy.js?v=cf25345b";
 
 const $ = (s) => document.querySelector(s);
 const ICON = { industrial: "lease", commodity: "agri", "real-assets": "infra", storage: "storage", "barter-tech": "tech", projects: "infra" };
@@ -15,6 +15,12 @@ async function member() {
     if (a.classList.contains("nav-signin")) { a.textContent = "Dashboard"; a.href = "dashboard.html"; }
     else if (a.getAttribute("href").startsWith("account.html")) a.hidden = true;
   });
+  const { data: prof } = await sb.from("profiles").select("is_admin").eq("id", data.session.user.id).maybeSingle();
+  if (prof && prof.is_admin) {
+    if (cta) cta.insertAdjacentHTML("afterbegin", '<a class="btn btn-ghost btn-sm home-admin" href="admin.html">Admin</a>');
+    const signin = document.querySelector(".nav a.nav-signin");
+    if (signin) signin.insertAdjacentHTML("beforebegin", '<a href="admin.html" class="nav-join">Admin</a>');
+  }
   const { count } = await sb.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null);
   const btn = $("#homeDash");
   if (btn && count) btn.insertAdjacentHTML("beforeend", ` <span class="dash-n" aria-label="${count} unread alerts">${count > 99 ? "99+" : count}</span>`);

@@ -1,6 +1,6 @@
-import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord } from "./core.js?v=8646d7e7";
-import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=8646d7e7";
-import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=8646d7e7";
+import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord } from "./core.js?v=cf25345b";
+import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=cf25345b";
+import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=cf25345b";
 
 await header("dashboard.html");
 const m = await requireAuth();
@@ -37,7 +37,7 @@ async function overview() {
   const mine = await myListings();
   const { count: convs } = await sb.from("conversations").select("id", { count: "exact", head: true });
   const c = (s) => mine.filter((l) => l.status === s).length;
-  pane.innerHTML = `<div class="cards" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr));margin-bottom:20px">
+  pane.innerHTML = `${m.profile?.is_admin ? `<div class="panel adminbox" style="margin-bottom:16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><h2 style="margin:0">You're a DASKIES admin</h2><p class="small muted" style="margin:4px 0 0">Review listings, members, documents, deals, fees and errors.</p></div><a class="btn btn-primary" href="admin.html">Open Admin</a></div>` : ""}<div class="cards" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr));margin-bottom:20px">
       <div class="stat"><b>${c("approved")}</b>Live listings</div><div class="stat"><b>${c("pending")}</b>Waiting for review</div>
       <div class="stat"><b>${mine.filter((l) => l.kind === "need").length}</b>Needs posted</div><div class="stat"><b>${convs || 0}</b>Conversations</div></div>
     <div class="panel grid" style="margin-bottom:16px"><h2>Next steps</h2>
@@ -215,7 +215,7 @@ async function profile() {
     try {
       await saveDetails(m, d, { industry: v("bi") || null, year_established: v("by") ? Number(v("by")) : null, products: v("bpr") || null,
         website: v("bw") || null, certifications: v("bce") || null, export_import: $("#bx").checked });
-      toast("Profile saved."); await (await import("./core.js?v=8646d7e7")).me(true); location.reload();
+      toast("Profile saved."); await (await import("./core.js?v=cf25345b")).me(true); location.reload();
     } catch (err) { $("#bmsg").textContent = errMsg(err); busy(btn, false); }
   });
   const lf = $("#lf");

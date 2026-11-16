@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import CONFIG from "./config.js?v=8646d7e7";
-import { vertical, LEVELS } from "./taxonomy.js?v=8646d7e7";
+import CONFIG from "./config.js?v=cf25345b";
+import { vertical, LEVELS } from "./taxonomy.js?v=cf25345b";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -150,7 +150,7 @@ export async function header(active) {
   wa.className = "wa-btn"; wa.type = "button"; wa.setAttribute("aria-label", "WhatsApp: general enquiries");
   wa.innerHTML = `${WA}<span>WhatsApp</span>`;
   wa.addEventListener("click", () => {
-    const url = "https://wa.me/" + ["91", "98252", "19071"].join("") + "?text=" + encodeURIComponent("Hello DASKIES, I have a general enquiry.");
+    const url = "https://wa.me/" + ["91", "98252", "12448"].join("") + "?text=" + encodeURIComponent("Hello DASKIES, I have a general enquiry.");
     const w = window.open(url, "_blank", "noopener"); if (!w) location.href = url;
   });
   document.body.appendChild(wa);
