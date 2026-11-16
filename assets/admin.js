@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord } from "./core.js?v=4ab08f1a";
-import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=4ab08f1a";
+import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord, busy } from "./core.js?v=d346f730";
+import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=d346f730";
 
 await header("admin.html");
 const m = await requireAuth();
@@ -7,7 +7,7 @@ if (!m) throw new Error("stop");
 const main = $("#main");
 if (!m.profile?.is_admin) { main.innerHTML = `<div class="panel empty"><h1>Admins only</h1><p>This page is for the DASKIES team.</p></div>`; throw new Error("stop"); }
 
-const TABS = [["queue", "Review queue"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["fees", "Fees"], ["payments", "Payments"], ["reports", "Reports"], ["users", "Users"], ["errors", "Errors"], ["audit", "Audit log"]];
+const TABS = [["queue", "Review queue"], ["owners", "For owners"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["fees", "Fees"], ["payments", "Payments"], ["reports", "Reports"], ["users", "Users"], ["errors", "Errors"], ["audit", "Audit log"]];
 let tab = (location.hash || "#queue").slice(1);
 if (!TABS.some(([t]) => t === tab)) tab = "queue";
 main.innerHTML = `<h1>Admin</h1><div class="tabs" role="tablist">${TABS.map(([t, n]) => `<button role="tab" type="button" data-t="${t}" aria-selected="${t === tab}">${n}</button>`).join("")}</div><section id="pane"></section>`;
@@ -17,7 +17,7 @@ const pane = $("#pane");
 async function show() {
   $$(".tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.t === tab));
   pane.innerHTML = `<p class="muted">Loading…</p>`; pane.onclick = null;
-  try { await ({ queue, listings, businesses, documents, deals, fees, payments, reports, users, errors, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
+  try { await ({ queue, owners, listings, businesses, documents, deals, fees, payments, reports, users, errors, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
 }
 
 const sel = "*, businesses(name,verification_level), listing_photos(path,sort)";
@@ -54,6 +54,34 @@ async function openDoc(path) {
   const { data, error } = await sb.storage.from("documents").createSignedUrl(path, 120);
   if (error) return toast(errMsg(error), true);
   window.open(data.signedUrl, "_blank", "noopener");
+}
+
+// Listings DASKIES posts on an owner's behalf. The owner's details are visible to admins only.
+async function owners() {
+  const { data, error } = await sb.from("listings").select("id,title,kind,status,created_at,managed_owners(owner_name,contact_name,phone,email,consent)").eq("managed", true).order("created_at", { ascending: false });
+  if (error) throw error;
+  const rows = data || [];
+  const o = (l) => (Array.isArray(l.managed_owners) ? l.managed_owners[0] : l.managed_owners) || {};
+  pane.innerHTML = `<div class="panel" style="margin-bottom:16px"><h2 style="margin-top:0">List for an owner</h2>
+      <p class="small muted" style="margin:0 0 12px">Call or WhatsApp the owner, get their OK, then post it here. The listing shows "Listed by DASKIES on the owner's behalf", enquiries come to you, and the owner's contact details stay private. When the owner joins, hand the listing over to them.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-primary" href="post.html?kind=offer&for=owner">List an offer for an owner</a><a class="btn btn-ghost" href="post.html?kind=need&for=owner">Post a need for an owner</a></div></div>
+    ${rows.length ? `<div class="tablewrap"><table class="list"><thead><tr><th>Listing</th><th>Owner</th><th>Contact</th><th>Consent</th><th>Status</th><th>Hand over when they join</th></tr></thead><tbody>${rows.map((l) => { const w = o(l); return `<tr>
+      <td><a href="listing.html?id=${esc(l.id)}">${esc(l.title)}</a><div class="small muted">${l.kind === "offer" ? "Offer" : "Need"} · ${esc(day(l.created_at))} · <a href="post.html?id=${esc(l.id)}">Edit</a></div></td>
+      <td>${esc(w.owner_name || "")}${w.contact_name ? `<div class="small muted">${esc(w.contact_name)}</div>` : ""}</td>
+      <td>${w.phone ? `<a href="tel:${esc(String(w.phone).replace(/[^\d+]/g, ""))}">${esc(w.phone)}</a>` : ""}${w.email ? `<div class="small"><a href="mailto:${esc(w.email)}">${esc(w.email)}</a></div>` : ""}</td>
+      <td class="small">${esc(w.consent || "")}</td>
+      <td><span class="tag tag-${esc(l.status)}">${esc(statusWord(l.status))}</span></td>
+      <td><form class="ho" data-id="${esc(l.id)}" style="display:flex;gap:6px;min-width:250px"><label class="sr" for="ho-${esc(l.id)}">Owner's DASKIES email</label><input class="input" id="ho-${esc(l.id)}" type="email" placeholder="Owner's DASKIES email" value="${esc(w.email || "")}"><button class="btn btn-ghost btn-sm">Hand over</button></form></td></tr>`; }).join("")}</tbody></table></div>`
+      : `<div class="panel empty"><h2>No listings for owners yet</h2><p>Your first one takes a few minutes.</p></div>`}`;
+  pane.querySelectorAll("form.ho").forEach((f) => f.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = f.querySelector("input").value.trim(), btn = f.querySelector("button");
+    if (!email) return toast("Enter the email the owner joined with.", true);
+    busy(btn, true, "Moving…");
+    const { error: er } = await sb.rpc("admin_handover_listing", { p_listing: f.dataset.id, p_email: email });
+    if (er) { toast(errMsg(er), true); busy(btn, false); return; }
+    toast("Handed over. The owner has an alert."); show();
+  }));
 }
 
 async function listings() {

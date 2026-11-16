@@ -444,3 +444,5 @@ main.wrap{padding-top:28px;padding-bottom:88px} /* .wrap's side padding used to 
 .sources{font-size:.95rem}.sources a{overflow-wrap:anywhere}
 .pmeta{margin:14px 0 0;font-size:14px;color:#9FB2AE}
 .mk-band .btn-line{border-color:rgba(255,255,255,.55);color:#fff}
+.tag-by{background:var(--charcoal);color:#E6EEEC}
+.ownerbox{border-left:4px solid var(--plum)}

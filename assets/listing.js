@@ -1,5 +1,5 @@
-import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=4ab08f1a";
-import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=4ab08f1a";
+import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=d346f730";
+import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=d346f730";
 
 const m = await header("explore.html");
 const main = $("#main");
@@ -50,7 +50,7 @@ main.innerHTML = `
   ${mine && l.status !== "approved" ? `<p class="note"><b>${esc(statusWord(l.status))}.</b> ${l.status === "pending" ? "Only you and the DASKIES team can see this until it is approved." : l.admin_note ? "Note from DASKIES: " + esc(l.admin_note) : ""}</p>` : ""}
   <div class="lhead">
     <p class="crumbs"><a href="explore.html">Explore</a> › <a href="explore.html?v=${esc(l.vertical)}">${esc(v ? v.name : "")}</a> › ${esc(l.subcategory)}</p>
-    <div class="tags"><span class="tag tag-${l.kind}">${l.kind === "offer" ? "Available" : "Wanted"}</span>${(l.deal_types || []).map((d) => `<span class="tag tag-closed">${esc(d)}</span>`).join("")}</div>
+    <div class="tags"><span class="tag tag-${l.kind}">${l.kind === "offer" ? "Available" : "Wanted"}</span>${l.managed ? '<span class="tag tag-by">Listed by DASKIES</span>' : ""}${(l.deal_types || []).map((d) => `<span class="tag tag-closed">${esc(d)}</span>`).join("")}</div>
     <h1>${esc(l.title)}</h1>
     <p class="where">${esc([l.city, l.state, l.country].filter(Boolean).join(", "))} · Listed ${esc(day(l.created_at))}</p>
   </div>
@@ -71,19 +71,24 @@ main.innerHTML = `
         ${l.quantity ? `<ul class="pfacts"><li><span>Quantity</span><b>${esc(l.quantity)} ${esc(l.quantity_unit || "")}</b></li></ul>` : ""}
         <div class="actbox" id="act"></div>
       </section>
-      <section class="panel">
+      ${l.managed ? `<section class="panel">
+        <p class="plabel">Listed by</p>
+        <h3 style="margin-top:4px">DASKIES, on the owner's behalf</h3>
+        <p class="small" style="margin:0 0 8px">The owner asked DASKIES to list this for them. The DASKIES team answers enquiries and introduces serious buyers to the owner.</p>
+        <p class="hint" style="margin:0">Ask for documents and an inspection before any deal.</p>
+      </section>` : `<section class="panel">
         <p class="plabel">${need ? "Wanted by" : "Offered by"}</p>
         <h3 style="margin-top:4px">${esc(b.name || "Member business")}</h3>
         <p class="small muted" style="margin:0 0 8px">${esc([b.city, b.country].filter(Boolean).join(", "))}${b.year_established ? " · since " + esc(b.year_established) : ""}</p>
         ${levelBadge(b.verification_level)}
         <p class="hint" style="margin:8px 0 0">${esc(LEVEL_NOTE)}</p>
-      </section>
+      </section>`}
     </aside>
   </div>`;
 
 const act = $("#act");
 if (mine) {
-  act.innerHTML = `<h3>Your listing</h3><p class="small muted">Status: ${esc(statusWord(l.status))}</p>
+  act.innerHTML = `<h3>${l.managed ? "Listed for an owner" : "Your listing"}</h3><p class="small muted">Status: ${esc(statusWord(l.status))}${l.managed ? ' · <a href="admin.html#owners">Owner details</a>' : ""}</p>
     <div class="grid"><a class="btn btn-ghost" href="post.html?id=${esc(l.id)}">Edit</a>${l.status !== "closed" ? '<button class="btn btn-ghost" id="close" type="button">Mark as closed</button>' : ""}<a class="btn btn-quiet" href="dashboard.html#messages">See enquiries</a></div>`;
   const c = $("#close");
   if (c) c.addEventListener("click", async () => {
@@ -140,7 +145,7 @@ if (mine) {
 
 // Matches: the other side in the same vertical (same category first). Indicative only.
 const other = l.kind === "offer" ? "need" : "offer";
-const sel = "id,kind,vertical,subcategory,title,price,price_unit,currency,quantity,quantity_unit,city,country,status,owner_id,listing_photos(path,sort)";
+const sel = "id,kind,vertical,subcategory,title,price,price_unit,currency,quantity,quantity_unit,city,country,status,managed,owner_id,listing_photos(path,sort)";
 const [{ data: same }, { data: near }] = await Promise.all([
   sb.from("listings").select(sel).eq("status", "approved").eq("kind", other).eq("vertical", l.vertical).eq("subcategory", l.subcategory).neq("owner_id", l.owner_id).limit(6),
   sb.from("listings").select(sel).eq("status", "approved").eq("kind", other).eq("vertical", l.vertical).neq("subcategory", l.subcategory).neq("owner_id", l.owner_id).order("created_at", { ascending: false }).limit(6)

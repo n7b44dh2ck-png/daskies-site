@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl, pagehead } from "./core.js?v=4ab08f1a";
-import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=4ab08f1a";
+import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl, pagehead } from "./core.js?v=d346f730";
+import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=d346f730";
 
 await header("post.html?kind=" + (qs("kind") === "offer" ? "offer" : "need"));
 const m = await requireAuth();
@@ -17,6 +17,14 @@ if (editId) {
 }
 const newPhotos = [];
 let report = null;
+// Admins can list for an owner who isn't on DASKIES yet (with the owner's OK). The owner's details stay private to admins.
+const forOwner = !!m.profile?.is_admin && (qs("for") === "owner" || !!L.managed);
+let O = { owner_name: "", contact_name: "", phone: "", email: "", consent: "", ok: false };
+if (forOwner && !editId) Object.assign(L, { city: "", state: "" }); // the owner's place, not the admin's
+if (forOwner && editId) {
+  const { data: mo } = await sb.from("managed_owners").select("*").eq("listing_id", editId).maybeSingle();
+  if (mo) O = { ...mo, ok: true };
+}
 
 function fieldHTML([k, label, type, opts], val) {
   const id = "x_" + k, v = val ?? "";
@@ -49,11 +57,28 @@ async function ensureBusiness() {
 function render() {
   const v = vertical(L.vertical);
   const fields = v ? [...v.fields, ...(L.vertical === "commodity" && isOil(L.subcategory) ? v.oilFields : [])] : [];
-  const proof = L.kind === "offer" && NEEDS_PROOF.includes(L.vertical);
+  const proof = L.kind === "offer" && NEEDS_PROOF.includes(L.vertical) && !forOwner;
   main.innerHTML = `
-  ${pagehead({ crumb: `<a href="dashboard.html">Dashboard</a>`, title: editId ? "Edit listing" : L.kind === "offer" ? "List what you have" : "Post what you need",
-    lead: "Every listing is checked by the DASKIES team before it goes live. Contact details are never shown; members reach you through messages." })}
+  ${forOwner
+    ? pagehead({ crumb: `<a href="admin.html#owners">Admin</a>`, title: editId ? "Edit a listing for an owner" : L.kind === "offer" ? "List an offer for an owner" : "Post a need for an owner",
+        lead: "It goes live straight away, marked \"Listed by DASKIES on the owner's behalf\". Enquiries come to you; the owner's details below stay private to DASKIES admins." })
+    : pagehead({ crumb: `<a href="dashboard.html">Dashboard</a>`, title: editId ? "Edit listing" : L.kind === "offer" ? "List what you have" : "Post what you need",
+        lead: "Every listing is checked by the DASKIES team before it goes live. Contact details are never shown; members reach you through messages." })}
   <form id="pf" class="grid" novalidate>
+    ${forOwner ? `<div class="panel ownerbox">
+      <h2>The owner</h2>
+      <p class="hint" style="margin-top:-6px">Only DASKIES admins see this. Get the owner's OK before you list.</p>
+      <div class="row2">
+        <div class="field"><label for="mo_name">Owner's business or name <span class="req">*</span></label><input id="mo_name" maxlength="160" value="${esc(O.owner_name || "")}"></div>
+        <div class="field"><label for="mo_contact">Contact person</label><input id="mo_contact" maxlength="120" value="${esc(O.contact_name || "")}"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="mo_phone">Phone or WhatsApp</label><input id="mo_phone" type="tel" maxlength="30" value="${esc(O.phone || "")}" placeholder="+91"></div>
+        <div class="field"><label for="mo_email">Email</label><input id="mo_email" type="email" maxlength="200" value="${esc(O.email || "")}"><span class="hint">Used to hand the listing over when they join.</span></div>
+      </div>
+      <div class="field"><label for="mo_how">How and when they agreed <span class="req">*</span></label><input id="mo_how" maxlength="500" value="${esc(O.consent || "")}" placeholder="e.g. WhatsApp from Ramesh Patel, 17 Nov 2026"></div>
+      <label class="small" style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" id="mo_ok" style="margin-top:4px;accent-color:var(--accent)"${O.ok ? " checked" : ""}> The owner agreed to DASKIES listing this, at this price, on their behalf.</label>
+    </div>` : ""}
     <div class="panel">
       <h2>Describe it</h2>
       <div class="field"><span class="flabel">I want to</span><div class="seg" id="kind"><button type="button" data-k="offer" aria-pressed="${L.kind === "offer"}">Offer what I have</button><button type="button" data-k="need" aria-pressed="${L.kind === "need"}">Find what I need</button></div></div>
@@ -94,13 +119,13 @@ function render() {
     ${fields.length ? `<div class="panel"><h2>${esc(v.short)} details</h2><div class="row2">${fields.map((f) => fieldHTML(f, L.details?.[f[0]])).join("")}</div></div>` : ""}
     ${L.kind === "offer" ? `<div class="panel">
       <h2>Photos${proof ? " and valuation report" : ""}</h2>
-      <p class="hint" style="margin-top:-6px">${proof ? "Required: 3 recent photos (front, side or detail, nameplate or site) and a valuation report from a valuer or your own costing." : "Add up to 6 photos. Clear photos get more replies."}</p>
+      <p class="hint" style="margin-top:-6px">${proof ? "Required: 3 recent photos (front, side or detail, nameplate or site) and a valuation report from a valuer or your own costing." : forOwner ? "Ask the owner to WhatsApp you 3 clear photos, one of them the nameplate. Listings with photos get far more replies." : "Add up to 6 photos. Clear photos get more replies."}</p>
       <div class="cards" id="phs" style="grid-template-columns:repeat(auto-fill,minmax(120px,1fr))"></div>
       <div class="field" style="margin-top:12px"><label for="pin">Add photos (JPG or PNG)</label><input id="pin" type="file" accept="image/*" multiple></div>
       ${proof ? `<div class="field"><label for="rep">Valuation report (PDF or photo, up to 10 MB)</label><input id="rep" type="file" accept=".pdf,image/*">${editId ? '<span class="hint">Already sent one? Only add a file to replace it.</span>' : ""}</div>` : ""}
     </div>` : ""}
     <p class="err" id="msg" role="alert"></p>
-    <div class="formbar"><button class="btn btn-primary" id="go">${editId ? "Save and send for review" : "Send for review"}</button><a class="btn btn-ghost" href="dashboard.html">Cancel</a></div>
+    <div class="formbar"><button class="btn btn-primary" id="go">${forOwner ? (editId ? "Save changes" : "Publish listing") : editId ? "Save and send for review" : "Send for review"}</button><a class="btn btn-ghost" href="${forOwner ? "admin.html#owners" : "dashboard.html"}">Cancel</a></div>
   </form>`;
 
   drawPhotos();
@@ -136,6 +161,7 @@ function drawPhotos() {
 
 function keep() {
   const g = (id) => { const e = $("#" + id); return e ? e.value.trim() : undefined; };
+  if (forOwner) Object.assign(O, { owner_name: g("mo_name") ?? O.owner_name, contact_name: g("mo_contact") ?? O.contact_name, phone: g("mo_phone") ?? O.phone, email: g("mo_email") ?? O.email, consent: g("mo_how") ?? O.consent, ok: $("#mo_ok") ? $("#mo_ok").checked : O.ok });
   Object.assign(L, { title: g("title") ?? L.title, description: g("desc") ?? L.description, price: g("price") ?? L.price, currency: g("cur") ?? L.currency, price_unit: g("pu") ?? L.price_unit,
     quantity: g("qty") ?? L.quantity, quantity_unit: g("qu") ?? L.quantity_unit, city: g("city") ?? L.city, state: g("state") ?? L.state, country: g("country") ?? L.country,
     wants_vertical: g("wv") ?? L.wants_vertical, wants_in_exchange: g("wx") ?? L.wants_in_exchange, expires_at: g("exp") ?? L.expires_at,
@@ -166,9 +192,15 @@ async function save(e) {
   if (!L.vertical) probs.push("a vertical"); if (!L.subcategory) probs.push("a category");
   if (!L.title || L.title.length < 4) probs.push("a title (4+ characters)");
   if (L.kind === "offer" && (L.description || "").length < 40) probs.push("a description (40+ characters)");
-  const proof = L.kind === "offer" && NEEDS_PROOF.includes(L.vertical);
+  const proof = L.kind === "offer" && NEEDS_PROOF.includes(L.vertical) && !forOwner;
   if (proof && existingPhotos.length + newPhotos.length < 3) probs.push(`${3 - existingPhotos.length - newPhotos.length} more photo(s)`);
   if (proof && !editId && !report) probs.push("a valuation report");
+  if (forOwner) {
+    if ((O.owner_name || "").length < 2) probs.push("the owner's business or name");
+    if ((O.consent || "").length < 3) probs.push("how and when the owner agreed");
+    if (!O.ok) probs.push("a tick to confirm the owner agreed");
+    if ((L.city || "").length < 2) probs.push("the city where it is");
+  }
   if (L.vertical === "projects" && !(L.details.risks || "").trim()) probs.push("the main risks");
   if (probs.length) { msg.textContent = "Please add " + probs.join(", ") + "."; return; }
   busy(btn, true, "Saving…");
@@ -177,10 +209,17 @@ async function save(e) {
     quantity: L.quantity === "" || L.quantity == null ? null : Number(L.quantity), quantity_unit: L.quantity_unit || null,
     city: L.city || null, state: L.state || null, country: L.country || "India", wants_vertical: L.wants_vertical || null, wants_in_exchange: L.wants_in_exchange || null,
     expires_at: L.kind === "need" ? (L.expires_at || null) : null, details: L.details || {}, status: "pending" };
+  if (forOwner) Object.assign(row, { managed: true, status: "approved", approved_at: L.approved_at || new Date().toISOString() });
   try {
     let id = editId;
     if (editId) { const { error } = await sb.from("listings").update(row).eq("id", editId); if (error) throw error; }
     else { const { data, error } = await sb.from("listings").insert({ ...row, owner_id: m.user.id, business_id: m.business.id }).select("id").single(); if (error) throw error; id = data.id; }
+    if (forOwner) {
+      const mo = { owner_name: O.owner_name, contact_name: O.contact_name || null, phone: O.phone || null, email: O.email || null, consent: O.consent, updated_at: new Date().toISOString() };
+      const { data: had } = await sb.from("managed_owners").select("listing_id").eq("listing_id", id).maybeSingle();
+      const { error: oe } = had ? await sb.from("managed_owners").update(mo).eq("listing_id", id) : await sb.from("managed_owners").insert({ ...mo, listing_id: id });
+      if (oe) throw oe;
+    }
     let n = existingPhotos.length;
     for (const f of newPhotos) {
       btn.textContent = `Uploading photo ${n + 1}…`;
@@ -201,7 +240,7 @@ async function save(e) {
       const { error: de } = await sb.from("documents").insert({ owner_id: m.user.id, business_id: m.business.id, listing_id: id, kind: "valuation_report", path, file_name: report.name.slice(0, 200) });
       if (de) throw de;
     }
-    location.href = "dashboard.html?posted=" + id + "#listings";
+    location.href = forOwner ? "listing.html?id=" + id : "dashboard.html?posted=" + id + "#listings";
   } catch (err) { msg.textContent = errMsg(err); busy(btn, false); }
 }
 

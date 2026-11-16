@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import CONFIG from "./config.js?v=4ab08f1a";
-import { vertical, LEVELS } from "./taxonomy.js?v=4ab08f1a";
+import CONFIG from "./config.js?v=d346f730";
+import { vertical, LEVELS } from "./taxonomy.js?v=d346f730";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -134,7 +134,7 @@ export function card(l) {
   return `<a class="card card-${l.kind === "need" ? "need" : "offer"}" href="listing.html?id=${esc(l.id)}">
     <div class="ph${photo ? " has-photo" : ""}">${photo ? `<img src="${esc(photoUrl(photo.path))}" alt="" loading="lazy">` : `${vicon(l.vertical)}<span class="vl">${esc(v ? v.short : "")}</span>`}</div>
     <div class="bd">
-      <div class="tags"><span class="tag tag-${l.kind}">${l.kind === "offer" ? "Available" : "Wanted"}</span>${l.status && l.status !== "approved" ? `<span class="tag tag-${l.status}">${esc(statusWord(l.status))}</span>` : ""}</div>
+      <div class="tags"><span class="tag tag-${l.kind}">${l.kind === "offer" ? "Available" : "Wanted"}</span>${l.managed ? '<span class="tag tag-by">Listed by DASKIES</span>' : ""}${l.status && l.status !== "approved" ? `<span class="tag tag-${l.status}">${esc(statusWord(l.status))}</span>` : ""}</div>
       <h3>${esc(l.title)}</h3>
       <span class="sub">${esc(l.subcategory)}</span>
       <span class="where">${esc([where, qty].filter(Boolean).join(" · "))}</span>

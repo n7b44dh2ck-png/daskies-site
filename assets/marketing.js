@@ -1,6 +1,6 @@
 // Marketplace, Global buyers, Services and Partners pages: shared header and footer,
 // live listings for the marketplace, and the buyer-group form on the construction page.
-import { sb, $, esc, header, card } from "./core.js?v=4ab08f1a";
+import { sb, $, esc, header, card } from "./core.js?v=d346f730";
 
 await header(location.pathname.replace(/^\//, "") || "index.html");
 
@@ -9,11 +9,11 @@ const box = $("#mkListings");
 if (box) {
   const v = box.dataset.v, groups = (box.dataset.groups || "").split("|").filter(Boolean);
   const { data, error } = await sb.from("listings")
-    .select("id,kind,vertical,subcategory,title,price,price_unit,currency,quantity,quantity_unit,city,country,status,created_at,listing_photos(path,sort)")
+    .select("id,kind,vertical,subcategory,title,price,price_unit,currency,quantity,quantity_unit,city,country,status,managed,created_at,listing_photos(path,sort)")
     .eq("status", "approved").eq("vertical", v).order("created_at", { ascending: false }).limit(24);
   let rows = error ? [] : (data || []);
   if (groups.length) {
-    const { subcats } = await import("./taxonomy.js?v=4ab08f1a");
+    const { subcats } = await import("./taxonomy.js?v=d346f730");
     const allowed = new Set(subcats(v).filter(([g]) => groups.includes(g)).flatMap(([, items]) => items));
     rows = rows.filter((l) => allowed.has(l.subcategory));
   }

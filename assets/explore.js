@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=4ab08f1a";
-import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=4ab08f1a";
+import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=d346f730";
+import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=d346f730";
 
 await header("explore.html");
 const main = $("#main");
@@ -72,7 +72,7 @@ function syncURL() {
 async function run(append = false) {
   if (!append) st.page = 0;
   syncUI(); syncURL();
-  let q = sb.from("listings").select("id,kind,vertical,subcategory,title,price,price_unit,currency,quantity,quantity_unit,city,country,status,created_at,listing_photos(path,sort)", { count: "exact" }).eq("status", "approved");
+  let q = sb.from("listings").select("id,kind,vertical,subcategory,title,price,price_unit,currency,quantity,quantity_unit,city,country,status,managed,created_at,listing_photos(path,sort)", { count: "exact" }).eq("status", "approved");
   if (st.k) q = q.eq("kind", st.k);
   if (st.v) q = q.eq("vertical", st.v);
   if (st.s) q = q.eq("subcategory", st.s);
