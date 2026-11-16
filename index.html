@@ -144,6 +144,22 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#B8B7BE}
 .price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
 .lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
+/* live listings (filled from the database by assets/home-live.js) */
+.live-block{margin-bottom:40px}
+.live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+.live-head h3{margin:0}
+.live-block>.small{margin:0 0 18px;color:var(--muted)}
+.card.live .ph{text-decoration:none}
+.card.live .ph.has-photo{background:#e9e8ec}
+.card.live .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card.live .tag-offer{color:var(--accent-dk);border-color:#EED3DD}
+.card.live .tag-need{color:var(--plum);border-color:#E3D3E8}
+.card.live h3 a{color:inherit;text-decoration:none}
+.card.live h3 a:hover{text-decoration:underline}
+.card.live .btn{margin-top:auto;align-self:flex-start}
+.ex-head{margin:0 0 14px}
+.ticker-track em{font-style:normal}
+.dash-n{display:inline-block;min-width:20px;height:20px;margin-left:6px;padding:0 6px;border-radius:10px;background:#fff;color:var(--accent-dk);font-size:11.5px;font-weight:800;line-height:20px;text-align:center}
 .lock button{background:none;border:0;color:var(--accent);font-weight:650;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:4px 0;font-size:14.5px;white-space:nowrap}
 .mini .lock .blur{display:none}
 .note{font-size:14px;color:var(--muted);margin-top:18px}
@@ -1713,5 +1729,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   }
 })();
 </script>
+<script type="module" src="assets/home-live.js"></script>
 </body>
 </html>

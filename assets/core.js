@@ -101,8 +101,11 @@ export async function header(active) {
   const links = [page("explore.html", "Explore"), page("post.html?kind=need", "Post a need"), page("post.html?kind=offer", "List an offer")];
   if (m.user) links.push(page("dashboard.html", "Dashboard"));
   if (m.profile && m.profile.is_admin) links.push(page("admin.html", "Admin"));
+  links.push(m.user ? `<a href="index.html" class="nav-m" data-signout>Sign out</a>` : `<a href="account.html" class="nav-m">Sign in</a>`);
   const right = m.user
-    ? `<button class="btn btn-ghost btn-sm" id="signOut" type="button">Sign out</button>`
+    ? `<div class="bell-wrap"><button class="bell" id="bell" type="button" aria-label="Alerts" aria-expanded="false" aria-controls="bellPanel"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="bell-n" id="bellN" hidden></span></button>
+        <div class="bell-panel" id="bellPanel" role="region" aria-label="Alerts" hidden></div></div>
+       <button class="btn btn-ghost btn-sm" id="signOut" type="button">Sign out</button>`
     : `<a class="btn btn-ghost btn-sm" href="account.html">Sign in</a><a class="btn btn-primary btn-sm" href="account.html?mode=signup">Join free</a>`;
   const hd = document.createElement("header");
   hd.className = "hd";
@@ -112,8 +115,8 @@ export async function header(active) {
     <div class="hd-cta">${right}<button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span></button></div></div>`;
   document.body.prepend(hd);
   $("#menuBtn").addEventListener("click", (e) => { const o = $("#nav").classList.toggle("open"); e.currentTarget.setAttribute("aria-expanded", o); });
-  const so = $("#signOut");
-  if (so) so.addEventListener("click", async () => { await sb.auth.signOut(); location.href = "index.html"; });
+  $$("#signOut, [data-signout]").forEach((so) => so.addEventListener("click", async (e) => { e.preventDefault(); await sb.auth.signOut(); location.href = "index.html"; }));
+  if (m.user) alerts();
   // WhatsApp, general enquiries; the number is assembled only on tap
   const wa = document.createElement("button");
   wa.className = "wa-btn"; wa.type = "button"; wa.setAttribute("aria-label", "WhatsApp: general enquiries");
@@ -130,4 +133,58 @@ export async function header(active) {
   const badge = () => document.body.classList.toggle("has-badge", !!document.getElementById("nl-badge-frame"));
   badge(); new MutationObserver(badge).observe(document.body, { childList: true });
   return m;
+}
+
+// In-app alerts: the bell in the header. Alerts are written by the database; this only reads and marks them.
+const ICON = { message: "✉", deal: "⇄", listing: "▦", document: "▤", verification: "✓", review: "!" };
+async function alerts() {
+  const btn = $("#bell"), panel = $("#bellPanel"), badge = $("#bellN");
+  let list = [];
+  const setCount = (n) => {
+    badge.hidden = !n; badge.textContent = n > 99 ? "99+" : n;
+    btn.setAttribute("aria-label", n ? `Alerts, ${n} unread` : "Alerts");
+    document.title = (n ? `(${n > 99 ? "99+" : n}) ` : "") + document.title.replace(/^\(\d+\+?\) /, "");
+  };
+  const count = async () => {
+    const { count: n, error } = await sb.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null);
+    if (!error) setCount(n || 0);
+  };
+  const render = () => {
+    panel.innerHTML = `<div class="bell-head"><b>Alerts</b>${list.some((a) => !a.read_at) ? '<button class="linkbtn" type="button" id="bellAll">Mark all read</button>' : ""}</div>
+      ${list.length ? `<ul class="bell-list">${list.map((a) => `<li class="${a.read_at ? "" : "unread"}"><a href="${esc(a.link)}" data-id="${a.id}">
+        <span class="bell-ic" aria-hidden="true">${ICON[a.kind] || "•"}</span><span class="bell-tx"><b>${esc(a.title)}</b>${a.body ? `<span>${esc(a.body)}</span>` : ""}<time>${esc(when(a.created_at))}</time></span>${a.read_at ? "" : '<span class="sr">unread</span>'}</a></li>`).join("")}</ul>`
+      : `<p class="bell-empty">No alerts yet. New messages, offers and decisions on your listings will show up here.</p>`}`;
+  };
+  const load = async () => {
+    const { data, error } = await sb.from("notifications").select("id,kind,title,body,link,read_at,created_at").order("created_at", { ascending: false }).limit(30);
+    if (error) { panel.innerHTML = `<p class="bell-empty">${esc(errMsg(error))}</p>`; return; }
+    list = data || []; render();
+  };
+  const open = async (on) => {
+    panel.hidden = !on; btn.setAttribute("aria-expanded", on);
+    if (on && getComputedStyle(panel).position === "fixed") panel.style.top = Math.round($(".hd").getBoundingClientRect().bottom + 8) + "px";
+    if (on) { panel.innerHTML = '<p class="bell-empty">Loading…</p>'; await load(); }
+  };
+  btn.addEventListener("click", (e) => { e.stopPropagation(); open(panel.hidden); });
+  document.addEventListener("click", (e) => { if (!panel.hidden && !panel.contains(e.target)) open(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !panel.hidden) { open(false); btn.focus(); } });
+  panel.addEventListener("click", async (e) => {
+    if (e.target.id === "bellAll") {
+      e.stopPropagation();
+      const { error } = await sb.rpc("mark_notifications_read", { p_ids: null });
+      if (error) return toast(errMsg(error), true);
+      list.forEach((a) => (a.read_at = a.read_at || new Date().toISOString())); render(); setCount(0); return;
+    }
+    const a = e.target.closest("a[data-id]");
+    if (!a) return;
+    e.preventDefault();
+    const item = list.find((x) => String(x.id) === a.dataset.id);
+    if (item && !item.read_at) await sb.rpc("mark_notifications_read", { p_ids: [item.id] });
+    const to = new URL(a.getAttribute("href"), location.href);
+    location.href = to.href;
+    if (to.pathname === location.pathname && to.search === location.search) location.reload();
+  });
+  await count();
+  setInterval(() => { if (document.visibilityState === "visible") count(); }, 30000);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") count(); });
 }
