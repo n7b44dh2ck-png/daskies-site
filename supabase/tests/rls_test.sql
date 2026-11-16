@@ -27,6 +27,9 @@ begin
   exception when others then insert into rt(step, result) values ('listing without business is blocked', 'PASS');
   end;
   insert into public.businesses (owner_id, name, city) values (a, 'Seller A Industries', 'Rajkot') returning id into ba;
+    update public.profiles set full_name = 'Test member', phone = '+91 98250 00000' where id = a;
+    update public.businesses set roles = '{Seller}', city = coalesce(city, 'Rajkot'), state = 'Gujarat' where owner_id = a;
+    insert into public.business_private (business_id, owner_id, address, postal_code) select id, a, '12 Test Industrial Estate', '360001' from public.businesses where owner_id = a;
   insert into public.listings (owner_id, business_id, kind, vertical, subcategory, title, description, price, status)
     values (a, ba, 'offer', 'industrial', 'Packaging machinery', 'Form-fill-seal line', 'Test listing for access rules', 1400000, 'approved') returning id, status into la, st;
   insert into rt(step, result) values ('member cannot self-approve on insert', case when st = 'pending' then 'PASS' else 'FAIL ' || st end);
@@ -99,6 +102,9 @@ begin
   perform set_config('request.jwt.claims', json_build_object('sub', b, 'role', 'authenticated')::text, true);
   perform set_config('role', 'authenticated', true);
   insert into public.businesses (owner_id, name) values (b, 'Buyer B Traders') returning id into bb;
+    update public.profiles set full_name = 'Test member', phone = '+91 98250 00000' where id = b;
+    update public.businesses set roles = '{Seller}', city = coalesce(city, 'Rajkot'), state = 'Gujarat' where owner_id = b;
+    insert into public.business_private (business_id, owner_id, address, postal_code) select id, b, '12 Test Industrial Estate', '360001' from public.businesses where owner_id = b;
   conv := public.start_enquiry(la, 'Is the price negotiable?');
   insert into public.messages (conversation_id, sender_id, body) values (conv, b, 'Can I inspect next week?');
   select count(*) into n from public.messages where conversation_id = conv;

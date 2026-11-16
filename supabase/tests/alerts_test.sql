@@ -19,12 +19,18 @@ begin
   perform set_config('request.jwt.claims', json_build_object('sub', a, 'role', 'authenticated')::text, true);
   perform set_config('role', 'authenticated', true);
   insert into public.businesses (owner_id, name) values (a, 'Alert test Alpha') returning id into ba;
+    update public.profiles set full_name = 'Test member', phone = '+91 98250 00000' where id = a;
+    update public.businesses set roles = '{Seller}', city = coalesce(city, 'Rajkot'), state = 'Gujarat' where owner_id = a;
+    insert into public.business_private (business_id, owner_id, address, postal_code) select id, a, '12 Test Industrial Estate', '360001' from public.businesses where owner_id = a;
   insert into public.listings (owner_id, business_id, kind, vertical, subcategory, title, price)
     values (a, ba, 'offer', 'industrial', 'Test', 'Alert test listing', 100000) returning id into la;
   perform set_config('role', 'none', true);
   perform set_config('request.jwt.claims', json_build_object('sub', b, 'role', 'authenticated')::text, true);
   perform set_config('role', 'authenticated', true);
   insert into public.businesses (owner_id, name) values (b, 'Alert test Bharat') returning id into bb;
+    update public.profiles set full_name = 'Test member', phone = '+91 98250 00000' where id = b;
+    update public.businesses set roles = '{Seller}', city = coalesce(city, 'Rajkot'), state = 'Gujarat' where owner_id = b;
+    insert into public.business_private (business_id, owner_id, address, postal_code) select id, b, '12 Test Industrial Estate', '360001' from public.businesses where owner_id = b;
   perform set_config('role', 'none', true);
 
   select title, link into t, lk from public.notifications where user_id = adm and group_key = 'queue' and read_at is null;
