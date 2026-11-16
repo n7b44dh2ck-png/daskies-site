@@ -29,7 +29,7 @@ export function detailsFields(p = {}, { you = true, terms = false } = {}) {
 }
 
 export const termsBox = () => `
-    <div class="fs"><div class="field termsbox" id="d_terms_f"><label><input type="checkbox" id="d_terms"> <span>I agree to the DASKIES <a href="terms.html" target="_blank" rel="noopener">Terms</a>, including the success fee on completed deals, and the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>. ${R}</span></label></div></div>`;
+    <div class="fs"><div class="field termsbox" id="d_terms_f"><label><input type="checkbox" id="d_terms"> <span>I agree to the DASKIES <a href="terms.html" target="_blank" rel="noopener">Terms</a>, including the success fee on signed deals, and the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>. ${R}</span></label></div></div>`;
 
 export function readDetails() {
   const v = (id) => ($("#" + id) ? $("#" + id).value.trim() : undefined);

@@ -18,8 +18,8 @@ async function load() {
     sb.from("deal_events").select("*").eq("deal_id", id).order("created_at", { ascending: false })
   ]);
   deal = d.data; parties = p.data || []; offers = o.data || []; events = e.data || [];
-  // Fees exist only from Payment / settlement onwards; members see only their own (database rule).
-  const f = deal && ["settlement", "delivery", "completed", "cancelled"].includes(deal.stage) ? await sb.from("deal_fees").select("*").eq("deal_id", id) : { data: [] };
+  // Fees exist only once the contract is signed; members see only their own (database rule).
+  const f = deal && ["contract_signed", "settlement", "delivery", "completed", "cancelled"].includes(deal.stage) ? await sb.from("deal_fees").select("*").eq("deal_id", id) : { data: [] };
   fees = f.data || [];
 }
 let fees = [];
@@ -30,12 +30,12 @@ function feeHTML() {
   if (mine) {
     const basisLabel = mine.basis_source === "none" ? "Deal value" : mine.basis_source === "agreed" ? (deal.kind.includes("barter") ? "Agreed value of what you give" : "Agreed deal value") : "Value confirmed by DASKIES";
     return `<section class="panel feebox"><h2>Your DASKIES success fee</h2>
-      <p class="small muted" style="margin-top:-6px">Only you and DASKIES can see this. It is set out in the Terms you accepted when you joined.</p>
+      <p class="small muted" style="margin-top:-6px">Only you and DASKIES can see this. It is set out in your signed deal contract and is non-refundable.</p>
       <dl class="kv"><dt>${esc(basisLabel)}</dt><dd>${mine.basis_source === "none" ? "DASKIES will confirm it with you" : esc(inr(mine.basis))}</dd>
         <dt>Success fee (${esc(String(Number(mine.rate)))}%)</dt><dd>${esc(inr(mine.fee))}</dd><dt>GST (${esc(String(Number(mine.gst_rate)))}%)</dt><dd>${esc(inr(mine.gst))}</dd>
         <dt>Total payable</dt><dd><b>${esc(inr(Number(mine.fee) + Number(mine.gst)))}</b></dd><dt>Status</dt><dd><span class="tag ${mine.status === "due" ? "tag-pending" : mine.status === "cancelled" ? "tag-rejected" : "tag-approved"}">${esc(FEE_WORD[mine.status] || mine.status)}</span></dd></dl>
       ${mine.note ? `<p class="small">${esc(mine.note)}</p>` : ""}
-      ${mine.status === "due" ? `<p class="small"><b>How to pay:</b> DASKIES will send your GST invoice and payment details. Online payment by UPI, card or net banking is coming soon. Delivery opens once every party's fee is settled.</p>` : ""}</section>`;
+      ${mine.status === "due" ? `<p class="small"><b>How to pay:</b> DASKIES will send your GST invoice and payment details. Online payment by UPI, card or net banking is coming soon. Payment and settlement between the parties open once every party's fee is paid.</p>` : ""}</section>`;
   }
   if (fees.length && m.profile?.is_admin) {
     return `<section class="panel feebox"><h2>Success fees <span class="small muted">admin view</span></h2><div class="tablewrap"><table class="list"><thead><tr><th>Party</th><th>Value</th><th>Fee</th><th>GST</th><th>Status</th></tr></thead><tbody>
@@ -87,13 +87,13 @@ function render() {
       <section class="panel" id="offerForm" hidden></section>
       ${party && open && !negotiating ? `<section class="panel"><h2>Next step</h2>${deal.stage === "delivery"
         ? `<p>When you have received what was agreed, confirm completion. The deal completes when every party confirms.</p>${me().completed ? '<span class="tag tag-approved">You confirmed</span>' : '<button class="btn btn-primary" id="complete" type="button">Confirm completion</button>'}`
-        : deal.stage === "settlement" && (fees.find((x) => x.user_id === m.user.id) || {}).status === "due"
-        ? `<p>Settle payments between the parties as agreed, and your DASKIES success fee below. Delivery opens once every party's fee is settled.</p><button class="btn btn-primary" type="button" disabled>Move to: Delivery</button>`
+        : deal.stage === "contract_signed" && (fees.find((x) => x.user_id === m.user.id) || {}).status === "due"
+        ? `<p>The contract is signed. Pay your DASKIES success fee below; payment and settlement between the parties open once every party's fee is paid.</p><button class="btn btn-primary" type="button" disabled>Move to: Payment / settlement</button>`
         : `<div class="field"><label for="stNote">Note for the other parties (optional)</label><input id="stNote" maxlength="500" placeholder="e.g. Inspection report shared, contract signed on 20 Nov"></div><button class="btn btn-primary" id="advance" type="button">Move to: ${esc(STAGES[idx + 1] ? STAGES[idx + 1][1] : "")}</button>`}</section>` : ""}
       ${feeHTML()}
       ${party && deal.stage === "enquiry" ? `<section class="panel"><button class="btn btn-ghost" id="advance" type="button">Mark as in discussion</button></section>` : ""}
       <section class="panel"><h2>Documents</h2><p class="hint" style="margin-top:-6px">Templates filled from ${agreed ? "the agreed terms" : "the latest offer"}. Have a lawyer review before anyone signs. DASKIES does not hold money or act as escrow.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" data-doc="offer" type="button">Offer sheet</button><button class="btn btn-ghost btn-sm" data-doc="mou" type="button">MOU</button>${deal.kind.includes("barter") ? '<button class="btn btn-ghost btn-sm" data-doc="barter" type="button">Barter agreement</button>' : ""}<button class="btn btn-ghost btn-sm" data-doc="delivery" type="button">Delivery confirmation</button><button class="btn btn-ghost btn-sm" data-doc="settlement" type="button">Settlement statement</button></div></section>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" data-doc="offer" type="button">Offer sheet</button><button class="btn btn-ghost btn-sm" data-doc="mou" type="button">MOU</button>${deal.kind.includes("barter") ? '<button class="btn btn-ghost btn-sm" data-doc="barter" type="button">Barter agreement</button>' : '<button class="btn btn-ghost btn-sm" data-doc="agreement" type="button">Deal agreement</button>'}<button class="btn btn-ghost btn-sm" data-doc="delivery" type="button">Delivery confirmation</button><button class="btn btn-ghost btn-sm" data-doc="settlement" type="button">Settlement statement</button></div></section>
     </div>
     <aside class="grid">
       <section class="panel"><h2>History</h2>
@@ -155,12 +155,17 @@ function wire(cur) {
 function printDoc(kind) {
   const o = offers.find((x) => x.status === "accepted") || offers[0];
   const t = o ? o.terms : {};
-  const titles = { offer: "Offer sheet", mou: "Memorandum of understanding", barter: "Barter agreement", delivery: "Delivery confirmation", settlement: "Settlement statement" };
-  const partyRows = parties.map((p, i) => `<tr><td>Party ${String.fromCharCode(65 + i)}</td><td>${esc(p.business || "")}</td><td>${esc(p.listing_title || "Cash")}</td><td>${esc(t.values && t.values[p.user_id] != null ? fmt(t.values[p.user_id]) : p.price ? money(p.price, p.currency) : "")}</td></tr>`).join("");
+  const titles = { offer: "Offer sheet", mou: "Memorandum of understanding", barter: "Barter agreement", agreement: "Deal agreement", delivery: "Delivery confirmation", settlement: "Settlement statement" };
+  // Agreed value per party: from the terms when there are any (never the listing's asking price), otherwise the asking price.
+  const agreedOf = (p) => t.values && t.values[p.user_id] != null && t.values[p.user_id] !== "" ? fmt(t.values[p.user_id])
+    : o ? (!deal.kind.includes("barter") && p.listing_id && t.price != null && t.price !== "" ? fmt(t.price) : "")
+    : p.price ? money(p.price, p.currency) + " (asking)" : "";
+  const partyRows = parties.map((p, i) => `<tr><td>Party ${String.fromCharCode(65 + i)}</td><td>${esc(p.business || "")}</td><td>${esc(p.listing_title || "Cash")}</td><td>${esc(agreedOf(p))}</td></tr>`).join("");
   const body = {
     offer: `<p>This offer sheet records the commercial terms proposed in the DASKIES deal below. It is not a binding contract.</p>`,
     mou: `<p>The parties below record their intention to proceed on the terms set out here, subject to due diligence, documentation and a final signed contract. This memorandum is not legally binding except for confidentiality.</p>`,
     barter: `<p>Each party agrees to transfer the asset or goods listed against its name to the next party in the chain${parties.length > 2 ? ", the last party transferring to Party A" : ""}, on the terms below. Any difference in agreed value is settled in cash as stated.</p>`,
+    agreement: `<p>The parties agree to complete the ${esc((KIND[deal.kind] || "deal").toLowerCase())} below on the terms set out here.</p>`,
     delivery: `<p>The receiving party confirms delivery of the items listed, in the quantity and condition agreed, on the date below.</p><p>Date of delivery: ____________ &nbsp; Place: ____________</p>`,
     settlement: `<p>Statement of amounts agreed between the parties. Payments are made directly between the parties or through a licensed payment provider; DASKIES does not hold funds.</p>`
   }[kind];
@@ -172,6 +177,10 @@ function printDoc(kind) {
     ${body}
     <table><tr><th>Party</th><th>Business</th><th>Gives</th><th>Agreed value</th></tr>${partyRows}</table>
     <table>${TERMS.filter(([k]) => t[k] !== undefined && t[k] !== "").map(([k, label, type]) => `<tr><th style="width:40%">${esc(label)}</th><td>${esc(type === "number" ? fmt(t[k]) : type === "party" ? nameOf(t[k]) : t[k])}</td></tr>`).join("") || "<tr><td>No terms recorded yet.</td></tr>"}</table>
+    ${kind === "barter" || kind === "agreement" ? `<h2 style="font-size:17px;margin-top:24px">DASKIES success fee</h2>
+    <p>On signing this agreement, each party pays DASKIES a success fee of 5% of the agreed value of what it gives under this agreement (for a sale or lease, the agreed price), plus GST. For deals above ₹1 crore, the rate agreed in writing with DASKIES applies. The fee is payable on signing and is non-refundable. Payment and settlement between the parties open once every party's fee is paid.</p>
+    <h2 style="font-size:17px">Risk and responsibility</h2>
+    <p>From signing, all risk and responsibility for the goods or assets, payments, delivery, quality, title and performance under this agreement rest with the parties. DASKIES is not a party to this agreement, does not hold funds and gives no guarantee.</p>` : ""}
     <div class="sign">${parties.map((p, i) => `<div>Signed for Party ${String.fromCharCode(65 + i)}: ${esc(p.business || "")}<br>Name, title, date</div>`).join("")}</div>
     <p class="muted" style="margin-top:40px">Template generated by DASKIES from the deal record. It is not legal advice. Each party should have it reviewed by its own lawyer and adapt it to the applicable law before signing.</p></body></html>`);
   w.document.close();
