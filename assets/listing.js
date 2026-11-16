@@ -1,4 +1,4 @@
-import { sb, $, esc, qs, header, card, money, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord } from "./core.js";
+import { completeUrl, sb, $, esc, qs, header, card, money, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord } from "./core.js";
 import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js";
 
 const m = await header("explore.html");
@@ -67,6 +67,8 @@ if (mine) {
   });
 } else if (!m.user) {
   act.innerHTML = `<h3>Interested?</h3><p class="small">Sign in to message this business. Contact details stay private until you both choose to share them.</p><a class="btn btn-primary" style="width:100%" href="account.html?mode=signup&next=${encodeURIComponent("listing.html?id=" + l.id)}">Join free to enquire</a><p class="small" style="margin-top:10px">Already a member? <a href="account.html?next=${encodeURIComponent("listing.html?id=" + l.id)}">Sign in</a></p>`;
+} else if (!m.complete) {
+  act.innerHTML = `<h3>Interested?</h3><p class="small">Complete your business profile to message this business or start a deal. DASKIES asks every member for their full business details.</p><a class="btn btn-primary" style="width:100%" href="${esc(completeUrl())}">Complete your profile</a>`;
 } else {
   act.innerHTML = `<h3>Send an enquiry</h3>
     <form id="eq"><div class="field"><label class="sr" for="body">Message</label><textarea id="body" maxlength="4000" required placeholder="Ask about price, quantity, inspection, timeline or a swap.">Hello, I'm interested in "${esc(l.title)}". </textarea></div>

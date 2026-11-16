@@ -115,10 +115,16 @@ async function deals() {
 }
 
 async function users() {
-  const { data, error } = await sb.from("profiles").select("*").order("created_at", { ascending: false }).limit(500);
+  const { data, error } = await sb.rpc("admin_members");
   if (error) throw error;
-  pane.innerHTML = `<p class="small muted">${data.length} accounts</p><div class="tablewrap"><table class="list"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Admin</th><th>Joined</th></tr></thead><tbody>${data.map((p) => `<tr>
-    <td>${esc(p.full_name || "")}</td><td>${esc(p.email || "")}</td><td>${esc(p.phone || "")}</td><td>${p.is_admin ? "Yes" : ""}</td><td>${esc(day(p.created_at))}</td></tr>`).join("")}</tbody></table></div>`;
+  const done = data.filter((u) => u.complete).length;
+  pane.innerHTML = `<p class="small muted">${data.length} accounts · ${done} complete · ${data.length - done} still missing details. Members with missing details cannot post, enquire, message or start deals.</p>
+    <div class="tablewrap"><table class="list"><thead><tr><th>Member</th><th>Business</th><th>Registered address</th><th>GSTIN</th><th>Profile</th><th>Joined</th></tr></thead><tbody>${data.map((u) => `<tr>
+    <td><b>${esc(u.full_name || "—")}</b>${u.is_admin ? ' <span class="tag tag-closed">Admin</span>' : ""}<div class="small">${esc(u.email || "")}</div><div class="small">${esc(u.phone || "")}</div></td>
+    <td>${esc(u.business || "—")}<div class="small muted">${esc((u.roles || []).join(", "))}</div>${u.business ? `<div class="small muted">Level ${u.verification_level || 1}</div>` : ""}</td>
+    <td class="small">${esc([u.address, [u.city, u.state].filter(Boolean).join(", "), [u.postal_code, u.country].filter(Boolean).join(" ")].filter(Boolean).join(", ") || "—")}</td>
+    <td class="small">${esc(u.gstin || "")}</td>
+    <td>${u.complete ? '<span class="tag tag-approved">Complete</span>' : '<span class="tag tag-pending">Missing details</span>'}</td><td>${esc(day(u.joined))}</td></tr>`).join("")}</tbody></table></div>`;
 }
 
 async function audit() {

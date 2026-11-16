@@ -56,16 +56,38 @@ export async function me(force = false) {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) return (_me = { user: null });
   const user = session.user;
-  const [{ data: profile }, { data: business }] = await Promise.all([
+  const [{ data: profile }, { data: business }, { data: priv }] = await Promise.all([
     sb.from("profiles").select("*").eq("id", user.id).maybeSingle(),
-    sb.from("businesses").select("*").eq("owner_id", user.id).maybeSingle()
+    sb.from("businesses").select("*").eq("owner_id", user.id).maybeSingle(),
+    sb.from("business_private").select("*").eq("owner_id", user.id).maybeSingle()
   ]);
-  return (_me = { user, profile, business });
+  const m = { user, profile, business, private: priv };
+  m.missing = missing(m); m.complete = !m.missing.length;
+  return (_me = m);
 }
+
+// What a member still has to give before they can post, enquire, message or deal (mirrors the database rule).
+export function missing(m) {
+  const p = m.profile || {}, b = m.business || {}, x = m.private || {}, out = [];
+  const t = (v) => String(v || "").trim();
+  if (t(p.full_name).length < 2) out.push("your name");
+  const d = t(p.phone).replace(/\D/g, "").length; if (d < 10 || d > 15) out.push("mobile number");
+  if (t(b.name).length < 2) out.push("business name");
+  if (!(b.roles || []).length) out.push("what your business does");
+  if (t(x.address).length < 8) out.push("address");
+  if (!t(x.postal_code)) out.push("PIN code");
+  if (t(b.city).length < 2) out.push("city");
+  if (t(b.state).length < 2) out.push("state");
+  if (t(b.country).length < 2) out.push("country");
+  return out;
+}
+const here = () => location.pathname.replace(/^\//, "") + location.search + location.hash;
+export const completeUrl = (next = here()) => "account.html?mode=complete&next=" + encodeURIComponent(next);
 
 export async function requireAuth() {
   const m = await me();
   if (!m.user) { location.href = "account.html?next=" + encodeURIComponent(location.pathname.replace(/^\//, "") + location.search); return null; }
+  if (!m.complete && !(m.profile && m.profile.is_admin)) { location.href = completeUrl(); return null; }
   return m;
 }
 
@@ -114,6 +136,9 @@ export async function header(active) {
     <nav class="nav" id="nav" aria-label="Main">${links.join("")}</nav>
     <div class="hd-cta">${right}<button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span></button></div></div>`;
   document.body.prepend(hd);
+  if (m.user && !m.complete && !/account\.html$/.test(location.pathname)) {
+    hd.insertAdjacentHTML("afterend", `<div class="profbar" role="status"><div class="wrap">Your profile is missing ${esc(m.missing.slice(0, 3).join(", "))}${m.missing.length > 3 ? " and more" : ""}. Complete it to post, enquire, message or start deals. <a href="${esc(completeUrl())}">Complete your profile</a></div></div>`);
+  }
   $("#menuBtn").addEventListener("click", (e) => { const o = $("#nav").classList.toggle("open"); e.currentTarget.setAttribute("aria-expanded", o); });
   $$("#signOut, [data-signout]").forEach((so) => so.addEventListener("click", async (e) => { e.preventDefault(); await sb.auth.signOut(); location.href = "index.html"; }));
   if (m.user) alerts();

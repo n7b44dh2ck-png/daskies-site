@@ -1,4 +1,5 @@
 import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord } from "./core.js";
+import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js";
 import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js";
 
 await header("dashboard.html");
@@ -192,34 +193,29 @@ async function messages() {
 }
 
 async function profile() {
-  const b = m.business || { name: "", roles: [], country: "India" };
+  const b = m.business || {};
   const { data: locs } = m.business ? await sb.from("business_locations").select("*").eq("business_id", m.business.id) : { data: [] };
-  pane.innerHTML = `<form id="bf" class="grid" novalidate>
-    <div class="panel"><h2>You</h2><div class="row2"><div class="field"><label for="pn">Your name</label><input id="pn" maxlength="120" value="${esc(m.profile?.full_name || "")}"></div>
-      <div class="field"><label for="pp">Phone or WhatsApp (private)</label><input id="pp" maxlength="30" value="${esc(m.profile?.phone || "")}"></div></div><p class="small muted">Sign-in email: ${esc(m.user.email)}</p></div>
-    <div class="panel"><h2>Business</h2>
-      <div class="field"><label for="bn">Business name</label><input id="bn" maxlength="160" required value="${esc(b.name)}"></div>
-      <div class="field"><span class="flabel">Roles (pick all that fit)</span><div class="checks">${ROLES.map((r) => `<label><input type="checkbox" name="role" value="${r}"${(b.roles || []).includes(r) ? " checked" : ""}> ${r}</label>`).join("")}</div></div>
+  pane.innerHTML = `<form id="bf" class="panel" novalidate>
+    ${detailsFields(detailsOf(m))}
+    <fieldset class="fs"><legend>More about the business <span class="muted">(optional)</span></legend>
       <div class="row2"><div class="field"><label for="bi">Industry</label><input id="bi" maxlength="120" value="${esc(b.industry || "")}"></div><div class="field"><label for="by">Year established</label><input id="by" type="number" min="1800" max="2100" value="${esc(b.year_established || "")}"></div></div>
       <div class="field"><label for="bpr">Products and services</label><input id="bpr" maxlength="1000" value="${esc(b.products || "")}"></div>
       <div class="field"><label for="bd">About the business</label><textarea id="bd" maxlength="3000">${esc(b.description || "")}</textarea></div>
-      <div class="row3"><div class="field"><label for="bc">City</label><input id="bc" maxlength="80" value="${esc(b.city || "")}"></div><div class="field"><label for="bs">State</label><input id="bs" maxlength="60" value="${esc(b.state || "")}"></div><div class="field"><label for="bk">Country</label><input id="bk" maxlength="60" value="${esc(b.country || "India")}"></div></div>
-      <div class="field"><label for="ba">Registered address</label><input id="ba" maxlength="300" value="${esc(b.address || "")}"></div>
       <div class="row2"><div class="field"><label for="bw">Website</label><input id="bw" maxlength="200" value="${esc(b.website || "")}"></div><div class="field"><label for="bce">Certifications</label><input id="bce" maxlength="500" value="${esc(b.certifications || "")}"></div></div>
-      <label class="small" style="display:flex;gap:8px"><input type="checkbox" id="bx"${b.export_import ? " checked" : ""} style="accent-color:var(--accent)"> We import or export</label></div>
-    <p class="err" id="bmsg" role="alert"></p><div><button class="btn btn-primary">Save profile</button></div></form>
+      <label class="small" style="display:flex;gap:8px"><input type="checkbox" id="bx"${b.export_import ? " checked" : ""} style="accent-color:var(--accent)"> We import or export</label></fieldset>
+    <p class="small muted">Sign-in email: ${esc(m.user.email)} · Fields marked <span class="req">*</span> are required.</p>
+    <p class="err" id="bmsg" role="alert"></p><div><button class="btn btn-primary" id="bsave">Save profile</button></div></form>
     ${m.business ? `<div class="panel" style="margin-top:16px"><h2>Operating locations</h2><ul id="locs">${(locs || []).map((l) => `<li>${esc([l.label, l.city, l.state, l.country].filter(Boolean).join(", "))} <button class="btn btn-quiet btn-sm" type="button" data-rl="${l.id}">Remove</button></li>`).join("") || '<li class="muted">None added</li>'}</ul>
       <form id="lf" class="row3" style="align-items:end"><div class="field"><label for="ll">Label</label><input id="ll" maxlength="80" placeholder="Plant 2"></div><div class="field"><label for="lc">City</label><input id="lc" maxlength="80"></div><div class="field"><label for="lk">Country</label><input id="lk" value="India" maxlength="60"></div><button class="btn btn-ghost btn-sm">Add location</button></form></div>` : ""}`;
   $("#bf").addEventListener("submit", async (e) => {
-    e.preventDefault(); const btn = $("#bf > div > button"), v = (id) => $("#" + id).value.trim();
-    if (v("bn").length < 2) { $("#bmsg").textContent = "Add your business name."; return; }
+    e.preventDefault(); const btn = $("#bsave"), v = (id) => $("#" + id).value.trim();
+    $("#bmsg").textContent = "";
+    const d = readDetails();
+    if (showProblems(checkDetails(d))) { $("#bmsg").textContent = "Some details are missing or need fixing; see the marked fields."; return; }
     busy(btn, true);
     try {
-      const { error: pe } = await sb.from("profiles").update({ full_name: v("pn") || null, phone: v("pp") || null }).eq("id", m.user.id); if (pe) throw pe;
-      const row = { name: v("bn"), roles: $$("input[name=role]:checked").map((c) => c.value), industry: v("bi") || null, year_established: v("by") ? Number(v("by")) : null, products: v("bpr") || null,
-        description: v("bd") || null, city: v("bc") || null, state: v("bs") || null, country: v("bk") || "India", address: v("ba") || null, website: v("bw") || null, certifications: v("bce") || null, export_import: $("#bx").checked };
-      const q = m.business ? sb.from("businesses").update(row).eq("id", m.business.id) : sb.from("businesses").insert({ ...row, owner_id: m.user.id });
-      const { error } = await q; if (error) throw error;
+      await saveDetails(m, d, { industry: v("bi") || null, year_established: v("by") ? Number(v("by")) : null, products: v("bpr") || null, description: v("bd") || null,
+        website: v("bw") || null, certifications: v("bce") || null, export_import: $("#bx").checked });
       toast("Profile saved."); await (await import("./core.js")).me(true); location.reload();
     } catch (err) { $("#bmsg").textContent = errMsg(err); busy(btn, false); }
   });

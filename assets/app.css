@@ -161,3 +161,14 @@ table.list{width:100%;border-collapse:collapse;background:#fff;border:1px solid 
 .bell-tx time{font-size:12px;color:var(--muted)}
 .bell-empty{padding:18px 16px;margin:0;color:var(--muted);font-size:14px}
 @media (max-width:600px){.bell-panel{position:fixed;left:8px;right:8px;top:72px;width:auto}}
+/* mandatory details */
+.req{color:var(--accent-text);font-weight:800;margin-left:2px}
+.fs{border:0;padding:0;margin:0 0 22px;min-width:0}
+.fs legend{font-size:1.15rem;font-weight:750;padding:0;margin-bottom:12px}
+.fs + .fs{border-top:1px solid var(--line-soft);padding-top:20px}
+.field.bad input,.field.bad textarea,.field.bad .checks{border-color:var(--accent-text);box-shadow:0 0 0 1px var(--accent-text)}
+.field.bad .checks{border-radius:8px;padding:6px}
+.ferr{display:block;color:var(--accent-text);font-size:13.5px;font-weight:600;margin-top:5px}
+.profbar{background:var(--amber-tint);border-bottom:1px solid #EBCB91;font-size:14.5px;padding:10px 0}
+.profbar a{font-weight:700;color:var(--ink);margin-left:4px}
+.checks label{white-space:nowrap}
