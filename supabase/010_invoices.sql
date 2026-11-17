@@ -101,7 +101,7 @@ grant select on public.invoices to authenticated;
 create or replace function public._issue_invoice(p_payment uuid) returns uuid
 language plpgsql security definer set search_path = public as $$
 declare p public.payments; s public.invoice_settings; b public.businesses; bp public.business_private; pr public.profiles;
-  em text; inv uuid; d date; y int; fy text; n int; sc text; bc text; india boolean;
+  em text; inv uuid; d date; y int; v_fy text; v_n int; sc text; bc text; india boolean;
   taxable bigint; tax bigint; c bigint := 0; sg bigint := 0; ig bigint := 0; zero boolean := false; descr text; sac text;
 begin
   select * into p from public.payments where id = p_payment;
@@ -126,10 +126,10 @@ begin
 
   d := (coalesce(p.paid_at, now()) at time zone 'Asia/Kolkata')::date;
   y := extract(year from d)::int;
-  fy := case when extract(month from d) >= 4 then y::text || '-' || lpad(((y + 1) % 100)::text, 2, '0')
+  v_fy := case when extract(month from d) >= 4 then y::text || '-' || lpad(((y + 1) % 100)::text, 2, '0')
              else (y - 1)::text || '-' || lpad((y % 100)::text, 2, '0') end;
-  insert into public.invoice_counters (fy, last_no) values (fy, 1)
-    on conflict (fy) do update set last_no = public.invoice_counters.last_no + 1 returning last_no into n;
+  insert into public.invoice_counters as ic (fy, last_no) values (v_fy, 1)
+    on conflict on constraint invoice_counters_pkey do update set last_no = ic.last_no + 1 returning ic.last_no into v_n;
 
   if p.kind = 'membership' then descr := 'DASKIES full membership, 90 days'; sac := s.sac_membership;
   else descr := left('DASKIES success fee: ' || coalesce((select dl.title from public.deal_fees f join public.deals dl on dl.id = f.deal_id where f.id = p.ref_id), 'deal'), 160); sac := s.sac_fee;
@@ -137,7 +137,7 @@ begin
 
   insert into public.invoices (payment_id, user_id, number, fy, issued_at, kind, description, sac, supplier, buyer, place_of_supply,
       taxable_paise, cgst_paise, sgst_paise, igst_paise, total_paise, zero_rated, payment_ref, paid_at)
-  values (p.id, p.user_id, 'DSK/' || fy || '/' || lpad(n::text, 4, '0'), fy, now(), p.kind, descr, sac,
+  values (p.id, p.user_id, 'DSK/' || v_fy || '/' || lpad(v_n::text, 4, '0'), v_fy, now(), p.kind, descr, sac,
     jsonb_build_object('legal_name', s.legal_name, 'trade_name', s.trade_name, 'gstin', s.gstin, 'address', s.address, 'city', s.city,
       'state', s.state, 'state_code', sc, 'postal_code', s.postal_code, 'email', s.email, 'lut_number', s.lut_number),
     jsonb_build_object('name', pr.full_name, 'business', b.name, 'address', bp.address, 'city', b.city, 'state', b.state, 'state_code', bc,
@@ -146,7 +146,7 @@ begin
     taxable, c, sg, ig, p.amount_paise, zero, p.razorpay_payment_id, p.paid_at)
   returning id into inv;
   insert into public.audit_log (actor_id, action, entity, entity_id, detail)
-    values (p.user_id, 'invoice_issued', 'invoice', inv, jsonb_build_object('payment', p.id, 'fy', fy, 'no', n));
+    values (p.user_id, 'invoice_issued', 'invoice', inv, jsonb_build_object('payment', p.id, 'fy', v_fy, 'no', v_n));
   return inv;
 end $$;
 revoke all on function public._issue_invoice(uuid) from public, anon, authenticated;
