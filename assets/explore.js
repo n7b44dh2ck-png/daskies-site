@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=996e35d1";
-import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=996e35d1";
+import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=ee644fd6";
+import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=ee644fd6";
 
 await header("explore.html");
 const main = $("#main");

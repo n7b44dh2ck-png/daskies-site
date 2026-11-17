@@ -460,10 +460,22 @@ main.wrap{padding-top:28px;padding-bottom:88px} /* .wrap's side padding used to 
 
 /* About: the six categories */
 .aboutcats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0 8px}
-.aboutcats section{background:#fff;border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:6px 6px 10px 10px;padding:18px 18px 16px;display:flex;flex-direction:column}
-.aboutcats h3{margin:0 0 8px;font-size:1.12rem}
-.aboutcats h3 a{color:var(--ink);text-decoration:none}.aboutcats h3 a:hover{text-decoration:underline}
-.aboutcats p{margin:0 0 10px;font-size:.98rem;line-height:1.6}
-.aboutcats .for{color:var(--muted)}.aboutcats .for b{color:var(--ink);font-weight:650}
-.aboutcats .more{margin-top:auto;font-weight:650}
+.aboutcats section{background:#fff;border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:6px 6px 10px 10px;padding:18px 18px 16px;display:flex;flex-direction:column;scroll-margin-top:90px}
+.aboutcats .ac-head{display:flex;align-items:center;gap:12px;margin:0 0 6px}
+.aboutcats .ac-ic{flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:4px;background:var(--accent-tint);color:var(--accent)}
+.aboutcats .ac-ic svg{width:24px;height:24px}
+.aboutcats h3{margin:0;font-size:1.15rem}
+.aboutcats .ac-why{margin:0 0 12px;font-size:1rem;line-height:1.55;font-weight:600;color:var(--ink)}
+.aboutcats dl{margin:0 0 14px;font-size:.95rem;line-height:1.55}
+.aboutcats dt{font-weight:700;color:var(--accent-text);font-size:.85rem;margin:10px 0 2px}
+.aboutcats dt:first-child{margin-top:0}
+.aboutcats dd{margin:0;color:var(--ink)}
+.aboutcats .ac-links{margin:auto 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.aboutcats .ac-more{flex-basis:100%;font-size:.9rem;display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:2px}
+.aboutcats .ac-more::before{content:"Category pages:";color:var(--muted)}
+.swaps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0 10px}
+.swaps section{border-left:3px solid var(--plum);background:#fff;padding:14px 16px;border-radius:0 6px 6px 0}
+.swaps h3{margin:0 0 6px;font-size:1.02rem}
+.swaps p{margin:0;font-size:.95rem;line-height:1.55}
+@media (max-width:900px){.swaps{grid-template-columns:1fr}}
 @media (max-width:700px){.aboutcats{grid-template-columns:1fr}}
