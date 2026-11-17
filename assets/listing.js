@@ -1,5 +1,5 @@
-import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=83260835";
-import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=83260835";
+import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=b60813cd";
+import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=b60813cd";
 
 const id = qs("id");
 // Fetch the listing while the header loads the member, not after it.
@@ -72,6 +72,7 @@ main.innerHTML = `
         ${l.price ? `<span class="small muted" style="display:block" data-fxnote data-c="${esc(l.currency || "INR")}" data-o="${esc(money(l.price, l.currency, l.price_unit))}" hidden></span>` : ""}
         ${l.quantity ? `<ul class="pfacts"><li><span>Quantity</span><b>${esc(l.quantity)} ${esc(l.quantity_unit || "")}</b></li></ul>` : ""}
         <div class="actbox" id="act"></div>
+        ${l.status === "approved" ? `<div class="sharebox"><button class="btn btn-wa btn-sm" type="button" id="shareWa"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5z"/></svg>Share on WhatsApp</button><button class="btn btn-ghost btn-sm" type="button" id="shareCopy">Copy link</button></div>` : ""}
       </section>
       ${l.managed ? `<section class="panel">
         <p class="plabel">Listed by</p>
@@ -148,6 +149,21 @@ if (mine) {
 // Matches: the other side in the same vertical (same category first). Indicative only.
 const other = l.kind === "offer" ? "need" : "offer";
 const sel = "id,kind,vertical,subcategory,title,price,price_unit,currency,quantity,quantity_unit,city,country,status,managed,owner_id,listing_photos(path,sort)";
+// Share a public listing: WhatsApp (where Indian B2B happens) or a plain link.
+document.addEventListener("click", async (e) => {
+  const wa = e.target.closest("#shareWa"), cp = e.target.closest("#shareCopy");
+  if (!wa && !cp) return;
+  const url = location.origin + "/listing.html?id=" + l.id;
+  if (wa) {
+    const where = [l.city, l.state, l.country].filter(Boolean).slice(0, 2).join(", ");
+    const text = [l.title, l.price ? money(l.price, l.currency, l.price_unit) : "", where].filter(Boolean).join(" – ") + "\nOn DASKIES: " + url;
+    const href = "https://wa.me/?text=" + encodeURIComponent(text);
+    const w = window.open(href, "_blank", "noopener"); if (!w) location.href = href;
+  } else {
+    try { await navigator.clipboard.writeText(url); toast("Link copied."); } catch { prompt("Copy this link:", url); }
+  }
+});
+
 const [{ data: same }, { data: near }] = await Promise.all([
   sb.from("listings").select(sel).eq("status", "approved").eq("kind", other).eq("vertical", l.vertical).eq("subcategory", l.subcategory).neq("owner_id", l.owner_id).limit(6),
   sb.from("listings").select(sel).eq("status", "approved").eq("kind", other).eq("vertical", l.vertical).neq("subcategory", l.subcategory).neq("owner_id", l.owner_id).order("created_at", { ascending: false }).limit(6)

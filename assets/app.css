@@ -503,3 +503,8 @@ main.wrap{padding-top:28px;padding-bottom:88px} /* .wrap's side padding used to 
 
 /* Keep the header's space while it is being drawn, so the page doesn't jump down */
 body:not(:has(> header.hd))::before{content:"";display:block;height:69px;border-bottom:1px solid var(--line);background:#fff}
+
+/* share a listing */
+.sharebox{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft)}
+.btn-wa{background:#168A4B;color:#fff;border-color:#168A4B}.btn-wa:hover{background:#127A41}
+.btn-wa svg{flex:none}

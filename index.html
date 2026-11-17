@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="assets/boot.js?v=83260835"></script>
+<script src="assets/boot.js?v=b60813cd"></script>
 <!-- perf -->
 <link rel="preconnect" href="https://auqhmkdeurfexrtzylyd.supabase.co" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="modulepreload" href="assets/home-live.js?v=83260835">
-<link rel="modulepreload" href="assets/core.js?v=83260835">
-<link rel="modulepreload" href="assets/config.js?v=83260835">
-<link rel="modulepreload" href="assets/taxonomy.js?v=83260835">
+<link rel="modulepreload" href="assets/home-live.js?v=b60813cd">
+<link rel="modulepreload" href="assets/core.js?v=b60813cd">
+<link rel="modulepreload" href="assets/config.js?v=b60813cd">
+<link rel="modulepreload" href="assets/taxonomy.js?v=b60813cd">
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/auth-js@2.119.0/+esm" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/postgrest-js@2.119.0/+esm" crossorigin>
@@ -22,7 +22,7 @@
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/iceberg-js@0.8.1/+esm" crossorigin>
 <script type="speculationrules">{"prerender":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"selector_matches":"[target=_blank], [download], .no-prerender"}}]},"eagerness":"moderate"}]}</script>
 <!-- /perf -->
-<script src="assets/fx.js?v=83260835"></script>
+<script src="assets/fx.js?v=b60813cd"></script>
 <title>DASKIES: lease, buy, sell or barter industrial capacity in India</title>
 <meta name="description" content="DASKIES is the business network for Indian industry. Lease idle factories and machines, buy and sell used machinery, storage and bulk commodities, or swap them in two-, three- and four-party barter deals.">
 <!-- seo -->
@@ -236,7 +236,7 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#A9B6B3}
 .price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
 .lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
-/* live listings (filled from the database by assets/home-live.js?v=83260835) */
+/* live listings (filled from the database by assets/home-live.js?v=b60813cd) */
 .live-block{margin-bottom:40px}
 .live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
 .live-head h3{margin:0}
@@ -433,6 +433,7 @@ table.clusters{width:100%;border-collapse:collapse;background:#fff;border:1px so
 .lang-list button[aria-checked="true"]{color:var(--accent-text);font-weight:700}
 .lang-list small{color:var(--muted);font-size:12.5px;font-weight:500}
 html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans-serif}
+html[lang="gu"] body{font-family:"Archivo","Noto Sans Gujarati",system-ui,sans-serif}
 
 /* WhatsApp button (general enquiries; number not shown) */
 .wa-btn{position:fixed;right:22px;bottom:92px;z-index:60;height:50px;border-radius:999px;background:#168A4B;color:#fff;border:0;display:flex;align-items:center;gap:8px;padding:0 18px 0 14px;cursor:pointer;font-weight:700;font-size:15px;box-shadow:0 10px 26px -10px rgba(16,110,58,.7)}
@@ -721,6 +722,7 @@ form.callback .d3{margin-bottom:14px !important}
       <ul class="lang-list" id="langList" role="menu" aria-label="Choose language" translate="no">
         <li><button type="button" role="menuitemradio" data-lang="en" aria-checked="true">English<small>EN</small></button></li>
         <li><button type="button" role="menuitemradio" data-lang="hi" aria-checked="false" lang="hi">हिन्दी<small>HI</small></button></li>
+        <li><button type="button" role="menuitemradio" data-lang="gu" aria-checked="false" lang="gu">ગુજરાતી<small>GU</small></button></li>
         <li><button type="button" role="menuitemradio" data-lang="fr" aria-checked="false" lang="fr">Français<small>FR</small></button></li>
         <li><button type="button" role="menuitemradio" data-lang="de" aria-checked="false" lang="de">Deutsch<small>DE</small></button></li>
         <li><button type="button" role="menuitemradio" data-lang="es" aria-checked="false" lang="es">Español<small>ES</small></button></li>
@@ -1131,7 +1133,7 @@ form.callback .d3{margin-bottom:14px !important}
     return "₹"+(Math.round(v*10)/10).toString()+" lakh";
   }
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-  // Prices follow the visitor's currency (assets/fx.js?v=83260835): rupees in India, approximate US dollars elsewhere.
+  // Prices follow the visitor's currency (assets/fx.js?v=b60813cd): rupees in India, approximate US dollars elsewhere.
   var FX=window.DSKFX||null;
   function usd(){ return !!(FX && FX.eff()==="USD"); }
   function fmtC(v){ var l=FX&&FX.label(v*1e5,"INR"); return l||fmt(v); }
@@ -1287,7 +1289,7 @@ form.callback .d3{margin-bottom:14px !important}
 
   // Languages. English is the main language; the others load on demand from /i18n/xx.json.
   // The visitor's browser language picks one automatically; the menu at top right changes it.
-  var LANGS={en:"English",hi:"हिन्दी",fr:"Français",de:"Deutsch",es:"Español"};
+  var LANGS={en:"English",hi:"हिन्दी",gu:"ગુજરાતી",fr:"Français",de:"Deutsch",es:"Español"};
   var curLang="en", dict=null, pats=[], cache={}, orig=new WeakMap(), mine=new WeakMap(), origAttr=new WeakMap(), mo=null, enTitle=document.title;
   var ATTRS=["placeholder","aria-label","title"];
   function norm(x){return x.replace(/\s+/g," ").trim()}
@@ -1340,10 +1342,15 @@ form.callback .d3{margin-bottom:14px !important}
     var l=document.createElement("link"); l.id="fontHi"; l.rel="stylesheet";
     l.href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap"; document.head.appendChild(l);
   }
+  function gujaratiFont(){
+    if(document.getElementById("fontGu")) return;
+    var l=document.createElement("link"); l.id="fontGu"; l.rel="stylesheet";
+    l.href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;600;700;800&display=swap"; document.head.appendChild(l);
+  }
   function load(code){
     if(code==="en") return Promise.resolve(null);
     if(cache[code]) return Promise.resolve(cache[code]);
-    return fetch("/i18n/"+code+".json?v=83260835").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
+    return fetch("/i18n/"+code+".json?v=b60813cd").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
   }
   var langWrap=$("#lang"), langBtn=$("#langBtn");
   function markMenu(code){
@@ -1356,7 +1363,7 @@ form.callback .d3{margin-bottom:14px !important}
     return load(code).then(function(d){
       dict=d; pats=[];
       if(d) Object.keys(d).forEach(function(k){ if(k.indexOf("{}")>-1) pats.push([new RegExp("^"+k.replace(/[.*+?^$()|[\]\\]/g,"\\$&").replace(/\{\}/g,"(.+?)")+"$"), d[k]]); });
-      curLang=code; document.documentElement.lang=code; if(code==="hi") hindiFont();
+      curLang=code; document.documentElement.lang=code; if(code==="hi") hindiFont(); if(code==="gu") gujaratiFont();
       document.title = code==="en" ? enTitle : (lookup(enTitle)||enTitle);
       if(code!=="en") observe();
       walk(document.body); markMenu(code);
@@ -1404,6 +1411,6 @@ form.callback .d3{margin-bottom:14px !important}
   }
 })();
 </script>
-<script type="module" src="assets/home-live.js?v=83260835"></script>
+<script type="module" src="assets/home-live.js?v=b60813cd"></script>
 </body>
 </html>

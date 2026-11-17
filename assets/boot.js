@@ -42,7 +42,8 @@
     if (visible) banner();
   }
   function banner(text) {
-    if (shown || !document.body) return;
+    if (shown) return;
+    if (!document.body) { document.addEventListener("DOMContentLoaded", function () { banner(text); }); return; }   // failed while the page head was still loading
     shown = true;
     var d = document.createElement("div");
     d.setAttribute("role", "alert");
