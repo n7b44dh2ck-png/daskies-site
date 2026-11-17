@@ -3,8 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="assets/boot.js?v=2cc63893"></script>
-<script src="assets/fx.js?v=2cc63893"></script>
+<script src="assets/boot.js?v=83260835"></script>
+<!-- perf -->
+<link rel="preconnect" href="https://auqhmkdeurfexrtzylyd.supabase.co" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="modulepreload" href="assets/home-live.js?v=83260835">
+<link rel="modulepreload" href="assets/core.js?v=83260835">
+<link rel="modulepreload" href="assets/config.js?v=83260835">
+<link rel="modulepreload" href="assets/taxonomy.js?v=83260835">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/auth-js@2.119.0/+esm" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/postgrest-js@2.119.0/+esm" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/functions-js@2.119.0/+esm" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/realtime-js@2.119.0/+esm" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/storage-js@2.119.0/+esm" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/tslib@2.8.1/+esm" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/phoenix@0.4.5/+esm" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/iceberg-js@0.8.1/+esm" crossorigin>
+<script type="speculationrules">{"prerender":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"selector_matches":"[target=_blank], [download], .no-prerender"}}]},"eagerness":"moderate"}]}</script>
+<!-- /perf -->
+<script src="assets/fx.js?v=83260835"></script>
 <title>DASKIES: lease, buy, sell or barter industrial capacity in India</title>
 <meta name="description" content="DASKIES is the business network for Indian industry. Lease idle factories and machines, buy and sell used machinery, storage and bulk commodities, or swap them in two-, three- and four-party barter deals.">
 <!-- seo -->
@@ -30,7 +48,6 @@
 <meta name="twitter:image" content="https://daskies.com/assets/og.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://daskies.com/#org","name":"DASKIES","url":"https://daskies.com/","logo":"https://daskies.com/assets/logo-512.png","email":"info@daskies.com","areaServed":"IN","address":{"@type":"PostalAddress","streetAddress":"Zion, near Avalon Hotel, off Sindhu Bhavan Road, Bodakdev","postalCode":"380054","addressLocality":"Ahmedabad","addressRegion":"Gujarat","addressCountry":"IN"},"description":"The business network for Indian industry: lease, buy, sell, barter or donate machines, space, capacity and stock.","contactPoint":{"@type":"ContactPoint","contactType":"customer support","email":"info@daskies.com","availableLanguage":["English","Hindi","Gujarati"]}},{"@type":"WebSite","@id":"https://daskies.com/#website","name":"DASKIES","url":"https://daskies.com/","publisher":{"@id":"https://daskies.com/#org"},"inLanguage":"en-IN","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://daskies.com/explore.html?q={search_term_string}"},"query-input":"required name=search_term_string"}}]}</script>
 <!-- /seo -->
-<script>if(/^\/members/.test(location.pathname)||location.hash==="#members")document.documentElement.classList.add("members-mode");</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
@@ -158,20 +175,6 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#A9B6B3}
   .lz-group ol{grid-template-columns:1fr}
   .lz-cta{grid-template-columns:1fr}
 }
-/* band + ticker */
-.band{background:var(--blush);color:var(--ink);padding:44px 0 0;overflow:hidden}
-.band-row{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
-.band .d2{margin:0;color:var(--ink)}
-.band p{margin:0;color:var(--muted);max-width:46ch}
-.ticker{margin-top:34px;border-top:1px solid rgba(14,111,104,.18);padding:16px 0;white-space:nowrap}
-.ticker-track{display:inline-flex;gap:40px;animation:tick 60s linear infinite;padding-left:28px}
-.ticker-track span{display:inline-flex;align-items:center;gap:12px;font-size:15px;color:var(--ink)}
-.ticker-track i{width:8px;height:8px;background:var(--accent);transform:rotate(45deg);display:inline-block}
-.ticker-track b{color:var(--accent-dk);font-weight:700}
-.ticker-track small{font-size:inherit;color:var(--muted)}
-.ticker:hover .ticker-track{animation-play-state:paused}
-@keyframes tick{to{transform:translateX(-50%)}}
-
 /* sections */
 .sec{padding:88px 0}
 /* Photo plates: cut corners like machined steel, a copper edge on the cut, one teal-to-copper grade */
@@ -233,7 +236,7 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#A9B6B3}
 .price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
 .lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
-/* live listings (filled from the database by assets/home-live.js?v=2cc63893) */
+/* live listings (filled from the database by assets/home-live.js?v=83260835) */
 .live-block{margin-bottom:40px}
 .live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
 .live-head h3{margin:0}
@@ -364,7 +367,7 @@ table.clusters{width:100%;border-collapse:collapse;background:#fff;border:1px so
 .guides-line{margin:26px 0 0;color:var(--muted)}
 @media (max-width:860px){.aud{grid-template-columns:1fr}.audc{padding:22px}}
 /* footer */
-.foot{background:var(--charcoal);color:#C3CDCA;padding:56px 0 34px;margin-top:88px;font-size:15px}
+.foot{background:var(--charcoal);color:#C3CDCA;padding:56px 0 34px;margin-top:0;font-size:15px}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
 .foot .brand{color:#fff}
 .foot h3{color:#fff;font-size:15px;font-weight:700;margin:4px 0 12px}
@@ -378,26 +381,6 @@ table.clusters{width:100%;border-collapse:collapse;background:#fff;border:1px so
 .legal{color:#A3AFAC;border-top:1px solid rgba(255,255,255,.14);margin-top:40px;padding-top:20px;font-size:13.5px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .legal p{margin:0;max-width:80ch}
 
-/* chat */
-.chat-btn{position:fixed;right:22px;bottom:22px;z-index:60;width:58px;height:58px;border-radius:50%;background:var(--accent);color:#fff;border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 28px -8px rgba(14,111,104,.65)}
-.chat{position:fixed;right:22px;bottom:154px;z-index:60;width:min(370px,calc(100vw - 32px));max-height:min(560px,calc(100vh - 180px));background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 30px 60px -24px rgba(19,40,43,.4);display:none;flex-direction:column;overflow:hidden}
-.chat.open{display:flex}
-.chat-head{background:var(--blush);color:var(--ink);padding:14px 16px;display:flex;align-items:center;gap:10px}
-.chat-head svg.b{width:34px;height:26px}
-.chat-head b{display:block;font-size:15.5px}
-.chat-head span{font-size:13px;color:var(--muted)}
-.chat-head button{margin-left:auto;background:none;border:0;color:var(--ink);cursor:pointer;padding:6px}
-.chat-log{padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;flex:1}
-.msg{max-width:88%;padding:10px 13px;border-radius:10px;font-size:14.5px;line-height:1.45}
-.msg.bot{background:var(--blush-2);border-top-left-radius:2px}
-.msg.me{background:var(--accent);color:#fff;align-self:flex-end;border-top-right-radius:2px}
-.opts{display:flex;flex-direction:column;gap:7px;padding:0 16px 16px}
-.opts button{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:9px 12px;font-size:14px;font-weight:600;cursor:pointer}
-.opts button:hover{border-color:var(--accent);color:var(--accent)}
-.opts.collapsed button[data-q]{display:none}
-.opts .more{display:none;text-align:center;color:var(--accent)}
-.opts.collapsed .more{display:block}
-
 /* modal */
 .modal{position:fixed;inset:0;z-index:80;background:rgba(19,40,43,.55);display:none;align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex}
@@ -405,42 +388,6 @@ table.clusters{width:100%;border-collapse:collapse;background:#fff;border:1px so
 .modal-box .x{position:absolute;top:12px;right:12px;background:none;border:0;cursor:pointer;padding:8px}
 .modal .field{margin-bottom:14px}
 
-
-/* category explorer */
-.explorer{display:grid;grid-template-columns:290px 1fr;gap:28px;align-items:start}
-.tabs{display:flex;flex-direction:column;gap:6px}
-.tab{display:flex;align-items:center;gap:12px;text-align:left;background:transparent;border:1.5px solid transparent;border-radius:8px;padding:11px 14px;cursor:pointer;font-weight:650;font-size:15.5px;color:var(--ink)}
-.tab:hover{background:#fff}
-.tab[aria-selected="true"]{background:#fff;border-color:var(--line);box-shadow:inset 4px 0 0 var(--accent)}
-.tab .ti{flex:none;width:36px;height:36px;border-radius:8px;background:var(--accent-tint);color:var(--accent);display:flex;align-items:center;justify-content:center}
-.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:32px 34px}
-.panel .kicker{font-size:14.5px;font-weight:650;color:var(--accent-dk);margin:0 0 6px}
-.panel h3.promise{font-size:clamp(1.5rem,2.4vw,2rem);line-height:1.1;font-stretch:118%;font-weight:800;margin:0 0 12px}
-.panel .intro{color:var(--muted);margin:0;max-width:62ch}
-.pgrid{display:grid;grid-template-columns:1.25fr .75fr;gap:34px;margin-top:26px}
-.pgrid h4{font-size:15px;font-weight:700;margin:0 0 10px}
-.how{margin:0;padding:0;list-style:none;counter-reset:h;display:grid;gap:12px}
-.how li{display:grid;grid-template-columns:28px 1fr;gap:10px;counter-increment:h;font-size:15.5px}
-.how li::before{content:counter(h);width:26px;height:26px;border-radius:50%;background:var(--accent-tint);color:var(--accent-dk);font-weight:750;font-size:13.5px;display:flex;align-items:center;justify-content:center}
-.dots{margin:0 0 20px;padding:0;list-style:none;display:grid;gap:7px;font-size:15px}
-.dots li{padding-left:16px;position:relative}
-.dots li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--accent)}
-.panel-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;padding-top:22px;border-top:1px solid var(--line-soft)}
-
-/* build together */
-.bt-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-.bt-points{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:14px}
-.bt-points li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-.bt-points b{display:block;font-weight:700;margin-bottom:2px}
-.bt-points span{color:var(--muted);font-size:15.5px}
-form.interest{background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px}
-.bt-done{display:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px}
-.bt-done.show{display:block}
-
-
-/* announcement */
-.announce{background:var(--accent);color:#fff;font-size:14.5px;text-align:center;padding:9px 16px}
-.announce button{background:none;border:0;color:#fff;font-weight:700;text-decoration:underline;cursor:pointer;padding:0 0 0 6px;font-size:14.5px}
 
 /* services */
 .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line)}
@@ -452,15 +399,6 @@ form.interest{background:#fff;border:1px solid var(--line);border-radius:12px;pa
 .svc-item p{margin:0;color:var(--muted);font-size:15.5px}
 .svc-item .for{display:block;margin-top:8px;font-size:13.5px;color:var(--accent-text);font-weight:600}
 .linkbtn{background:none;border:0;color:var(--accent-dk);font-weight:700;cursor:pointer;padding:6px 0;font-size:15px;white-space:nowrap;text-decoration:underline;text-underline-offset:3px}
-
-/* upsell */
-.upsell{margin-top:24px;border:1.5px solid var(--accent);border-radius:10px;padding:20px;background:var(--blush-2)}
-.upsell h4{margin:0 0 4px;font-size:1.05rem}
-.upsell label{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line-soft);font-size:15px;cursor:pointer}
-.upsell label:first-of-type{border-top:0}
-.upsell input{margin-top:4px;accent-color:var(--accent);width:18px;height:18px}
-.upsell b{display:block}
-.upsell .small{display:block}
 
 /* partner */
 .partner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
@@ -517,11 +455,123 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
 .reg-steps span{color:var(--muted);font-size:15.5px}
 .privacy{margin:12px 0 0;font-size:13.5px;color:var(--muted);text-align:center}
 
-/* members page (/members): only the full-details form shows */
-#submit-details{display:none}
-.members-mode #submit-details{display:block}
-.members-mode main>section:not(#submit-details),.members-mode .announce{display:none}
-.members-badge{display:inline-block;background:var(--accent-tint);color:var(--accent-text);font-weight:700;font-size:14px;border-radius:999px;padding:5px 12px;margin-bottom:14px}
+/* ===== 2026-11 homepage: drawing-sheet visuals, no stock photos ===== */
+@media (prefers-reduced-motion:no-preference){
+  @view-transition{navigation:auto}
+  ::view-transition-old(root),::view-transition-new(root){animation-duration:.16s}
+}
+.hero{padding:56px 0 68px}
+.hero-grid{grid-template-columns:1.04fr .96fr;gap:56px}
+
+/* the barter desk sits on a dark drawing sheet: fine grid, registration marks, one cut corner */
+.sheet{position:relative;padding:46px 40px;background-color:var(--charcoal);
+  background-image:linear-gradient(rgba(255,255,255,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.075) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:80px 80px,80px 80px,16px 16px,16px 16px;background-position:-1px -1px;
+  clip-path:polygon(34px 0,100% 0,100% 100%,0 100%,0 34px);border-radius:0 4px 4px 4px}
+.sheet::before{content:"";position:absolute;left:0;top:0;width:48px;height:48px;background:linear-gradient(135deg,transparent 33px,var(--plum) 33px,var(--plum) 35px,transparent 35px)}
+.sheet-mark{position:absolute;width:16px;height:16px;border-color:rgba(159,214,205,.6);border-style:solid;border-width:0}
+.sheet-mark.tl{left:14px;top:14px;border-left-width:1.5px;border-top-width:1.5px;opacity:0}
+.sheet-mark.tr{right:14px;top:14px;border-right-width:1.5px;border-top-width:1.5px}
+.sheet-mark.bl{left:14px;bottom:14px;border-left-width:1.5px;border-bottom-width:1.5px}
+.sheet-mark.br{right:14px;bottom:14px;border-right-width:1.5px;border-bottom-width:1.5px}
+.sheet .desk{box-shadow:0 30px 60px -30px rgba(0,0,0,.55);border-color:transparent}
+
+/* six categories as drawing plates */
+.cat6{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cat{position:relative;display:grid;grid-template-columns:76px 1fr;grid-template-rows:auto 1fr auto;column-gap:18px;background:#fff;border:1px solid var(--line);
+  padding:22px 22px 20px;text-decoration:none;color:var(--ink);clip-path:polygon(18px 0,100% 0,100% 100%,0 100%,0 18px)}
+.cat::before{content:"";position:absolute;left:0;top:0;width:26px;height:26px;background:linear-gradient(135deg,transparent 17px,var(--plum) 17px,var(--plum) 18.5px,transparent 18.5px)}
+.cat-ic{grid-row:1/4;width:76px;height:76px;display:grid;place-items:center;color:var(--accent);border:1px solid var(--line-soft);
+  background-color:#F7FAF9;background-image:linear-gradient(rgba(14,111,104,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(14,111,104,.07) 1px,transparent 1px);background-size:12px 12px;background-position:-1px -1px}
+.cat-ic svg{width:46px;height:46px}
+.cat h3{margin:2px 0 6px;font-size:1.14rem}
+.cat p{margin:0;color:var(--muted);font-size:15px;line-height:1.45}
+.cat-go{margin-top:12px;font-weight:700;font-size:14.5px;color:var(--accent-dk);text-decoration:underline;text-underline-offset:3px}
+.cat:hover{border-color:#9FB3AF}
+.cat:hover .cat-ic{background-color:var(--accent-tint)}
+.cat:focus-visible{outline:3px solid var(--amber);outline-offset:-3px}
+
+/* how a three-business swap closes */
+.swap-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:56px;align-items:center}
+.chain-list{list-style:none;padding:0;margin:24px 0 14px;display:grid;gap:10px}
+.chain-list li{padding-left:16px;border-left:3px solid var(--accent-tint)}
+.chain-list b{font-stretch:110%}
+.swap-copy .small{margin:0 0 24px;max-width:52ch}
+.chain{position:relative;margin:0;aspect-ratio:440/400;color:var(--accent)}
+.chain svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.leg{fill:none;stroke:currentColor;stroke-width:2.2;stroke-dasharray:260;stroke-dashoffset:0}
+.chain:not(.in) .leg{stroke-dashoffset:260}
+.chain.in .leg{transition:stroke-dashoffset .8s cubic-bezier(.3,.6,.3,1)}
+.chain.in .l2{transition-delay:.55s}.chain.in .l3{transition-delay:1.1s}
+.node{position:absolute;width:27%;transform:translate(-50%,-50%);background:#fff;border:1.5px solid var(--ink);border-radius:6px;padding:10px 8px;text-align:center;line-height:1.2}
+.node b{display:block;font-size:1.5rem;font-stretch:125%;font-weight:850;color:var(--accent)}
+.node span{display:block;font-weight:650;font-size:.92rem}
+.na{left:22%;top:19%}.nb{left:78%;top:19%}.nc{left:52%;top:80%}
+.flow{position:absolute;transform:translate(-50%,-50%);background:var(--surface);padding:2px 8px;border-radius:3px;font-size:.84rem;font-weight:650;color:var(--accent-dk);white-space:nowrap;opacity:1;transition:opacity .4s}
+.chain:not(.in) .flow{opacity:0}
+.chain.in .f1{transition-delay:.5s}.chain.in .f2{transition-delay:1.05s}.chain.in .f3{transition-delay:1.6s}
+.f1{left:35%;top:49%}.f2{left:68%;top:49%}.f3{left:50%;top:13%}
+
+/* global buyers: a line drawing of the port instead of a photo */
+.gbt-art{color:#7FC3B8}
+.gbt-art svg{width:100%;height:auto;max-height:360px}
+
+/* membership, short */
+.mem2{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:center}
+.mem2 .d2{margin:0}
+.mem-actions{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0 28px}
+.mem2 .levels{margin-top:0}
+.mem2 .small{margin:10px 0 0}
+
+/* talk to us */
+.contact2{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.talk{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;margin:24px 0 10px}
+.talk .wa-inline{margin-top:0}
+.mail-inline{font-weight:750;font-size:1.15rem;font-stretch:110%;color:var(--accent-dk);text-decoration:none}
+.mail-inline:hover{text-decoration:underline}
+form.callback{padding:24px}
+form.callback .d3{margin-bottom:14px !important}
+
+@media (max-width:1060px){
+  .cat6{grid-template-columns:1fr 1fr}
+}
+@media (max-width:960px){
+  .swap-grid,.mem2,.contact2{grid-template-columns:1fr;gap:32px}
+  .chain{max-width:520px}
+  .sheet{padding:34px 22px}
+  .gbt-art svg{max-height:220px}
+}
+@media (max-width:620px){
+  .hero{padding:32px 0 44px}
+  .sheet{padding:26px 14px;clip-path:polygon(22px 0,100% 0,100% 100%,0 100%,0 22px)}
+  .sheet::before{width:32px;height:32px;background:linear-gradient(135deg,transparent 21px,var(--plum) 21px,var(--plum) 23px,transparent 23px)}
+  .sheet-mark{display:none}
+  .cat6{gap:10px}
+  .cat{grid-template-columns:1fr;grid-template-rows:auto;padding:14px 12px 14px;clip-path:polygon(12px 0,100% 0,100% 100%,0 100%,0 12px)}
+  .cat-ic{grid-row:auto;width:52px;height:52px;margin-bottom:10px}
+  .cat-ic svg{width:32px;height:32px}
+  .cat h3{font-size:1rem}
+  .cat p{font-size:13.5px}
+  .cat-go{display:none}
+  .node{padding:6px 4px}.node b{font-size:1.1rem}.node span{font-size:.74rem}
+  .flow{font-size:.7rem;padding:1px 5px}
+  .chips{flex-wrap:nowrap;overflow-x:auto;margin:0 -18px 20px;padding:0 18px 6px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chips .chip{flex:none}
+  #listings .card:nth-child(n+4){display:none}
+  .lz-group p{display:none}
+  .lz-group ol{gap:14px}
+  .gbt-art{display:none}
+  .mem-actions .btn{flex:1}
+  #listings .ph{aspect-ratio:auto;height:96px}
+  #listings .ph svg{transform:scale(.8)}
+  .foot-grid{grid-template-columns:1fr 1fr !important;gap:28px 18px}
+  .foot-grid>div:first-child{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:reduce){
+  .chain .leg,.chain .flow{transition:none !important}
+}
 
 /* responsive */
 @media (max-width:1200px){
@@ -644,7 +694,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   <symbol id="i-swap"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v14M3 14l4 4 4-4M17 20V6M13 10l4-4 4 4"/></symbol>
 </svg>
 
-<div class="announce">Join DASKIES free. Upgrade to full membership when you start dealing.<button type="button" data-join>Join free</button></div>
 <header class="site-head">
   <div class="wrap head-row">
     <a class="brand" href="#top" aria-label="DASKIES home">
@@ -683,7 +732,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
 <main id="top">
 <section class="hero">
   <div class="wrap hero-grid">
-    <div>
+    <div class="hero-copy">
       <h1 class="d1">Lease your unutilised capacity. Buy, sell or barter.</h1>
       <p class="lede">DASKIES connects Indian factories, landowners, traders, property buyers and overseas buyers. Earn rent from what you don't use, sell it, or swap it for what you need. Our team helps you until the deal is done.</p>
       <div class="hero-actions">
@@ -692,44 +741,44 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
         <a class="btn btn-ghost" href="explore.html">Explore</a>
       </div>
       <div class="hero-facts">
-        <span><b>Own at cost</b> through buyer groups</span>
-        <span><b>Cash, barter or both</b> on every deal</span>
         <span><b>Join free,</b> pay when you deal</span>
+        <span><b>Cash, barter or both</b> on every deal</span>
+        <span><b>Own at cost</b> through buyer groups</span>
       </div>
     </div>
 
-    <div class="hero-visual">
-    <div class="platewrap hero-plate"><span class="plate"><img src="https://images.unsplash.com/photo-1716191299945-4c5b89703971?auto=format&fit=crop&w=1400&q=72" srcset="https://images.unsplash.com/photo-1716191299945-4c5b89703971?auto=format&fit=crop&w=700&q=72 700w, https://images.unsplash.com/photo-1716191299945-4c5b89703971?auto=format&fit=crop&w=1400&q=72 1400w" sizes="(max-width:960px) 100vw, 46vw" alt="A wide factory floor with yellow safety rails" fetchpriority="high" decoding="async"></span></div>
-    <aside class="desk" aria-labelledby="deskTitle">
-      <div class="desk-top">
-        <h2 id="deskTitle">Barter desk</h2>
-        <span class="small">Example values</span>
-      </div>
-      <div class="desk-row">
-        <div>
-          <label for="offer">You offer</label>
-          <select id="offer"></select>
+    <div class="sheet" aria-label="Barter desk example">
+      <span class="sheet-mark tl" aria-hidden="true"></span><span class="sheet-mark tr" aria-hidden="true"></span><span class="sheet-mark bl" aria-hidden="true"></span><span class="sheet-mark br" aria-hidden="true"></span>
+      <aside class="desk" aria-labelledby="deskTitle">
+        <div class="desk-top">
+          <h2 id="deskTitle">Barter desk</h2>
+          <span class="small">Example values</span>
         </div>
-        <div class="desk-val num pz" id="offerVal" data-c="INR" data-v="5000000">₹50 lakh</div>
-      </div>
-      <div class="swap" aria-hidden="true"><span><svg width="18" height="18"><use href="#i-swap"/></svg></span></div>
-      <div class="desk-row">
-        <div>
-          <label for="need">You need</label>
-          <select id="need"></select>
+        <div class="desk-row">
+          <div>
+            <label for="offer">You offer</label>
+            <select id="offer"></select>
+          </div>
+          <div class="desk-val num pz" id="offerVal" data-c="INR" data-v="5000000">₹50 lakh</div>
         </div>
-        <div class="desk-val num pz" id="needVal" data-c="INR" data-v="6500000">₹65 lakh</div>
-      </div>
-      <div class="balance pay" id="balance" aria-live="polite">
-        <span class="bl" id="balLabel">You add in cash</span>
-        <span class="bv num pz" id="balVal" data-c="INR" data-v="1500000">₹15 lakh</span>
-        <span class="bn" id="balNote">The rest is settled as a straight swap.</span>
-      </div>
-      <div class="desk-foot">
-        <span class="small">No direct match? We build three-party chains.</span>
-        <a class="btn btn-primary btn-sm" href="#list-asset" id="deskGo">Find a counterparty</a>
-      </div>
-    </aside>
+        <div class="swap" aria-hidden="true"><span><svg width="18" height="18"><use href="#i-swap"/></svg></span></div>
+        <div class="desk-row">
+          <div>
+            <label for="need">You need</label>
+            <select id="need"></select>
+          </div>
+          <div class="desk-val num pz" id="needVal" data-c="INR" data-v="6500000">₹65 lakh</div>
+        </div>
+        <div class="balance pay" id="balance" aria-live="polite">
+          <span class="bl" id="balLabel">You add in cash</span>
+          <span class="bv num pz" id="balVal" data-c="INR" data-v="1500000">₹15 lakh</span>
+          <span class="bn" id="balNote">The rest is settled as a straight swap.</span>
+        </div>
+        <div class="desk-foot">
+          <span class="small">No direct match? We build three-party chains.</span>
+          <a class="btn btn-primary btn-sm" href="post.html?kind=offer" id="deskGo">Find a counterparty</a>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
@@ -788,19 +837,49 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
       <h2 class="d2">What do you have? What do you need?</h2>
       <p class="lede">Every deal can be paid in cash, as rent, or as a swap (barter).</p>
     </div>
-    <div class="mkts">
-      <a class="mkt mkt-a" href="leasing.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1652204775379-2b4ace437a2d?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1652204775379-2b4ace437a2d?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1652204775379-2b4ace437a2d?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="An empty factory shed with green steel columns" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Industrial leasing</b><span>Turn idle factories and spare shifts into monthly income</span><em>See how it works</em></span></a>
-      <a class="mkt mkt-b" href="machines.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1787039467622-ddec5c24320c?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1787039467622-ddec5c24320c?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1787039467622-ddec5c24320c?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="CNC machines in a bright workshop" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Used machines</b><span>Release the cash locked in machinery</span><em>See how it works</em></span></a>
-      <a class="mkt mkt-c" href="storage.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1644079446600-219068676743?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1644079446600-219068676743?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1644079446600-219068676743?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="A long warehouse aisle with full shelves" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Storage & warehousing</b><span>Fill empty space, or find the right space fast</span><em>See how it works</em></span></a>
-      <a class="mkt mkt-d" href="agri.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1764070254247-351def349875?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1764070254247-351def349875?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1764070254247-351def349875?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="Open sacks of grain and spices in a store" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Agriculture & commodities</b><span>Bulk trade, straight from origin</span><em>See how it works</em></span></a>
-      <a class="mkt mkt-e" href="construction.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="A steel building frame rising beside a tower crane" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Construction at cost</b><span>Own a shop, showroom, office or home at cost</span><em>See how it works</em></span></a>
-      <a class="mkt mkt-f" href="technology.html"><span class="platewrap"><span class="plate"><img src="https://images.unsplash.com/photo-1640955785023-1854685dae05?auto=format&fit=crop&w=900&q=72" srcset="https://images.unsplash.com/photo-1640955785023-1854685dae05?auto=format&fit=crop&w=600&q=72 600w, https://images.unsplash.com/photo-1640955785023-1854685dae05?auto=format&fit=crop&w=1100&q=72 1100w" sizes="(max-width:960px) 100vw, 40vw" alt="Tweezers placing a microchip on a circuit board" loading="lazy" decoding="async"></span></span><span class="mkt-body"><b>Technology & education</b><span>Share, sell or donate technology and learning</span><em>See how it works</em></span></a>
+    <div class="cat6">
+      <a class="cat" href="leasing.html"><span class="cat-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10l6 3V10l6 3V6l6 3v12H3z"/><path d="M7 17h2M11 17h2M15 17h2"/></svg></span><h3 class="d3">Industrial leasing</h3><p>Turn idle factories and spare shifts into monthly income</p><span class="cat-go">See how it works</span></a>
+      <a class="cat" href="machines.html"><span class="cat-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7.6" stroke-width="3.2" stroke-dasharray="2.9 3.07" stroke-linecap="butt"/><circle cx="12" cy="12" r="5.6"/><circle cx="12" cy="12" r="2.2"/></svg></span><h3 class="d3">Used machines</h3><p>Release the cash locked in machinery</p><span class="cat-go">See how it works</span></a>
+      <a class="cat" href="storage.html"><span class="cat-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-6 10 6v12H2z"/><path d="M6 21v-8h12v8M6 16h12"/></svg></span><h3 class="d3">Storage &amp; warehousing</h3><p>Fill empty space, or find the right space fast</p><span class="cat-go">See how it works</span></a>
+      <a class="cat" href="agri.html"><span class="cat-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V9"/><path d="M12 9c0-3 2-5 5-5 0 3-2 5-5 5zM12 13c0-3-2-5-5-5 0 3 2 5 5 5zM12 17c0-3 2-5 5-5 0 3-2 5-5 5z"/></svg></span><h3 class="d3">Agriculture &amp; commodities</h3><p>Bulk trade, straight from origin</p><span class="cat-go">See how it works</span></a>
+      <a class="cat" href="construction.html"><span class="cat-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l5-3v15M10 21V4l9 4v13M13 10h3M13 13h3M13 16h3M7 12h1M7 15h1"/></svg></span><h3 class="d3">Construction at cost</h3><p>Own a shop, showroom, office or home at cost</p><span class="cat-go">See how it works</span></a>
+      <a class="cat" href="technology.html"><span class="cat-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></span><h3 class="d3">Technology &amp; education</h3><p>Share, sell or donate technology and learning</p><span class="cat-go">See how it works</span></a>
     </div>
+    <p class="guides-line">Starting out or already running? See how <a href="for-startups.html">startups</a> and <a href="for-businesses.html">established businesses</a> use DASKIES, or read the <a href="guides.html">DASKIES guides</a>.</p>
   </div>
 </section>
 
+<section class="sec white" id="swap">
+  <div class="wrap swap-grid">
+    <div class="swap-copy">
+      <h2 class="d2">When no one has exactly what you need</h2>
+      <p class="lede">Two businesses rarely want each other's things. DASKIES looks across all its members and links three or four of them into one swap.</p>
+      <ul class="chain-list">
+        <li><b>Business A</b> has machinery and needs property.</li>
+        <li><b>Business B</b> has property and needs raw materials.</li>
+        <li><b>Business C</b> has raw materials and needs machinery.</li>
+      </ul>
+      <p class="small">No two of them match, but together they do. Each business agrees its own values and documents, and any difference is settled in cash.</p>
+      <a class="btn btn-primary" href="post.html?kind=offer">List what you'd swap</a>
+    </div>
+    <figure class="chain" aria-hidden="true">
+      <svg viewBox="0 0 440 400" preserveAspectRatio="xMidYMid meet">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+        <path class="leg l1" d="M116 108 L196 286" marker-end="url(#ah)"/>
+        <path class="leg l2" d="M262 288 L328 110" marker-end="url(#ah)"/>
+        <path class="leg l3" d="M280 76 L162 76" marker-end="url(#ah)"/>
+      </svg>
+      <div class="node na"><b>A</b><span>Machinery</span></div>
+      <div class="node nb"><b>B</b><span>Property</span></div>
+      <div class="node nc"><b>C</b><span>Raw materials</span></div>
+      <span class="flow f1">machinery to C</span>
+      <span class="flow f2">raw materials to B</span>
+      <span class="flow f3">property to A</span>
+    </figure>
+  </div>
+</section>
 
-<section class="sec white" id="marketplace">
+<section class="sec" id="marketplace">
   <div class="wrap">
     <div class="sec-head">
       <h2 class="d2">On DASKIES now</h2>
@@ -812,21 +891,109 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   </div>
 </section>
 
-<section class="sec" id="list-asset">
-  <div class="wrap form-grid">
-    <div class="form-aside">
-      <h2 class="d2">List an asset or post a need</h2>
-      <p class="lede">Start with a free registration. It takes two minutes.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn btn-primary" href="account.html?mode=signup">Create a free account</a><a class="btn btn-ghost" href="explore.html">Explore</a></div>
-      <ol class="reg-steps">
-        <li><b>Register free</b><span>Your name, contact and what you want to do.</span></li>
-        <li><b>We confirm your membership</b><span>By email, within 48 hours.</span></li>
-        <li><b>Send full details</b><span>Your private members link opens the full form: 3 photos, description and valuation report.</span></li>
-        <li><b>Go live and get matched</b><span>We review and publish it, and show you similar listings in your category and price range.</span></li>
-      </ol>
+<section class="sec white" id="how-it-works">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="d2">How it works</h2>
+      <p class="lede">The same five steps whether you rent out a shed, sell a machine or swap goods.</p>
+    </div>
+    <ol class="steps">
+      <li><h3 class="d3">Join free</h3><p>Your name, business and contact details. It takes two minutes.</p></li>
+      <li><h3 class="d3">List or post a need</h3><p>Photos, details and what you'd take in exchange. We check each listing before it goes live.</p></li>
+      <li><h3 class="d3">Get matched</h3><p>See matches in your category and price range, including three- and four-business swaps.</p></li>
+      <li><h3 class="d3">Talk and make offers</h3><p>Message inside DASKIES, then offer and counter in a deal room.</p></li>
+      <li><h3 class="d3">Sign and settle</h3><p>Sign the contract between you. Payment and delivery are arranged directly.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec gbt-sec" id="global-buyers">
+  <div class="wrap gbt">
+    <div class="gbt-art" aria-hidden="true">
+      <svg viewBox="0 0 520 360" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 300h480" opacity=".5"/>
+        <path d="M60 300V70h16v230M76 70h170M76 70l-16-24h186l0 24M230 70v40M222 110h16v22h-16z"/>
+        <path d="M60 110l16-16M60 150l16-16M60 190l16-16M60 230l16-16M60 270l16-16"/>
+        <path d="M238 132v40"/>
+        <path d="M200 172h76v40h-76z"/><path d="M219 172v40M238 172v40M257 172v40"/>
+        <path d="M120 250h300l-26 50H146z"/>
+        <path d="M150 250v-34h50v34M200 216h52v34M252 230h48v20M300 216h52v34M352 230h40v20"/>
+        <path d="M150 230h50M200 233h52M300 233h52"/>
+        <path d="M410 250v-60h22v60M405 190h32" opacity=".7"/>
+        <path d="M20 322c40-8 80 8 120 0s80-8 120 0 80 8 120 0 80-8 120 0" opacity=".45"/>
+      </svg>
     </div>
     <div>
-      <form class="listing" id="regForm" name="registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <h2 class="d2">Make it in Gujarat. Ship from Mundra.</h2>
+      <p class="lede">For importers in the US, Europe, the Gulf and Africa: lease running capacity or contract production with Gujarat's exporters instead of building your own plant.</p>
+      <ul class="gbt-list">
+        <li><b>Lease a running plant</b></li>
+        <li><b>Contract manufacturing</b></li>
+        <li><b>Bulk sourcing</b></li>
+        <li><b>One team, start to finish</b></li>
+      </ul>
+      <div class="gbt-actions"><a class="btn btn-primary" href="global-buyers.html">See the Global Buyer Desk</a><button class="btn btn-ghost" type="button" data-req="Sourcing call with the Global Buyer Desk">Book a sourcing call</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec rose" id="membership">
+  <div class="wrap mem2">
+    <div>
+      <p class="free-num num">₹0</p>
+      <h2 class="d2">to join, with your full business details</h2>
+    </div>
+    <div>
+      <p class="lede">Browse every listing and post your first ones free. Full membership, ₹15,000 + GST for 90 days, opens unlimited listings, enquiries, barter matching and deal rooms. A success fee applies only when a deal contract is signed.</p>
+      <div class="mem-actions">
+        <a class="btn btn-primary" href="account.html?mode=signup">Join free</a>
+        <a class="btn btn-ghost" href="pricing.html">See pricing</a>
+      </div>
+      <div class="levels" aria-label="Verification levels">
+        <div>Registered</div><div>Documents submitted</div><div>Documents reviewed</div><div>Business verified</div>
+      </div>
+      <p class="small">Every member profile shows how far it has been checked.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="d2">Questions businesses ask us</h2>
+      <p class="lede">Can't find your answer? WhatsApp us or write to info@daskies.com.</p>
+    </div>
+    <div class="faq">
+      <details><summary>How do I list something?</summary><p>Join free, complete your business profile, then choose List an asset. Add photos, the details and what you'd take in exchange. Our team checks each listing before it goes live.</p></details>
+      <details><summary>Can I deal on my own, or does DASKIES help?</summary><p>Both. You can talk to other members and agree terms in a deal room yourself. When you want help, our team finds the other party, values swaps and handles the paperwork.</p></details>
+      <details><summary>Who can see my contact details?</summary><p>Only you and the DASKIES team. Other members see your business name, city and verification level, and reach you through DASKIES messages until you choose to share your number.</p></details>
+      <details><summary>How does a barter deal settle?</summary><p>Both sides agree a value for what they give. If the values differ, the gap is paid in cash. When two businesses can't swap directly, DASKIES links three or four of them into one chain.</p></details>
+      <details><summary>Can a foreign company lease a factory in India?</summary><p>Usually yes, within India's FEMA and FDI rules. The structure depends on your country, sector and how long you need the capacity, so take advice before you sign. Our Global Buyer Desk can help.</p></details>
+      <details><summary>What does DASKIES cost?</summary><p>Joining is free. Full membership is ₹15,000 + GST for 90 days, and a success fee applies only when a deal contract is signed. Every payment comes with a GST invoice.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec white" id="contact">
+  <div class="wrap contact2">
+    <div>
+      <h2 class="d2">Talk to our team</h2>
+      <p class="lede">Tell us what you have or what you need, and we'll come back with options.</p>
+      <div class="talk">
+        <button class="wa-inline" type="button" data-wa><svg aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp: general enquiries</button>
+        <a class="mail-inline" href="mailto:info@daskies.com">info@daskies.com</a>
+      </div>
+      <form class="digest" id="digest" name="digest" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="digest"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <label class="sr" for="dgEmail">Email for the weekly opportunities digest</label>
+        <input id="dgEmail" name="email" type="email" placeholder="Your email for the weekly digest" autocomplete="email">
+        <button class="btn btn-primary" type="submit">Subscribe</button>
+      </form>
+      <p class="digest-msg" id="dgMsg" aria-live="polite"></p>
+    </div>
+    <div>
+      <div id="list-asset">
+      <form class="listing callback" id="regForm" name="registration" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="registration"><input type="hidden" name="language" id="regLang" value="en"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <h3 class="d3" style="font-size:1.3rem;margin-bottom:16px">Prefer a call back? Leave your details</h3>
         <div class="frow">
@@ -867,290 +1034,22 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
           <label class="flabel" for="gNote">In a few words (optional)</label>
           <textarea id="gNote" name="note" maxlength="500" style="min-height:80px" placeholder="e.g. 2 CNC machines to sell in Ahmedabad"></textarea>
         </div>
-        <button class="btn btn-primary" type="submit" id="regSubmit" style="width:100%">Register free</button>
+        <button class="btn btn-primary" type="submit" id="regSubmit" style="width:100%">Request a call back</button>
         <p class="privacy">We never show your phone or email in public.</p>
       </form>
       <div class="result" id="regDone" tabindex="-1">
         <div class="result-top">
           <span class="okdot"><svg width="22" height="22"><use href="#i-check"/></svg></span>
-          <div><h3 class="d3">Thank you for registering</h3><p class="small" id="regSummary" style="margin:0"></p></div>
+          <div><h3 class="d3">Thanks, we'll call you back</h3><p class="small" id="regSummary" style="margin:0"></p></div>
         </div>
-        <p style="margin:0">We'll confirm your membership by email within 48 hours. Once approved, we'll send you a private members link to submit full details, 3 photos and the valuation report.</p>
-        <button class="btn btn-ghost" type="button" id="regAgain" style="margin-top:16px">Register someone else</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="submit-details">
-  <div class="wrap form-grid">
-    <div class="form-aside">
-      <span class="members-badge">Members only</span>
-      <h2 class="d2">Submit full details</h2>
-      <p class="lede">Use this form after we confirm your membership. Every listing on DASKIES needs the same essentials.</p>
-      <ul class="reqs">
-        <li><svg width="20" height="20"><use href="#i-check"/></svg><span><b>Three photos</b>Recent photos of the asset.</span></li>
-        <li><svg width="20" height="20"><use href="#i-check"/></svg><span><b>A clear description</b>Specs, condition, capacity and terms.</span></li>
-        <li><svg width="20" height="20"><use href="#i-check"/></svg><span><b>A valuation report</b>From a valuer or your own costing (PDF or image).</span></li>
-        <li><svg width="20" height="20"><use href="#i-check"/></svg><span><b>Similar listings</b>After review, you see listings in the same category and price range.</span></li>
-      </ul>
-    </div>
-
-    <div>
-      <form class="listing" id="listForm" name="list-asset" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" novalidate>
-        <input type="hidden" name="form-name" value="list-asset"><input type="hidden" name="category" id="fCatName"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-        <div class="summary" id="summary" role="alert"></div>
-
-        <div class="field" data-f="member">
-          <label class="flabel" for="fMember">Member ID (from your approval email) <span class="req">*</span></label>
-          <input id="fMember" name="member-id" type="text" autocomplete="off" placeholder="e.g. DSK-0123">
-          <div class="err">Add the member ID from your approval email.</div>
-        </div>
-
-        <fieldset class="field">
-          <legend>I want to</legend>
-          <div class="seg">
-            <label><input type="radio" name="deal" value="Lease" checked><span>Lease out</span></label>
-            <label><input type="radio" name="deal" value="Sale"><span>Sell</span></label>
-            <label><input type="radio" name="deal" value="Barter"><span>Barter</span></label>
-          </div>
-        </fieldset>
-
-        <div class="frow">
-          <div class="field" data-f="cat">
-            <label class="flabel" for="fCat">Category <span class="req">*</span></label>
-            <select id="fCat" name="cat"><option value="">Choose a category</option></select>
-            <div class="err">Choose the category your asset belongs to.</div>
-          </div>
-          <div class="field" data-f="value">
-            <label class="flabel" for="fValue"><span data-cur-only="INR">Valuation (₹ lakh)</span><span data-cur-only="USD" hidden>Valuation (US$)</span> <span class="req">*</span></label>
-            <input id="fValue" name="value" type="number" min="0.1" step="0.1" inputmode="decimal" placeholder="e.g. 28"><input type="hidden" name="value-entered" id="fValueEntered">
-            <div class="err"><span data-cur-only="INR">Enter the valuation in lakh, for example 28.</span><span data-cur-only="USD" hidden>Enter the valuation in US dollars, for example 30000.</span></div>
-          </div>
-        </div>
-
-        <div class="field" data-f="title">
-          <label class="flabel" for="fTitle">Title <span class="req">*</span></label>
-          <input id="fTitle" name="title" type="text" maxlength="90" placeholder="e.g. CNC vertical machining centre, 2019">
-          <div class="err">Add a short title so buyers know what this is.</div>
-        </div>
-
-        <div class="field" data-f="desc">
-          <label class="flabel" for="fDesc">Description <span class="req">*</span></label>
-          <textarea id="fDesc" name="desc" maxlength="1500" placeholder="Make, model and year, condition, capacity, location details, lease or sale terms, what you'd take in barter"></textarea>
-          <div class="hint"><span>At least 80 characters</span><span id="descCount">0 / 1500</span></div>
-          <div class="err" id="descErr">Describe the asset in at least 80 characters.</div>
-        </div>
-
-        <div class="field" data-f="where">
-          <label class="flabel" for="fWhere">Location <span class="req">*</span></label>
-          <input id="fWhere" name="where" type="text" placeholder="City, state, country">
-          <div class="err">Add where the asset is.</div>
-        </div>
-
-        <fieldset class="field" data-f="photos">
-          <legend>Photos <span class="req">*</span> <span class="small">3 required</span></legend>
-          <div class="photos">
-            <label class="pbox"><input type="file" name="photo-1" accept="image/*" data-i="0" aria-label="Photo 1"><svg width="26" height="26"><use href="#i-camera"/></svg><span class="pn">Photo 1</span><span>Front view</span></label>
-            <label class="pbox"><input type="file" name="photo-2" accept="image/*" data-i="1" aria-label="Photo 2"><svg width="26" height="26"><use href="#i-camera"/></svg><span class="pn">Photo 2</span><span>Side or detail</span></label>
-            <label class="pbox"><input type="file" name="photo-3" accept="image/*" data-i="2" aria-label="Photo 3"><svg width="26" height="26"><use href="#i-camera"/></svg><span class="pn">Photo 3</span><span>Nameplate or site</span></label>
-          </div>
-          <div class="err" id="photoErr">Add all 3 photos.</div>
-        </fieldset>
-
-        <div class="field" data-f="report">
-          <span class="flabel">Valuation report <span class="req">*</span></span>
-          <label class="docbox" id="docBox"><input type="file" id="fReport" name="valuation-report" accept=".pdf,image/*" aria-label="Valuation report"><svg width="26" height="26"><use href="#i-doc"/></svg><span><span class="dn" id="docName">Upload valuation report</span><br><span class="small">PDF, JPG or PNG, up to 5 MB</span></span></label>
-          <div class="err" id="reportErr">Attach a valuation report.</div>
-        </div>
-
-        <div class="frow">
-          <div class="field" data-f="name">
-            <label class="flabel" for="fName">Your name <span class="req">*</span></label>
-            <input id="fName" name="name" type="text" autocomplete="name">
-            <div class="err">Add your name.</div>
-          </div>
-          <div class="field" data-f="email">
-            <label class="flabel" for="fEmail">Email <span class="req">*</span></label>
-            <input id="fEmail" name="email" type="email" autocomplete="email">
-            <div class="err">Enter a valid email address.</div>
-          </div>
-        </div>
-        <div class="field">
-          <label class="flabel" for="fPhone">Phone or WhatsApp</label>
-          <input id="fPhone" name="phone" type="tel" autocomplete="tel" placeholder="+91">
-        </div>
-
-        <div class="form-end">
-          <span class="small"><span class="req">*</span> Required</span>
-          <button class="btn btn-primary" type="submit" id="listSubmit">Submit for review</button>
-        </div>
-      </form>
-
-      <div class="result" id="result" tabindex="-1">
-        <div class="result-top">
-          <span class="okdot"><svg width="22" height="22"><use href="#i-check"/></svg></span>
-          <div>
-            <h3 class="d3" id="resTitle">Listing submitted for review</h3>
-            <p class="small" id="resMeta" style="margin:0"></p>
-          </div>
-        </div>
-        <h3 class="d3" id="simTitle">Similar listings</h3>
-        <p class="small" id="simNote" style="margin:0"></p>
-        <div class="mini" id="similar"></div>
-        <div class="upsell" id="upsell">
-          <h4>Get this listing seen sooner</h4>
-          <p class="small" style="margin:0 0 6px">Optional paid services, priced on request.</p>
-          <label><input type="checkbox" value="Featured listing"><span><b>Feature it</b><span class="small">Top of its category and in the weekly digest to members.</span></span></label>
-          <label><input type="checkbox" value="Business verification"><span><b>Get verified</b><span class="small">We review your company documents and add a verification badge.</span></span></label>
-          <label><input type="checkbox" value="Deal manager"><span><b>Assign a deal manager</b><span class="small">Our team finds buyers, negotiates and handles paperwork for you.</span></span></label>
-          <button class="btn btn-primary btn-sm" type="button" id="upsellGo" style="margin-top:10px">Request selected services</button>
-          <p class="digest-msg" id="upsellMsg" aria-live="polite"></p>
-        </div>
-        <p class="preview-note">Your listing, photos and valuation report have reached the DASKIES team. We review every listing before it goes live and will email you the result.</p>
-        <div style="margin-top:18px"><button class="btn btn-ghost" id="again" type="button">List another asset</button></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="sec" id="who-for">
-  <div class="wrap">
-    <div class="sec-head"><h2 class="d2">Built for new and established businesses</h2><p class="lede">New businesses keep their capital for growth. Established ones turn what stands idle into cash, rent or a swap.</p></div>
-    <div class="aud">
-      <a class="audc" href="for-startups.html">
-        <h3 class="d3">For startups</h3>
-        <p>Start making without buying a factory: lease capacity that already exists, buy proven used machines and rent storage only when you need it.</p>
-        <ul><li>Lease a line, a shed or a spare shift</li><li>Contract manufacturing and job work</li><li>Swap what you make for what you need</li></ul>
-        <span class="audgo">How startups use DASKIES</span>
-      </a>
-      <a class="audc" href="for-businesses.html">
-        <h3 class="d3">For established businesses</h3>
-        <p>Make idle assets earn again: old machines, empty sheds, spare shifts and surplus stock, in front of buyers in India and abroad.</p>
-        <ul><li>Sell, rent out or swap old machines</li><li>Rent out empty sheds and warehouse space</li><li>Fill spare shifts with job work</li></ul>
-        <span class="audgo">How established businesses use DASKIES</span>
-      </a>
-    </div>
-    <p class="guides-line">New to swapping or leasing? Read the <a href="guides.html">DASKIES guides</a>: barter and GST, selling a used machine, and leasing a shed or warehouse.</p>
-  </div>
-</section>
-
-<section class="sec gbt-sec" id="global-buyers">
-  <div class="wrap gbt">
-    <div class="platewrap gbt-plate"><span class="plate"><img src="https://images.unsplash.com/photo-1769837496184-32831581c55a?auto=format&fit=crop&w=1200&q=72" srcset="https://images.unsplash.com/photo-1769837496184-32831581c55a?auto=format&fit=crop&w=700&q=72 700w, https://images.unsplash.com/photo-1769837496184-32831581c55a?auto=format&fit=crop&w=1200&q=72 1200w" sizes="(max-width:960px) 100vw, 50vw" alt="Container ships and cranes at a busy port" loading="lazy" decoding="async"></span></div>
-    <div>
-      <h2 class="d2">Make it in Gujarat. Ship from Mundra.</h2>
-      <p class="lede">For importers in the US, Europe, the Gulf and Africa: lease running capacity or contract production with Gujarat's exporters instead of building your own plant.</p>
-      <ul class="gbt-list">
-        <li><b>Lease a running plant</b></li>
-        <li><b>Contract manufacturing</b></li>
-        <li><b>Bulk sourcing</b></li>
-        <li><b>One team, start to finish</b></li>
-      </ul>
-      <div class="gbt-actions"><a class="btn btn-primary" href="global-buyers.html">See the Global Buyer Desk</a><button class="btn btn-ghost" type="button" data-req="Sourcing call with the Global Buyer Desk">Book a sourcing call</button></div>
-    </div>
-  </div>
-</section>
-
-<section class="sec white" id="how-it-works">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 class="d2">How it works</h2>
-      <p class="lede">The same five steps whether you rent out a shed, sell a machine or swap goods.</p>
-    </div>
-    <ol class="steps">
-      <li><h3 class="d3">Register free</h3><p>Tell us who you are and what you want to do. It takes two minutes.</p></li>
-      <li><h3 class="d3">Get approved</h3><p>We confirm your membership by email within 48 hours.</p></li>
-      <li><h3 class="d3">Send full details</h3><p>Use your members link to add 3 photos, a description and a valuation report.</p></li>
-      <li><h3 class="d3">Get matched</h3><p>We review and publish your listing. You see similar listings in your category and price range.</p></li>
-      <li><h3 class="d3">Close the deal</h3><p>Agree price, rent or swap. We help with paperwork and, for overseas buyers, inspection and shipping.</p></li>
-    </ol>
-  </div>
-</section>
-
-<section class="sec rose" id="membership">
-  <div class="wrap mem-grid">
-    <div>
-      <p class="free-num num">₹0</p>
-      <h2 class="d2">to join, with your full business details</h2>
-      <p class="lede">Browse every listing and post your first ones free. Full membership, ₹15,000 + GST for 90 days, opens unlimited listings, enquiries, barter matching and deal rooms. A success fee applies only when a deal contract is signed.</p>
-      <p class="small">Online payment is opening soon. Until then, every feature is open to every member at no charge.</p>
-      <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap">
-        <button class="btn btn-primary" type="button" data-join>Join free</button>
-        <a class="btn btn-ghost" href="pricing.html">See pricing</a>
-      </div>
-      <h3 class="d3" style="margin-top:40px">Verification levels</h3>
-      <p class="small" style="margin:0">Every member profile shows how far it has been checked.</p>
-      <div class="levels">
-        <div>Registered</div><div>Documents submitted</div><div>Documents reviewed</div><div>Business verified</div>
-      </div>
-    </div>
-    <div class="plans-wrap">
-      <table class="plans">
-        <caption class="sr">Membership plans</caption>
-        <thead>
-          <tr><th scope="col"></th><th scope="col">Free<small>₹0</small></th><th scope="col" class="feat">Full membership<small>₹15,000 + GST, 90 days</small></th><th scope="col">Enterprise<small>Pricing on request</small></th></tr>
-        </thead>
-        <tbody>
-          <tr><th scope="row">Listings and requirements</th><td>Business profile and up to 2 listings</td><td class="feat">Unlimited listings and requirements</td><td>Multiple users and roles</td></tr>
-          <tr><th scope="row">Enquiries and messages</th><td>Browse every listing</td><td class="feat">Unlimited enquiries and messages</td><td>Unlimited</td></tr>
-          <tr><th scope="row">Matches</th><td>Match alerts</td><td class="feat">Barter matching, including 3- and 4-party swaps</td><td>Custom matching</td></tr>
-          <tr><th scope="row">Deal rooms</th><td>—</td><td class="feat">Offers, counteroffers and document templates</td><td>Managed by our team</td></tr>
-          <tr><th scope="row">Support</th><td>Listing review</td><td class="feat">Priority review and verification</td><td>Dedicated account manager</td></tr>
-          <tr><th scope="row">Add-ons</th><td colspan="3">Featured listings, business verification, Global Buyer Desk and managed deal support, priced on request</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-
-<section class="sec" id="faq">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2 class="d2">Questions businesses ask us</h2>
-      <p class="lede">Can't find your answer? Use the chat, WhatsApp us, or write to info@daskies.com.</p>
-    </div>
-    <div class="faq">
-      <details><summary>How do I list something?</summary><p>Register free on this page. We confirm your membership by email within 48 hours. Then you get a private members link to send full details: 3 photos, a description and a valuation report. We review it before it goes live.</p></details>
-      <details><summary>Can I deal on my own, or does DASKIES help?</summary><p>Both. Anyone can browse and deal directly. When you want help, our team finds the other party, values barter swaps and handles paperwork until the deal is done.</p></details>
-      <details><summary>How are listings checked?</summary><p>Every listing needs three photos, a description and a valuation report. Our team checks it before it goes live, and each member profile shows its verification level. We don't guarantee any listing, so always do your own due diligence.</p></details>
-      <details><summary>Who can see my contact details?</summary><p>Only you and the DASKIES team. Other members see your business name, city and verification level, and reach you through DASKIES messages. You choose when to share your number.</p></details>
-      <details><summary>How does a barter deal settle?</summary><p>Both sides agree a value for what they give. If the values differ, the gap is paid in cash. When two businesses can't swap directly, we look for a third or fourth party to complete the chain.</p></details>
-      <details><summary>Can I donate technology or education material?</summary><p>Yes. Under Technology &amp; education, you can donate computers, machines, software, books or training to schools, colleges and skill centres that need them. You can also sell or license technology.</p></details>
-      <details><summary>How does buying at cost through a buyer group work?</summary><p>You register what you want, where and your budget. Once enough buyers want the same thing in the same area, we acquire land there and build turnkey for a fixed charge agreed before work starts.</p></details>
-      <details><summary>Can a foreign company lease a factory in India?</summary><p>Usually yes, within India's FEMA and FDI rules. The structure depends on your country, sector and how long you need the capacity. We introduce you to Indian lawyers, chartered accountants and customs brokers before you commit.</p></details>
-      <details><summary>What does DASKIES cost?</summary><p>Joining is free. Full membership is ₹15,000 + GST for 90 days, and a success fee applies only when a deal contract is signed; see Pricing and the Terms. Featured listings, verification, the deal manager and the Global Buyer Desk are paid services, priced on request according to deal size.</p></details>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="contact" style="padding-bottom:0">
-  <div class="wrap">
-    <div class="contact">
-      <div>
-        <h2 class="d2">Talk to our team</h2>
-        <p>Tell us what you have or what you need, and we'll come back with options.</p>
-        <button class="wa-inline" type="button" data-wa><svg aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp: general enquiries</button>
-      </div>
-      <div class="mailbox">
-        <p style="margin:0 0 6px">Email</p>
-        <a href="mailto:info@daskies.com">info@daskies.com</a>
-        <p style="margin-top:14px;font-size:14.5px">Or open the chat at the bottom right for quick answers.</p>
-        <form class="digest" id="digest" name="digest" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-          <input type="hidden" name="form-name" value="digest"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-          <label class="sr" for="dgEmail">Email for the weekly opportunities digest</label>
-          <input id="dgEmail" name="email" type="email" placeholder="Your email for the weekly digest" autocomplete="email">
-          <button class="btn btn-primary" type="submit">Subscribe</button>
-        </form>
-        <p class="digest-msg" id="dgMsg" aria-live="polite"></p>
+        <p style="margin:0">Our team will call or WhatsApp you within one working day. If you'd rather start now, <a href="account.html?mode=signup">join free</a> and list straight away.</p>
+        <button class="btn btn-ghost" type="button" id="regAgain" style="margin-top:16px">Send another request</button>
+      
       </div>
     </div>
   </div>
 </section>
 </main>
-
 <footer class="foot">
   <div class="wrap">
     <div class="foot-grid">
@@ -1159,8 +1058,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
         <p style="margin:14px 0 0;max-width:36ch">The business network for Indian industry: lease, buy, sell, barter or donate.</p>
       </div>
       <div><h3>Categories</h3><ul id="footCats"></ul></div>
-      <div><h3>Platform</h3><ul><li><a href="#marketplace">Live on DASKIES</a></li><li><a href="#list-asset">Register and list</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="services.html">Services</a></li><li><a href="#membership">Membership</a></li><li><a href="#faq">FAQ</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="for-startups.html">For startups</a></li><li><a href="for-businesses.html">For established businesses</a></li><li><a href="guides.html">Guides</a></li></ul></div>
-      <div><h3>Contact</h3><ul><li><a href="mailto:info@daskies.com">info@daskies.com</a></li><li><a href="global-buyers.html">Global buyers</a></li><li><a href="services.html">Services</a></li><li><a href="partners.html">Partner with us</a></li><li>Gujarat, India</li></ul></div>
+      <div><h3>Platform</h3><ul><li><a href="#marketplace">Live on DASKIES</a></li><li><a href="account.html?mode=signup">Join and list</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="services.html">Services</a></li><li><a href="#membership">Membership</a></li><li><a href="#faq">FAQ</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="for-startups.html">For startups</a></li><li><a href="for-businesses.html">For established businesses</a></li><li><a href="guides.html">Guides</a></li></ul></div>
+      <div><h3>Contact</h3><ul><li><a href="mailto:info@daskies.com">info@daskies.com</a></li><li><a href="global-buyers.html">Global buyers</a></li><li><a href="services.html">Services</a></li><li><a href="partners.html">Partner with us</a></li><li>Ahmedabad, Gujarat</li></ul></div>
     </div>
     <div class="legal">
       <p>DASKIES connects businesses and reviews listings for completeness. We don't guarantee any listing, counterparty or outcome; please do your own due diligence before any deal.</p>
@@ -1169,44 +1068,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     </div>
   </div>
 </footer>
-
 <button class="wa-btn" type="button" data-wa aria-label="WhatsApp: general enquiries"><svg aria-hidden="true"><use href="#i-wa"/></svg><span>WhatsApp</span></button>
-<button class="chat-btn" id="chatBtn" aria-expanded="false" aria-controls="chat" aria-label="Open chat"><svg width="26" height="26"><use href="#i-chat"/></svg></button>
-<section class="chat" id="chat" aria-label="Chat with DASKIES">
-  <div class="chat-head">
-    <svg class="b" viewBox="12 28 314 230" aria-hidden="true"><use href="#bird"/></svg>
-    <div><b>DASKIES team</b><span>Pick an option, or WhatsApp us</span></div>
-    <button type="button" id="chatClose" aria-label="Close chat"><svg width="20" height="20"><use href="#i-x"/></svg></button>
-  </div>
-  <div class="chat-log" id="chatLog" aria-live="polite"></div>
-  <div class="opts" id="chatOpts"></div>
-</section>
-
-<div class="modal" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="joinTitle">
-  <div class="modal-box">
-    <button class="x" type="button" data-close aria-label="Close"><svg width="20" height="20"><use href="#i-x"/></svg></button>
-    <div id="joinForm">
-      <h2 class="d3" id="joinTitle" style="font-size:1.45rem">Join DASKIES</h2>
-      <p class="small" style="margin:4px 0 18px" id="joinWhy">Join free with your full business details.</p>
-      <form id="jf" name="membership" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-        <input type="hidden" name="form-name" value="membership"><p class="sr"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-        <div class="field" data-f="jn"><label class="flabel" for="jn">Your name <span class="req">*</span></label><input id="jn" name="name" type="text" autocomplete="name"><div class="err">Add your name.</div></div>
-        <div class="field" data-f="jc"><label class="flabel" for="jc">Company <span class="req">*</span></label><input id="jc" name="company" type="text" autocomplete="organization"><div class="err">Add your company name.</div></div>
-        <div class="field" data-f="je"><label class="flabel" for="je">Email <span class="req">*</span></label><input id="je" name="email" type="email" autocomplete="email"><div class="err">Enter a valid email address.</div></div>
-        <div class="field"><label class="flabel" for="jp">Phone or WhatsApp</label><input id="jp" name="phone" type="tel" autocomplete="tel" placeholder="+91"></div>
-        <button class="btn btn-primary" type="submit" style="width:100%">Claim membership</button>
-      </form>
-    </div>
-    <div id="joinDone" hidden>
-      <h2 class="d3" style="font-size:1.45rem">Membership request received</h2>
-      <p class="small">We'll be in touch within 48 hours.</p>
-      <button class="btn btn-ghost" type="button" data-close>Close</button>
-    </div>
-  </div>
-</div>
-
-<form name="listing-upsell" data-netlify="true" netlify-honeypot="bot-field" hidden><input name="listing"><input name="email"><input name="services"><input name="bot-field"></form>
-
 <div class="modal" id="reqModal" role="dialog" aria-modal="true" aria-labelledby="reqTitle">
   <div class="modal-box">
     <button class="x" type="button" data-rclose aria-label="Close"><svg width="20" height="20"><use href="#i-x"/></svg></button>
@@ -1230,7 +1092,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     </div>
   </div>
 </div>
-
 <script>
 (function(){
   "use strict";
@@ -1238,42 +1099,8 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   var $$ = function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
 
   var CATS = [
-    {id:"infra", name:"Construction at cost", tab:"Construction at cost", promise:"Own a shop, showroom, office or home at cost",
-     intro:"People who want the same kind of property in the same area join one buyer group. We buy land in the area the group chooses and build it ready-to-use (turnkey) for a fixed charge agreed at the start. You pay for land and construction, not a builder's profit. Landowners can also join as partners.",
-     how:["Tell us what you want (shop, showroom, office, flat or villa), the area you prefer and your budget.","We group you with buyers who want the same thing in the same area.","Our team finds and buys land there for the group.","We build it ready-to-use for a fixed charge agreed before work starts.","You get your unit with clear ownership papers."],
-     who:["Retailers and showroom owners","Doctors, CAs and other professionals who need offices","Families buying a home","Landowners and developers looking for JV partners"],
-     gain:["No builder profit: you pay land, construction and a fixed fee","You choose the location and design","Construction charge fixed before work starts"],
-     cta:"Register your interest", href:"#build-together"},
-    {id:"lease", name:"Industrial leasing", tab:"Industrial leasing", promise:"Turn idle factories and spare shifts into monthly income",
-     intro:"Most factories do not use all their space or machines. Rent out empty sheds, floors, production lines or spare shifts to companies, in India and abroad, that need capacity without building a new plant.",
-     how:["Register free, then send 3 photos, size, power load and a valuation report.","We review it and show it to businesses looking for that capacity, in India and abroad.","Agree monthly, long-term or per-shift rent, or swap capacity for goods you need.","Sign the lease and start earning."],
-     who:["Factory owners with idle space or shifts","Brands that need capacity without capital spending","Overseas buyers moving production to India"],
-     gain:["Rent from things that earn nothing today","Tenants start production in weeks, not years","A swap option when cash is short"],
-     cta:"List capacity", href:"#list-asset"},
-    {id:"machines", name:"Used machines", tab:"Used machines", promise:"Release the cash locked in machinery",
-     intro:"A machine that is not used loses value every month. Sell it, rent it out or swap it with companies that want good used machines for less than the price of new ones.",
-     how:["Register free, then send 3 photos (one of the nameplate), make, model, year, condition and a valuation report.","Buyers in the same category and price range see it.","Sell it, rent it out, or swap it for a machine you need.","Our team helps with inspection, transport and paperwork."],
-     who:["Manufacturers upgrading or closing a line","Machinery dealers","Buyers who want proven machines at lower cost"],
-     gain:["Cash or rent from unused machines","Buyers pay less than for new machines","Machine-for-machine swaps, any difference paid in cash"],
-     cta:"List a machine", href:"#list-asset"},
-    {id:"tech", name:"Technology & education", tab:"Tech & education", promise:"Share, sell or donate technology and learning",
-     intro:"Technology and knowledge help more people when they are shared. Sell or license your software, machines or know-how to factories that need them. Or donate computers, equipment, software, books or training to schools, colleges and skill centres.",
-     how:["Tell us what you have: technology, equipment, software, books or training.","Choose to sell, license or donate.","We match you with factories that need it, or schools and training centres that can use it.","Hand it over with clear paperwork."],
-     who:["Innovators, startups and software companies","Companies with spare computers, machines or tools","Schools, colleges and skill centres","Factories that want to modernise"],
-     gain:["Licence fees or sale income","Buyers save the cost of building from zero","Your donation helps students learn real skills"],
-     cta:"Register to share or donate", href:"#list-asset"},
-    {id:"agri", name:"Agriculture & commodities", tab:"Agri & commodities", promise:"Bulk trade, straight from origin",
-     intro:"Gujarat grows much of India's groundnut, cumin, castor and cotton. Buy or sell in bulk directly, with fewer middlemen, quality and quantity agreed in writing. You can also rent out farm land.",
-     how:["Tell us the product, grade, quantity (tonnes), packing and delivery place.","We introduce matching buyers or sellers.","Agree price, payment terms and inspection.","Dispatch with full documents, in India or for export."],
-     who:["Processors, millers and traders","Exporters and overseas importers","Farmers and landowners leasing land"],
-     gain:["Better prices with fewer middlemen","Quality agreed in writing","Income from land you don't farm"],
-     cta:"Post a requirement", href:"#list-asset"},
-    {id:"storage", name:"Storage & warehousing", tab:"Storage & warehousing", promise:"Fill empty space, or find the right space fast",
-     intro:"Rent out empty warehouse, cold storage, tank or port storage. Or find storage for less near Mundra, Kandla, farms and industrial areas.",
-     how:["Register free, then send photos, capacity (sq ft, tonnes or KL), facilities and rent.","Businesses looking for that place and size see it.","Agree the period, rent and handling charges.","Move goods in."],
-     who:["Warehouse and cold-storage owners","Exporters and importers near the ports","Traders storing seasonal stock"],
-     gain:["Rent from empty space","Storage close to ports and farms","Short or long-term rent"],
-     cta:"List storage", href:"#list-asset"}
+    {id:"lease", name:"Industrial leasing"}, {id:"machines", name:"Used machines"}, {id:"storage", name:"Storage & warehousing"},
+    {id:"agri", name:"Agriculture & commodities"}, {id:"infra", name:"Construction at cost"}, {id:"tech", name:"Technology & education"}
   ];
   var catName = function(id){for(var i=0;i<CATS.length;i++){if(CATS[i].id===id)return CATS[i].name}return ""};
 
@@ -1304,7 +1131,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     return "₹"+(Math.round(v*10)/10).toString()+" lakh";
   }
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-  // Prices follow the visitor's currency (assets/fx.js?v=2cc63893): rupees in India, approximate US dollars elsewhere.
+  // Prices follow the visitor's currency (assets/fx.js?v=83260835): rupees in India, approximate US dollars elsewhere.
   var FX=window.DSKFX||null;
   function usd(){ return !!(FX && FX.eff()==="USD"); }
   function fmtC(v){ var l=FX&&FX.label(v*1e5,"INR"); return l||fmt(v); }
@@ -1337,11 +1164,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     $("#balNote").textContent = d===0?"Value for value, no cash needed.":"The rest is settled as a straight swap.";
   }
   offer.addEventListener("change",desk); need.addEventListener("change",desk); desk();
-  $("#deskGo").addEventListener("click",function(){var w=$("#gWant"); if(w) w.value="Barter (swap)"; var r=$('input[name=deal][value=Barter]'); if(r) r.checked=true});
-
-  // Ticker (duplicated for seamless loop)
-  var tick = LIST.slice(0,9).map(function(l){return '<span><i></i><b>'+esc(DEAL[l.deal])+'</b>'+esc(l.title)+'<small>'+esc(l.where.split(",")[0])+'</small></span>'}).join("");
-  var tkEl=$("#ticker"); if(tkEl) tkEl.innerHTML = '<span><i></i><b>Sample</b>Opportunities shown are examples</span>'+tick+'<span aria-hidden="true"><i></i><b>Sample</b>Opportunities shown are examples</span>'+tick;
 
   var CAT_PAGE={"infra": "construction.html", "lease": "leasing.html", "machines": "machines.html", "tech": "technology.html", "agri": "agri.html", "storage": "storage.html"};
   $("#footCats").innerHTML = CATS.map(function(c){return '<li><a href="'+CAT_PAGE[c.id]+'">'+esc(c.name)+'</a></li>'}).join("");
@@ -1359,7 +1181,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     var items;
     if(current==="all"){ items=[]; var byCat=CATS.map(function(c){return LIST.filter(function(l){return l.cat===c.id})}); for(var r=0;items.length<LIST.length;r++){byCat.forEach(function(g){if(g[r]) items.push(g[r])})} }
     else items = LIST.filter(function(l){return l.cat===current});
-    $("#listings").innerHTML = items.slice(0,9).map(card).join("");
+    $("#listings").innerHTML = items.slice(0,6).map(card).join("");
     $$(".chip").forEach(function(b){b.setAttribute("aria-pressed", b.dataset.cat===current?"true":"false")});
   }
   $("#chips").innerHTML = '<button class="chip" type="button" data-cat="all">All</button>'+CATS.map(function(c){return '<button class="chip" type="button" data-cat="'+c.id+'">'+esc(c.name)+'</button>'}).join("");
@@ -1382,129 +1204,10 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   function busy(btn,on,label){ if(!btn) return; if(on){btn.dataset.l=btn.textContent; btn.textContent=label||"Sending…"; btn.disabled=true} else {btn.textContent=btn.dataset.l||btn.textContent; btn.disabled=false} }
 
   function alertIn(form,msg){ var a=form.querySelector(".send-err"); if(!a){a=document.createElement("p"); a.className="err send-err"; a.style.display="block"; a.setAttribute("role","alert"); form.appendChild(a);} a.textContent=msg; }
-  // Listing form
-  var lastListing=null;
-  var fCat=$("#fCat"); CATS.forEach(function(c){fCat.add(new Option(c.name,c.id))});
-  var photos=[null,null,null], report=null;
-  $$(".pbox input").forEach(function(inp){
-    inp.addEventListener("change",function(){
-      var f=inp.files&&inp.files[0], box=inp.parentNode, i=+inp.dataset.i, old=box.querySelector("img");
-      if(old) old.remove();
-      if(f && /^image\//.test(f.type)){
-        photos[i]=f; var img=document.createElement("img"); img.alt="Photo "+(i+1)+" preview";
-        try{img.src=URL.createObjectURL(f)}catch(err){}
-        box.appendChild(img); box.classList.add("has");
-      } else { photos[i]=null; box.classList.remove("has"); }
-      updPhotoErr();
-    });
-  });
-  $("#fReport").addEventListener("change",function(){
-    var f=this.files&&this.files[0];
-    if(f && f.size>5*1024*1024){ this.value=""; f=null; $("#reportErr").textContent="That file is over 5 MB. Upload a smaller PDF or a photo of the report."; setBad("report",true); }
-    else { $("#reportErr").textContent="Attach a valuation report."; }
-    report=f||null;
-    $("#docName").textContent = f? f.name : "Upload valuation report";
-    $("#docBox").classList.toggle("has", !!f);
-  });
-  var desc=$("#fDesc");
-  desc.addEventListener("input",function(){$("#descCount").textContent=desc.value.length+" / 1500"});
-  function updPhotoErr(){
-    var n=photos.filter(Boolean).length;
-    $("#photoErr").textContent = n===0?"Add all 3 photos.":"Add all 3 photos. "+(3-n)+" more needed.";
-    if(n===3) $('[data-f=photos]').classList.remove("bad");
-  }
-  // Shrink photos so the whole submission stays under Netlify's 8 MB limit
-  function shrink(file,i){
-    return new Promise(function(res){
-      var url; try{url=URL.createObjectURL(file)}catch(e){return res(file)}
-      var im=new Image();
-      im.onload=function(){
-        var max=1600, w=im.naturalWidth, h=im.naturalHeight, k=Math.min(1,max/Math.max(w,h));
-        var c=document.createElement("canvas"); c.width=Math.round(w*k); c.height=Math.round(h*k);
-        c.getContext("2d").drawImage(im,0,0,c.width,c.height); URL.revokeObjectURL(url);
-        c.toBlob(function(b){ res(b && b.size<file.size ? new File([b],"photo-"+(i+1)+".jpg",{type:"image/jpeg"}) : file) },"image/jpeg",0.82);
-      };
-      im.onerror=function(){URL.revokeObjectURL(url); res(file)};
-      im.src=url;
-    });
-  }
-  function buildListing(){
-    var form=$("#listForm"), fd=new FormData();
-    Array.prototype.forEach.call(form.elements,function(el){
-      if(!el.name || el.type==="file" || el.disabled) return;
-      if((el.type==="radio"||el.type==="checkbox") && !el.checked) return;
-      fd.append(el.name, el.value);
-    });
-    return Promise.all(photos.map(shrink)).then(function(ps){
-      ps.forEach(function(p,i){ fd.append("photo-"+(i+1), p, p.name) });
-      fd.append("valuation-report", report, report.name);
-      var total=ps.reduce(function(t,p){return t+p.size},0)+report.size;
-      if(total>7.5*1024*1024) throw new Error("too-big");
-      return fd;
-    });
-  }
   function setBad(key,bad){var el=$('[data-f="'+key+'"]'); if(el) el.classList.toggle("bad",bad); return bad}
   var emailOk=function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)};
 
-  $("#listForm").addEventListener("submit",function(e){
-    e.preventDefault();
-    var v=parseFloat($("#fValue").value), probs=[], typed=$("#fValue").value;
-    if(usd() && v>0){ var lk=lakhOf(v); $("#fValueEntered").value="US$ "+typed; v=lk||0; } else $("#fValueEntered").value="";
-    if(setBad("member",$("#fMember").value.trim().length<3)) probs.push("member ID");
-    if(setBad("cat",!fCat.value)) probs.push("category");
-    if(setBad("value",!(v>0))) probs.push("valuation");
-    if(setBad("title",$("#fTitle").value.trim().length<4)) probs.push("title");
-    if(setBad("desc",desc.value.trim().length<80)) probs.push("description (80+ characters)");
-    if(setBad("where",$("#fWhere").value.trim().length<2)) probs.push("location");
-    var n=photos.filter(Boolean).length;
-    if(setBad("photos",n<3)) {probs.push("3 photos ("+(3-n)+" missing)"); updPhotoErr();}
-    if(setBad("report",!report)) probs.push("valuation report");
-    if(setBad("name",$("#fName").value.trim().length<2)) probs.push("your name");
-    if(setBad("email",!emailOk($("#fEmail").value.trim()))) probs.push("email");
-    var sum=$("#summary");
-    if(probs.length){
-      sum.innerHTML="<b>Complete these to submit:</b> "+esc(probs.map(T).join(", "))+".";
-      sum.classList.add("show");
-      var first=$(".field.bad"); if(first){first.scrollIntoView({block:"center"}); var fi=first.querySelector("input,select,textarea"); if(fi) fi.focus({preventScroll:true});}
-      return;
-    }
-    sum.classList.remove("show");
-    var item={cat:fCat.value, value:v, title:$("#fTitle").value.trim(), where:$("#fWhere").value.trim(), deal:($('input[name=deal]:checked')||{}).value||"Sale"};
-    $("#fCatName").value=catName(item.cat);
-    var btn=$("#listSubmit"); busy(btn,true,"Preparing photos…");
-    var fv=$("#fValue"); if(usd()) fv.value=String(v); var built=buildListing(); fv.value=typed;
-    built.then(function(fd){ btn.textContent="Sending…"; return send(fd,true); }).then(function(){ busy(btn,false); lastListing={title:item.title, email:$("#fEmail").value.trim()}; showResult(item); })
-      .catch(function(err){ busy(btn,false); sum.innerHTML=esc(err&&err.message==="too-big"?"Your photos and report together are too large to send. Use a smaller valuation report (under 3 MB) and try again.":FAIL); sum.classList.add("show"); sum.scrollIntoView({block:"center"}); });
-  });
-
-  function showResult(item){
-    var lo=item.value*0.75, hi=item.value*1.25;
-    var same=LIST.filter(function(l){return l.cat===item.cat});
-    var inRange=same.filter(function(l){return l.value>=lo && l.value<=hi});
-    $("#resMeta").textContent = item.title+", "+catName(item.cat)+", "+fmtC(item.value)+", "+item.where;
-    $("#simTitle").textContent = "Similar listings in "+catName(item.cat);
-    var shown;
-    if(inRange.length){
-      shown=inRange;
-      $("#simNote").textContent = "Same category, priced between "+fmtC(Math.round(lo*10)/10)+" and "+fmtC(Math.round(hi*10)/10)+". Sample listings.";
-    } else {
-      shown=same.slice().sort(function(a,b){return Math.abs(a.value-item.value)-Math.abs(b.value-item.value)}).slice(0,2);
-      $("#simNote").textContent = shown.length ? "Nothing yet between "+fmtC(Math.round(lo*10)/10)+" and "+fmtC(Math.round(hi*10)/10)+". Closest in this category (sample listings):" : "No listings in this category yet. We'll alert you when one arrives.";
-    }
-    $("#similar").innerHTML = shown.slice(0,4).map(card).join("");
-    $("#listForm").style.display="none";
-    var r=$("#result"); r.classList.add("show"); r.scrollIntoView({block:"start"}); r.focus({preventScroll:true});
-  }
-  $("#again").addEventListener("click",function(){
-    $("#listForm").reset(); photos=[null,null,null]; report=null;
-    $$(".pbox").forEach(function(b){b.classList.remove("has"); var i=b.querySelector("img"); if(i) i.remove()});
-    $("#docBox").classList.remove("has"); $("#docName").textContent="Upload valuation report"; $("#descCount").textContent="0 / 1500";
-    $$(".field.bad").forEach(function(f){f.classList.remove("bad")});
-    $("#result").classList.remove("show"); $("#listForm").style.display="";
-    $("#listForm").scrollIntoView({block:"start"});
-  });
-
-  // Free registration (simple; full details come later through the members link)
+  // Call-back request (Netlify Forms)
   var gCat=$("#gCat"); CATS.forEach(function(c){gCat.add(new Option(c.name,c.name))});
   $("#regForm").addEventListener("submit",function(e){
     e.preventDefault(); var bad=false;
@@ -1548,16 +1251,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
       .catch(function(){ busy(btn,false); alertIn(form,FAIL); });
   });
 
-  // Upsell
-  $("#upsellGo").addEventListener("click",function(){
-    var sel=$$("#upsell input:checked").map(function(c){return c.value});
-    if(!sel.length){ $("#upsellMsg").textContent="Tick at least one service."; return; }
-    var p=new URLSearchParams({"form-name":"listing-upsell", listing:(lastListing||{}).title||"", email:(lastListing||{}).email||"", services:sel.join(", ")});
-    var btn=$("#upsellGo"); busy(btn,true);
-    send(p.toString()).then(function(){ busy(btn,false); $("#upsellMsg").textContent="Requested: "+sel.join(", ")+". Our team will email you options and pricing."; })
-      .catch(function(){ busy(btn,false); $("#upsellMsg").textContent=FAIL; });
-  });
-
   // Digest
   $("#digest").addEventListener("submit",function(e){
     e.preventDefault(); var v=$("#dgEmail").value.trim();
@@ -1567,31 +1260,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
       .catch(function(){ busy(btn,false); $("#dgMsg").textContent=FAIL; });
   });
 
-  // Join modal
-  var modal=$("#joinModal"), lastFocus=null;
-  function openJoin(why){
-    lastFocus=document.activeElement;
-    $("#joinWhy").textContent = "Join free with your full business details.";
-    $("#joinForm").hidden=false; $("#joinDone").hidden=true;
-    modal.classList.add("open"); setTimeout(function(){$("#jn").focus()},30);
-  }
-  function closeJoin(){modal.classList.remove("open"); if(lastFocus) lastFocus.focus()}
-  document.addEventListener("click",function(e){
-    var j=e.target.closest("[data-join]"); if(j){e.preventDefault(); location.href="account.html?mode=signup"; return}
-    if(e.target.closest("[data-close]")||e.target===modal) closeJoin();
-  });
-  document.addEventListener("keydown",function(e){ if(e.key==="Escape"){ if(modal.classList.contains("open")) closeJoin(); else if(chat.classList.contains("open")) toggleChat(false);} });
-  $("#jf").addEventListener("submit",function(e){
-    e.preventDefault();
-    var bad=false;
-    bad = setBad("jn",$("#jn").value.trim().length<2) || bad;
-    bad = setBad("jc",$("#jc").value.trim().length<2) || bad;
-    bad = setBad("je",!emailOk($("#je").value.trim())) || bad;
-    if(bad) return;
-    var form=$("#jf"), btn=form.querySelector("button[type=submit]"); busy(btn,true);
-    send(encodeForm(form)).then(function(){ busy(btn,false); $("#joinForm").hidden=true; $("#joinDone").hidden=false; })
-      .catch(function(){ busy(btn,false); alertIn(form,FAIL); });
-  });
+  document.addEventListener("click",function(e){ var j=e.target.closest("[data-join]"); if(j){ e.preventDefault(); location.href="account.html?mode=signup"; } });
 
   // Header: menu, shadow on scroll, current-section highlight
   var nav=$("#nav"), mb=$("#menuBtn"), head=$(".site-head");
@@ -1609,43 +1278,12 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   }
   window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
 
-  // Chat menu
-  var chat=$("#chat"), log=$("#chatLog"), opts=$("#chatOpts"), cb=$("#chatBtn");
-  var QA = [
-    ["Own a shop, office or home at cost","Tell us what you want, the area you prefer and your budget under Own at cost on this page. We group you with buyers who want the same there, buy the land and build it ready-to-use for a fixed charge."],
-    ["I'm an overseas buyer looking for a factory or production line","Welcome. Register free with your product, volume, preferred place in India and timeline. Our team shortlists factories and arranges a video walkthrough. You can also write to info@daskies.com."],
-    ["I want to lease out empty space, machines or capacity","Register free under List an asset. After we confirm your membership, you get a members link to send 3 photos, a description and a valuation report."],
-    ["Buy, sell or barter used machinery","Register free under List an asset and tell us the machine: make, model, year, condition and price. Swaps can be balanced with cash."],
-    ["Donate or share technology or education","Register free and choose Donate or share. We match computers, machines, software, books or training with schools, colleges and skill centres that need them."],
-    ["Source bulk commodities","Register free with the product, grade, quantity in tonnes, packing and delivery place. We look for matching suppliers."],
-    ["Membership and pricing","Joining is free. Full membership is ₹15,000 + GST for 90 days, and a success fee applies only when a deal contract is signed. See the Pricing page for details."]
-  ];
   // WhatsApp, general enquiries only. The number is assembled on tap and never shown on the page.
   function openWA(){
     var url="https://wa.me/"+["91","98252","12448"].join("")+"?text="+encodeURIComponent("Hello DASKIES, I have a general enquiry.");
     var w=window.open(url,"_blank","noopener"); if(!w) location.href=url;
   }
   document.addEventListener("click",function(e){ if(e.target.closest("[data-wa]")){ e.preventDefault(); openWA(); } });
-
-  function say(text,who){var m=document.createElement("div"); m.className="msg "+who; m.textContent=text; log.appendChild(m); log.scrollTop=log.scrollHeight}
-  function startChat(){
-    log.innerHTML=""; say("Welcome to DASKIES. What would you like to do today?","bot");
-    opts.innerHTML = QA.map(function(q,i){return '<button type="button" data-q="'+i+'">'+esc(q[0])+'</button>'}).join("")+'<button type="button" data-wa>WhatsApp: general enquiries</button><button type="button" class="more">Show options</button>';
-    opts.classList.remove("collapsed");
-  }
-  opts.addEventListener("click",function(e){
-    if(e.target.closest(".more")){opts.classList.remove("collapsed"); var f=opts.querySelector("[data-q]"); if(f) f.focus(); return}
-    var b=e.target.closest("[data-q]"); if(!b) return; var q=QA[+b.dataset.q];
-    opts.classList.add("collapsed"); opts.querySelector(".more").focus();
-    say(q[0],"me"); setTimeout(function(){say(q[1],"bot")},250);
-  });
-  function toggleChat(open){
-    chat.classList.toggle("open",open); cb.setAttribute("aria-expanded",open);
-    cb.setAttribute("aria-label",open?"Close chat":"Open chat");
-    if(open){ if(!log.children.length) startChat(); var f=opts.querySelector("button"); if(f) f.focus(); } else cb.focus();
-  }
-  cb.addEventListener("click",function(){toggleChat(!chat.classList.contains("open"))});
-  $("#chatClose").addEventListener("click",function(){toggleChat(false)});
 
   // Languages. English is the main language; the others load on demand from /i18n/xx.json.
   // The visitor's browser language picks one automatically; the menu at top right changes it.
@@ -1705,7 +1343,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   function load(code){
     if(code==="en") return Promise.resolve(null);
     if(cache[code]) return Promise.resolve(cache[code]);
-    return fetch("/i18n/"+code+".json?v=2cc63893").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
+    return fetch("/i18n/"+code+".json?v=83260835").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
   }
   var langWrap=$("#lang"), langBtn=$("#langBtn");
   function markMenu(code){
@@ -1751,7 +1389,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   var fxWalked=false;
   function applyCur(){
     var u=usd();
-    $("#fValue").setAttribute("placeholder", u?"e.g. 30000":"e.g. 28");
     if(u||fxWalked){ fxWalked=true; walk(document.body); observe(); }
   }
   if(FX){ FX.on(applyCur); applyCur(); }
@@ -1760,13 +1397,13 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   function badgeRoom(){ document.body.classList.toggle("has-badge", !!document.getElementById("nl-badge-frame")); }
   badgeRoom(); if(window.MutationObserver) new MutationObserver(badgeRoom).observe(document.body,{childList:true});
 
-  // Members page (/members): links lead back to the main page
-  if(document.documentElement.classList.contains("members-mode")){
-    $$('a[href^="#"]').forEach(function(a){ var h=a.getAttribute("href"); if(h!=="#submit-details") a.setAttribute("href","/"+(h==="#top"?"":h)); });
-    window.scrollTo(0,0);
+  var ch=$(".chain");
+  if(ch){
+    if(!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches){ ch.classList.add("in"); }
+    else { var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ ch.classList.add("in"); io.disconnect(); } }); },{threshold:.35}); io.observe(ch); }
   }
 })();
 </script>
-<script type="module" src="assets/home-live.js?v=2cc63893"></script>
+<script type="module" src="assets/home-live.js?v=83260835"></script>
 </body>
 </html>

@@ -138,7 +138,7 @@ for m in MARKETS:
 <section class="mk-sec"><h2>How it works</h2><ol class="mk-steps">{steps}</ol></section>
 <section class="mk-sec"><div class="mk-two"><div><h2>Who it's for</h2><ul>{who}</ul></div><div class="mk-gain"><h2>What you gain</h2><ul>{gain}</ul></div></div></section>
 {BUYER_FORM if m['slug'] == 'construction' else ''}
-<section class="mk-sec"><h2>Live on DASKIES</h2><div id="mkListings" data-v="{m['v']}" data-groups="{E(m['groups'])}" data-post="{E(m['post'])}" data-cta="{E(m['cta'])}"><p class="muted">Loading listings…</p></div>
+<section class="mk-sec"><h2>Live on DASKIES</h2><div id="mkListings" data-v="{m['v']}" data-groups="{E(m['groups'])}" data-post="{E(m['post'])}" data-cta="{E(m['cta'])}"><div class="skel sk-grid" role="status" aria-label="Loading listings"><span class="sk sk-c"></span><span class="sk sk-c"></span><span class="sk sk-c"></span></div></div>
   <p class="small muted" style="margin-top:12px">Every listing is reviewed for completeness before it goes live. Do your own checks before any deal.</p></section>
 <section class="mk-sec"><div class="mk-band"><div><h2>Pay in cash, as rent, or as a swap</h2><p>Every deal on DASKIES can be settled in cash, as rent, or as a straight swap (barter), with any difference paid in cash.</p></div><a class="btn btn-primary" href="account.html?mode=signup">Join DASKIES free</a></div></section>
 {guide_line(m['slug'])}

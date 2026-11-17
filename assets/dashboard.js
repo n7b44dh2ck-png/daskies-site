@@ -1,7 +1,7 @@
-import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord, pagehead } from "./core.js?v=2cc63893";
-import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=2cc63893";
-import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=2cc63893";
-import { paymentsOn } from "./pay.js?v=2cc63893";
+import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord, pagehead } from "./core.js?v=83260835";
+import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=83260835";
+import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=83260835";
+import { paymentsOn } from "./pay.js?v=83260835";
 
 await header("dashboard.html");
 const m = await requireAuth();
@@ -34,7 +34,7 @@ async function show() {
   const sel = $('.tabs [aria-selected="true"]'), bar = $(".tabs");
   if (sel && bar.scrollWidth > bar.clientWidth) bar.scrollLeft = sel.offsetLeft - 24;
   figures();
-  pane.innerHTML = `<p class="muted">Loading…</p>`;
+  pane.innerHTML = `<div class="skel" role="status" aria-label="Loading"><span class="sk sk-l"></span><span class="sk sk-row"></span><span class="sk sk-row"></span><span class="sk sk-row"></span></div>`;
   try { await ({ overview, listings, matches, deals, messages, profile, documents, saved })[tab](); }
   catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
 }
@@ -237,7 +237,7 @@ async function profile() {
     try {
       await saveDetails(m, d, { industry: v("bi") || null, year_established: v("by") ? Number(v("by")) : null, products: v("bpr") || null,
         website: v("bw") || null, certifications: v("bce") || null, export_import: $("#bx").checked });
-      toast("Profile saved."); await (await import("./core.js?v=2cc63893")).me(true); location.reload();
+      toast("Profile saved."); await (await import("./core.js?v=83260835")).me(true); location.reload();
     } catch (err) { $("#bmsg").textContent = errMsg(err); busy(btn, false); }
   });
   const lf = $("#lf");

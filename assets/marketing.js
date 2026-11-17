@@ -1,8 +1,8 @@
 // Marketplace, Global buyers, Services and Partners pages: shared header and footer,
 // live listings for the marketplace, and the buyer-group form on the construction page.
-import { sb, $, esc, header, card } from "./core.js?v=2cc63893";
+import { sb, $, esc, header, card } from "./core.js?v=83260835";
 
-await header(location.pathname.replace(/^\//, "") || "index.html");
+header(location.pathname.replace(/^\//, "") || "index.html");   // draws at once; nothing below waits for it
 
 // Live listings in this marketplace (approved only; visitors see what everyone sees).
 const box = $("#mkListings");
@@ -13,7 +13,7 @@ if (box) {
     .eq("status", "approved").eq("vertical", v).order("created_at", { ascending: false }).limit(24);
   let rows = error ? [] : (data || []);
   if (groups.length) {
-    const { subcats } = await import("./taxonomy.js?v=2cc63893");
+    const { subcats } = await import("./taxonomy.js?v=83260835");
     const allowed = new Set(subcats(v).filter(([g]) => groups.includes(g)).flatMap(([, items]) => items));
     rows = rows.filter((l) => allowed.has(l.subcategory));
   }

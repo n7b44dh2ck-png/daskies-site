@@ -1,7 +1,7 @@
-import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=2cc63893";
-import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=2cc63893";
+import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=83260835";
+import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=83260835";
 
-await header("explore.html");
+header("explore.html");   // draws at once; the search below does not wait for it
 const main = $("#main");
 const PAGE = 24;
 const st = { q: qs("q") || "", v: qs("v") || "", k: qs("k") || "", s: qs("s") || "", d: qs("d") || "", c: qs("c") || "", sort: qs("sort") || "new", page: 0 };

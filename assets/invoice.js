@@ -1,6 +1,6 @@
 // Invoice page: the signed-in buyer (or an admin) sees a tax invoice, ready to print or save as a PDF.
-import { sb, $, esc, qs, header, requireAuth, errMsg } from "./core.js?v=2cc63893";
-import { invoiceHtml } from "./invoice-render.js?v=2cc63893";
+import { sb, $, esc, qs, header, requireAuth, errMsg } from "./core.js?v=83260835";
+import { invoiceHtml } from "./invoice-render.js?v=83260835";
 
 await header("invoice.html");
 const m = await requireAuth();

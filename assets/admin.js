@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord, busy } from "./core.js?v=2cc63893";
-import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=2cc63893";
+import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord, busy } from "./core.js?v=83260835";
+import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=83260835";
 
 await header("admin.html");
 const m = await requireAuth();
@@ -16,7 +16,7 @@ const pane = $("#pane");
 
 async function show() {
   $$(".tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.t === tab));
-  pane.innerHTML = `<p class="muted">Loading…</p>`; pane.onclick = null;
+  pane.innerHTML = `<div class="skel" role="status" aria-label="Loading"><span class="sk sk-l"></span><span class="sk sk-row"></span><span class="sk sk-row"></span><span class="sk sk-row"></span></div>`; pane.onclick = null;
   try { await ({ queue, owners, listings, businesses, documents, deals, fees, payments, invoices, reports, users, errors, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
 }
 

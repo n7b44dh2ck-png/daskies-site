@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import CONFIG from "./config.js?v=2cc63893";
-import { vertical, LEVELS } from "./taxonomy.js?v=2cc63893";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm";
+import CONFIG from "./config.js?v=83260835";
+import { vertical, LEVELS } from "./taxonomy.js?v=83260835";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -146,8 +146,29 @@ export const statusWord = (s) => ({ pending: "Waiting for review", approved: "Li
 const BIRD = `<svg viewBox="12 28 314 230" aria-hidden="true"><path fill="#FFB52E" d="M22,104 C78,106 140,128 182,163 C132,154 74,134 22,104 Z"/><path fill="#1C8FD6" d="M18,36 C100,30 178,62 224,112 L232,150 C210,204 132,238 48,252 C100,220 146,190 173,161 C127,123 79,79 18,36 Z"/><path fill="#E8432F" d="M203,111 C211,86 234,69 259,69 C280,69 297,82 320,101 C298,104 289,110 285,120 C277,142 257,156 230,160 C224,141 216,125 203,111 Z"/></svg>`;
 const WA = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5z"/><path d="M8.6 12h.01M12 12h.01M15.4 12h.01" stroke-width="2.6"/></svg>`;
 
+// The header draws at once from the session saved in this browser (no network wait), then
+// corrects itself if the member's admin rights or missing profile details changed.
+const SNAP_KEY = "dsk_me_v1";
+const snapOf = (m) => (m.user ? { id: m.user.id, admin: !!(m.profile && m.profile.is_admin), complete: !!m.complete, missing: m.missing || [] } : null);
 export async function header(active) {
+  const { data: { session } } = await sb.auth.getSession();
+  let snap = null;
+  try { snap = JSON.parse(localStorage.getItem(SNAP_KEY) || "null"); } catch { snap = null; }
+  if (!session) snap = null;
+  else if (!snap || snap.id !== session.user.id) snap = { id: session.user.id, admin: false, complete: true, missing: [] };
+  drawHeader(active, { user: session ? session.user : null, profile: { is_admin: !!(snap && snap.admin) }, complete: snap ? snap.complete : true, missing: snap ? snap.missing : [] });
   const m = await me();
+  const fresh = snapOf(m);
+  try { if (fresh) localStorage.setItem(SNAP_KEY, JSON.stringify(fresh)); else localStorage.removeItem(SNAP_KEY); } catch { /* private browsing */ }
+  const same = (x, y) => (!x && !y) || (x && y && x.admin === y.admin && x.complete === y.complete && x.missing.join() === y.missing.join());
+  if (!same(fresh, snap)) {
+    const nav = $("#nav");
+    if (nav) { nav.innerHTML = navLinks(active, m); $$("[data-signout]", nav).forEach(signOutLink); }
+    profbar(m);
+  }
+  return m;
+}
+function navLinks(active, m) {
   const page = (p, label) => `<a href="${p}"${active === p ? ' aria-current="page"' : ""}>${label}</a>`;
   const MK = ["leasing.html", "machines.html", "storage.html", "agri.html", "construction.html", "technology.html"];
   const links = [page("explore.html", "Explore"),
@@ -156,6 +177,18 @@ export async function header(active) {
   if (m.user) links.push(page("dashboard.html", "Dashboard"));
   if (m.profile && m.profile.is_admin) links.push(page("admin.html", "Admin"));
   links.push(m.user ? `<a href="index.html" class="nav-m" data-signout>Sign out</a>` : `<a href="account.html" class="nav-m">Sign in</a>`);
+  return links.join("");
+}
+function signOutLink(so) { so.addEventListener("click", async (e) => { e.preventDefault(); await sb.auth.signOut(); try { localStorage.removeItem(SNAP_KEY); } catch { /* ignore */ } location.href = "index.html"; }); }
+function profbar(m) {
+  const old = document.querySelector(".profbar"); if (old) old.remove();
+  const hd = document.querySelector("header.hd"); if (!hd) return;
+  if (m.user && !m.complete && !/account\.html$/.test(location.pathname)) {
+    hd.insertAdjacentHTML("afterend", `<div class="profbar" role="status"><div class="wrap">Your profile is missing ${esc(m.missing.slice(0, 3).join(", "))}${m.missing.length > 3 ? " and more" : ""}. Complete it to post, enquire, message or start deals. <a href="${esc(completeUrl())}">Complete your profile</a></div></div>`);
+  }
+}
+function drawHeader(active, m) {
+  const links = [navLinks(active, m)];
   const right = m.user
     ? `<div class="bell-wrap"><button class="bell" id="bell" type="button" aria-label="Alerts" aria-expanded="false" aria-controls="bellPanel"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="bell-n" id="bellN" hidden></span></button>
         <div class="bell-panel" id="bellPanel" role="region" aria-label="Alerts" hidden></div></div>
@@ -168,11 +201,9 @@ export async function header(active) {
     <nav class="nav" id="nav" aria-label="Main">${links.join("")}</nav>
     <div class="hd-cta">${right}<button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="nav"><span></span></button></div></div>`;
   document.body.prepend(hd);
-  if (m.user && !m.complete && !/account\.html$/.test(location.pathname)) {
-    hd.insertAdjacentHTML("afterend", `<div class="profbar" role="status"><div class="wrap">Your profile is missing ${esc(m.missing.slice(0, 3).join(", "))}${m.missing.length > 3 ? " and more" : ""}. Complete it to post, enquire, message or start deals. <a href="${esc(completeUrl())}">Complete your profile</a></div></div>`);
-  }
+  profbar(m);
   $("#menuBtn").addEventListener("click", (e) => { const o = $("#nav").classList.toggle("open"); e.currentTarget.setAttribute("aria-expanded", o); });
-  $$("#signOut, [data-signout]").forEach((so) => so.addEventListener("click", async (e) => { e.preventDefault(); await sb.auth.signOut(); location.href = "index.html"; }));
+  $$("#signOut, [data-signout]").forEach(signOutLink);
   if (m.user) alerts();
   // WhatsApp, general enquiries; the number is assembled only on tap
   const wa = document.createElement("button");
@@ -198,7 +229,6 @@ export async function header(active) {
   document.body.appendChild(f);
   const badge = () => document.body.classList.toggle("has-badge", !!document.getElementById("nl-badge-frame"));
   badge(); new MutationObserver(badge).observe(document.body, { childList: true });
-  return m;
 }
 
 // In-app alerts: the bell in the header. Alerts are written by the database; this only reads and marks them.

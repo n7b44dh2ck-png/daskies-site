@@ -481,3 +481,25 @@ main.wrap{padding-top:28px;padding-bottom:88px} /* .wrap's side padding used to 
 @media (max-width:700px){.aboutcats{grid-template-columns:1fr}}
 
 .office{font-style:normal;line-height:1.65;font-size:1.02rem;margin:4px 0 0;padding-left:14px;border-left:3px solid var(--accent)}
+
+/* Loading placeholders: the page's shape appears at once, then fills in */
+.skel{display:block;padding:8px 0 24px}
+.sk{display:block;border-radius:4px;background:linear-gradient(90deg,#E6ECEA 0%,#F3F6F5 40%,#E6ECEA 80%) 0 0/300% 100%;animation:skp 1.3s ease-in-out infinite}
+.sk-head{padding:22px 0 26px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.sk-t{height:34px;width:min(420px,70%);margin-bottom:14px}
+.sk-l{height:14px;width:min(560px,90%);margin-bottom:9px}
+.sk-l2{height:14px;width:min(380px,60%)}
+.sk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.sk-c{height:250px;border-radius:6px}
+.sk-row{height:44px;margin-top:10px}
+@keyframes skp{0%{background-position:100% 0}100%{background-position:0 0}}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+
+/* Smooth page-to-page changes in browsers that support it */
+@media (prefers-reduced-motion:no-preference){
+  @view-transition{navigation:auto}
+  ::view-transition-old(root),::view-transition-new(root){animation-duration:.16s}
+}
+
+/* Keep the header's space while it is being drawn, so the page doesn't jump down */
+body:not(:has(> header.hd))::before{content:"";display:block;height:69px;border-bottom:1px solid var(--line);background:#fff}

@@ -1,13 +1,15 @@
-import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=2cc63893";
-import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=2cc63893";
+import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=83260835";
+import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=83260835";
 
+const id = qs("id");
+// Fetch the listing while the header loads the member, not after it.
+const lq = id ? sb.from("listings")
+  .select("*, listing_photos(path,sort), businesses(name,city,country,verification_level,roles,year_established,description,export_import)")
+  .eq("id", id).maybeSingle().then((r) => r) : Promise.resolve({ data: null });
 const m = await header("explore.html");
 const main = $("#main");
-const id = qs("id");
 
-const { data: l, error } = id ? await sb.from("listings")
-  .select("*, listing_photos(path,sort), businesses(name,city,country,verification_level,roles,year_established,description,export_import)")
-  .eq("id", id).maybeSingle() : { data: null };
+const { data: l, error } = await lq;
 // Search and share tags for this listing (Google reads them after the page runs).
 function headTag(sel, make, attr, val) {
   let el = document.head.querySelector(sel);

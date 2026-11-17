@@ -73,17 +73,24 @@
     report(msg, (e.error && e.error.stack) || (e.filename + ":" + e.lineno), true);
   }, true);
 
+  // Page-change animations (View Transitions) reject their promises when a visitor clicks on
+  // before one finishes. That is expected, so catch it here instead of reporting it.
+  function quietVT(e) { var t = e && e.viewTransition; if (!t) return; ["ready", "finished", "updateCallbackDone"].forEach(function (k) { if (t[k] && t[k].catch) t[k].catch(function () {}); }); }
+  window.addEventListener("pagereveal", quietVT);
+  window.addEventListener("pageswap", quietVT);
+
   window.addEventListener("unhandledrejection", function (e) {
     var r = e.reason || {};
     var msg = r.message || String(r);
     if (msg === "stop") return;
+    if (/Transition was (aborted|skipped)|ViewTransition/i.test(msg)) { e.preventDefault(); return; }   // page-change animation cut short by a quick click: harmless
     report("Unhandled: " + msg, r.stack, !NETWORK.test(msg));
   });
 
-  // A member page that is still showing "Loading…" after 15 seconds didn't load properly.
+  // A member page that is still showing its loading placeholder after 15 seconds didn't load properly.
   setTimeout(function () {
     var m = document.getElementById("main");
-    if (m && /^\s*Loading…\s*$/.test(m.textContent)) {
+    if (m && (m.querySelector(':scope > .skel') || /^\s*Loading…\s*$/.test(m.textContent))) {
       report("Page did not finish loading", null, false);
       m.innerHTML = '<div class="panel empty"><h1>This page didn’t load</h1><p>Check your connection and reload. If it keeps happening, WhatsApp us and quote <b>' + ref + '</b>.</p><button class="btn btn-primary" type="button" onclick="location.reload()">Reload</button></div>';
     }
