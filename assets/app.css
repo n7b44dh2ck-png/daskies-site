@@ -457,3 +457,13 @@ main.wrap{padding-top:28px;padding-bottom:88px} /* .wrap's side padding used to 
   .invsheet{border:0;padding:0;max-width:none}
 }
 .ok{background:#E7F3EC;border-left:4px solid var(--green);padding:10px 14px;border-radius:6px}
+
+/* About: the six categories */
+.aboutcats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0 8px}
+.aboutcats section{background:#fff;border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:6px 6px 10px 10px;padding:18px 18px 16px;display:flex;flex-direction:column}
+.aboutcats h3{margin:0 0 8px;font-size:1.12rem}
+.aboutcats h3 a{color:var(--ink);text-decoration:none}.aboutcats h3 a:hover{text-decoration:underline}
+.aboutcats p{margin:0 0 10px;font-size:.98rem;line-height:1.6}
+.aboutcats .for{color:var(--muted)}.aboutcats .for b{color:var(--ink);font-weight:650}
+.aboutcats .more{margin-top:auto;font-weight:650}
+@media (max-width:700px){.aboutcats{grid-template-columns:1fr}}

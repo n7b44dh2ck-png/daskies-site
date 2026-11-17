@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-import CONFIG from "./config.js?v=bfd62387";
-import { vertical, LEVELS } from "./taxonomy.js?v=bfd62387";
+import CONFIG from "./config.js?v=996e35d1";
+import { vertical, LEVELS } from "./taxonomy.js?v=996e35d1";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
