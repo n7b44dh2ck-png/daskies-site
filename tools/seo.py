@@ -60,6 +60,7 @@ PAGES = {
   "deal.html": ("Deal room | DASKIES", "DASKIES deal room.", False, None, None),
   "post.html": ("Post a listing | DASKIES", "List what you have or post what you need.", False, None, None),
   "admin.html": ("Admin | DASKIES", "DASKIES administration.", False, None, None),
+  "invoice.html": ("Invoice | DASKIES", "Your DASKIES tax invoice.", False, None, None),
 }
 # Guides: added by tools/build_guides.py through guides.json (title, description, label, date)
 if os.path.exists("tools/guides.json"):

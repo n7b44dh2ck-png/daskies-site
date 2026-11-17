@@ -446,3 +446,14 @@ main.wrap{padding-top:28px;padding-bottom:88px} /* .wrap's side padding used to 
 .mk-band .btn-line{border-color:rgba(255,255,255,.55);color:#fff}
 .tag-by{background:var(--charcoal);color:#E6EEEC}
 .ownerbox{border-left:4px solid var(--plum)}
+/* Invoice page: the sheet prints on its own */
+.invbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 auto 16px;max-width:728px}
+.invsheet{max-width:728px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 0;overflow-x:auto}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff}
+  .hd,.foot,.noprint,.envbar,.profbar,.wa-btn,.errbar,.toast{display:none!important}
+  main.wrap{padding:0}
+  .invsheet{border:0;padding:0;max-width:none}
+}
+.ok{background:#E7F3EC;border-left:4px solid var(--green);padding:10px 14px;border-radius:6px}

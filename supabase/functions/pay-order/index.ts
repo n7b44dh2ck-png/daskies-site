@@ -32,19 +32,29 @@ Deno.serve(async (req) => {
     if (!user) return json({ error: "Sign in to pay." }, 401);
     const admin = createClient(url, supaKey("secret"));
 
+    // Every payment gets a GST invoice, so payments open only once the supplier details are filled in (Admin > Invoices).
+    const { data: ready } = await admin.rpc("invoice_settings_ready");
+    if (!ready) return json({ error: "Online payment opens soon. Write to info@daskies.com to pay." }, 503);
+    // A buyer outside India pays without GST when DASKIES has an LUT for export of services.
+    const { data: biz } = await admin.from("businesses").select("country").eq("owner_id", user.id).limit(1).maybeSingle();
+    const { data: st } = await admin.from("invoice_settings").select("lut_number").eq("id", 1).maybeSingle();
+    const exportLut = !!st?.lut_number && !["india", "in", "bharat"].includes(String(biz?.country || "India").trim().toLowerCase());
+
     const body = await req.json().catch(() => ({}));
     const kind = body.kind;
-    let paise = 0, description = "", ref: string | null = null;
+    let paise = 0, taxable = 0, description = "", ref: string | null = null;
     if (kind === "membership") {
-      paise = MEMBERSHIP.rupees * (100 + MEMBERSHIP.gstPercent); // rupees x 1.18, in paise
-      description = `Full membership, ${MEMBERSHIP.days} days (₹15,000 + 18% GST)`;
+      taxable = MEMBERSHIP.rupees * 100;
+      paise = exportLut ? taxable : MEMBERSHIP.rupees * (100 + MEMBERSHIP.gstPercent); // rupees x 1.18, in paise
+      description = exportLut ? `Full membership, ${MEMBERSHIP.days} days (₹15,000, export of services, no GST)` : `Full membership, ${MEMBERSHIP.days} days (₹15,000 + 18% GST)`;
     } else if (kind === "fee") {
       const { data: f } = await admin.from("deal_fees").select("id, user_id, fee, gst, currency, status").eq("id", String(body.fee_id || "")).maybeSingle();
       if (!f || f.user_id !== user.id) return json({ error: "We couldn't find that fee." }, 404);
       if (f.status !== "due") return json({ error: "This fee isn't due." }, 409);
       if (f.currency !== "INR") return json({ error: "Fees in other currencies are paid by bank transfer. Write to info@daskies.com." }, 409);
-      paise = Math.round((Number(f.fee) + Number(f.gst)) * 100);
-      description = "DASKIES success fee incl. 18% GST";
+      taxable = Math.round(Number(f.fee) * 100);
+      paise = exportLut ? taxable : Math.round((Number(f.fee) + Number(f.gst)) * 100);
+      description = exportLut ? "DASKIES success fee (export of services, no GST)" : "DASKIES success fee incl. 18% GST";
       ref = f.id;
     } else {
       return json({ error: "Unknown payment." }, 400);
@@ -61,7 +71,7 @@ Deno.serve(async (req) => {
       console.error("razorpay order failed", r.status, order?.error?.description);
       return json({ error: "The payment couldn't start. Try again in a minute." }, 502);
     }
-    const { error } = await admin.from("payments").insert({ user_id: user.id, kind, ref_id: ref, amount_paise: paise, currency: "INR", description, razorpay_order_id: order.id });
+    const { error } = await admin.from("payments").insert({ user_id: user.id, kind, ref_id: ref, amount_paise: paise, taxable_paise: taxable, gst_paise: paise - taxable, currency: "INR", description, razorpay_order_id: order.id });
     if (error) { console.error("payments insert", error.message); return json({ error: "The payment couldn't start. Try again in a minute." }, 500); }
 
     const { data: p } = await admin.from("profiles").select("full_name, phone").eq("id", user.id).maybeSingle();

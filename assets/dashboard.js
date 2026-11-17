@@ -1,7 +1,7 @@
-import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord, pagehead } from "./core.js?v=d346f730";
-import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=d346f730";
-import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=d346f730";
-import { paymentsOn } from "./pay.js?v=d346f730";
+import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord, pagehead } from "./core.js?v=bfd62387";
+import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=bfd62387";
+import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=bfd62387";
+import { paymentsOn } from "./pay.js?v=bfd62387";
 
 await header("dashboard.html");
 const m = await requireAuth();
@@ -59,9 +59,15 @@ async function overview() {
       ${!m.business ? `<p>1. <a href="#profile" data-go="profile">Add your business profile</a></p>` : ""}
       <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-primary" href="post.html?kind=offer">List an offer</a><a class="btn btn-ghost" href="post.html?kind=need">Post a need</a><a class="btn btn-ghost" href="explore.html">Explore</a><button class="btn btn-ghost" type="button" data-go="matches">Find a barter match</button></div></div>
     ${memberPanel()}
+    <div id="invlist"></div>
     <div class="panel"><h2>Verification</h2>${m.business ? levelBadge(m.business.verification_level) : ""}<p class="hint">${esc(LEVEL_NOTE)}</p>
       <p class="small">To move up a level, upload business documents under <a href="#documents" data-go="documents">Documents</a>. The team reviews them by hand.</p></div>`;
   pane.onclick = (e) => { const g = e.target.closest("[data-go]"); if (g) { e.preventDefault(); tab = g.dataset.go; history.replaceState(null, "", "#" + tab); show(); } };
+  // Tax invoices for anything paid online
+  const { data: invs } = await sb.from("invoices").select("id,number,issued_at,description,total_paise").eq("user_id", m.user.id).order("issued_at", { ascending: false }).limit(24);
+  if (invs && invs.length && $("#invlist")) $("#invlist").innerHTML = `<div class="panel" style="margin-bottom:16px"><h2>Invoices</h2>
+    <div class="tablewrap"><table class="list"><thead><tr><th>Invoice</th><th>Date</th><th>For</th><th>Amount</th></tr></thead><tbody>${invs.map((i) => `<tr><td><a href="invoice.html?id=${esc(i.id)}">${esc(i.number)}</a></td><td>${esc(day(i.issued_at))}</td><td>${esc(i.description)}</td><td>₹${(i.total_paise / 100).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td></tr>`).join("")}</tbody></table></div>
+    <p class="hint" style="margin:8px 0 0">Each invoice is also emailed to you when you pay.</p></div>`;
 }
 
 async function listings() {
@@ -231,7 +237,7 @@ async function profile() {
     try {
       await saveDetails(m, d, { industry: v("bi") || null, year_established: v("by") ? Number(v("by")) : null, products: v("bpr") || null,
         website: v("bw") || null, certifications: v("bce") || null, export_import: $("#bx").checked });
-      toast("Profile saved."); await (await import("./core.js?v=d346f730")).me(true); location.reload();
+      toast("Profile saved."); await (await import("./core.js?v=bfd62387")).me(true); location.reload();
     } catch (err) { $("#bmsg").textContent = errMsg(err); busy(btn, false); }
   });
   const lf = $("#lf");

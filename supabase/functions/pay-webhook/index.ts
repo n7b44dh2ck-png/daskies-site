@@ -21,6 +21,22 @@ function same(a: string, b: string) {
   return d === 0;
 }
 
+// The database issues the invoice when the payment is recorded; send-invoice emails it to the buyer.
+async function emailInvoice(admin: any, url: string, order: string) {
+  try {
+    const { data: pm } = await admin.from("payments").select("id").eq("razorpay_order_id", order).maybeSingle();
+    if (!pm) return;
+    const r = await fetch(url + "/functions/v1/send-invoice", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + supaKey("secret") }, body: JSON.stringify({ payment_id: pm.id }) });
+    if (!r.ok) console.error("send-invoice", r.status, await r.text().catch(() => ""));
+  } catch (e) { console.error("send-invoice call", e); }
+}
+// Runs after the reply has gone back, where the platform allows it.
+function afterReply(job: Promise<unknown>) {
+  const rt = (globalThis as any).EdgeRuntime;
+  if (rt?.waitUntil) { rt.waitUntil(job); return Promise.resolve(); }
+  return job;
+}
+
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("Use POST", { status: 405 });
   const secret = Deno.env.get("RAZORPAY_WEBHOOK_SECRET");
@@ -39,6 +55,7 @@ Deno.serve(async (req) => {
   if (evt.event === "payment.captured" || evt.event === "order.paid") {
     const { error } = await admin.rpc("apply_payment", { p_order: order, p_payment: pay?.id || "webhook" });
     if (error) { console.error("apply_payment", error.message); return new Response("retry", { status: 500 }); }
+    await afterReply(emailInvoice(admin, Deno.env.get("SUPABASE_URL")!, order));
   } else if (evt.event === "payment.failed") {
     await admin.rpc("payment_failed", { p_order: order });
   }

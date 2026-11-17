@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord, busy } from "./core.js?v=d346f730";
-import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=d346f730";
+import { sb, $, $$, esc, header, requireAuth, money, day, when, errMsg, toast, statusWord, busy } from "./core.js?v=bfd62387";
+import { vertical, DOC_KINDS, LEVELS, DEAL_KINDS, stageName } from "./taxonomy.js?v=bfd62387";
 
 await header("admin.html");
 const m = await requireAuth();
@@ -7,7 +7,7 @@ if (!m) throw new Error("stop");
 const main = $("#main");
 if (!m.profile?.is_admin) { main.innerHTML = `<div class="panel empty"><h1>Admins only</h1><p>This page is for the DASKIES team.</p></div>`; throw new Error("stop"); }
 
-const TABS = [["queue", "Review queue"], ["owners", "For owners"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["fees", "Fees"], ["payments", "Payments"], ["reports", "Reports"], ["users", "Users"], ["errors", "Errors"], ["audit", "Audit log"]];
+const TABS = [["queue", "Review queue"], ["owners", "For owners"], ["listings", "All listings"], ["businesses", "Businesses"], ["documents", "Documents"], ["deals", "Deals"], ["fees", "Fees"], ["payments", "Payments"], ["invoices", "Invoices"], ["reports", "Reports"], ["users", "Users"], ["errors", "Errors"], ["audit", "Audit log"]];
 let tab = (location.hash || "#queue").slice(1);
 if (!TABS.some(([t]) => t === tab)) tab = "queue";
 main.innerHTML = `<h1>Admin</h1><div class="tabs" role="tablist">${TABS.map(([t, n]) => `<button role="tab" type="button" data-t="${t}" aria-selected="${t === tab}">${n}</button>`).join("")}</div><section id="pane"></section>`;
@@ -17,7 +17,7 @@ const pane = $("#pane");
 async function show() {
   $$(".tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.t === tab));
   pane.innerHTML = `<p class="muted">Loading…</p>`; pane.onclick = null;
-  try { await ({ queue, owners, listings, businesses, documents, deals, fees, payments, reports, users, errors, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
+  try { await ({ queue, owners, listings, businesses, documents, deals, fees, payments, invoices, reports, users, errors, audit })[tab](); } catch (err) { pane.innerHTML = `<p class="err">${esc(errMsg(err))}</p>`; }
 }
 
 const sel = "*, businesses(name,verification_level), listing_photos(path,sort)";
@@ -82,6 +82,76 @@ async function owners() {
     if (er) { toast(errMsg(er), true); busy(btn, false); return; }
     toast("Handed over. The owner has an alert."); show();
   }));
+}
+
+// GST invoices: the supplier details that go on every invoice, and every invoice issued.
+async function invoices() {
+  const [{ data: st }, { data: ready }, { data: invs }, { data: paid }] = await Promise.all([
+    sb.from("invoice_settings").select("*").eq("id", 1).maybeSingle(),
+    sb.rpc("invoice_settings_ready"),
+    sb.from("invoices").select("id,number,issued_at,buyer,total_paise,emailed_at,email_to,email_error,payment_id").order("issued_at", { ascending: false }).limit(300),
+    sb.from("payments").select("id,kind,amount_paise,paid_at,description").eq("status", "paid").order("paid_at", { ascending: false }).limit(300)]);
+  const s = st || {};
+  const have = new Set((invs || []).map((i) => i.payment_id));
+  const missing = (paid || []).filter((p) => !have.has(p.id));
+  const f = (id, label, val, attrs = "", hint = "") => `<div class="field"><label for="${id}">${label}</label><input id="${id}" value="${esc(val || "")}" ${attrs}>${hint ? `<span class="hint">${hint}</span>` : ""}</div>`;
+  const rs = (p) => "₹" + (p / 100).toLocaleString("en-IN", { minimumFractionDigits: 2 });
+  pane.innerHTML = `
+    <div class="panel" style="margin-bottom:16px">
+      <h2 style="margin-top:0">Details on every invoice</h2>
+      <p class="${ready ? "ok" : "note"}" style="margin:0 0 14px">${ready ? "Complete. Every online payment gets a GST invoice, emailed to the buyer with a copy to info@daskies.com." : "Fill these in before online payments open. Until then nobody can pay online, so no payment ever goes without an invoice."}</p>
+      <form id="invset" class="grid" novalidate>
+        <div class="row2">${f("is_legal", "Name exactly as on your GST registration <span class=\"req\">*</span>", s.legal_name, 'maxlength="160"', "GST invoices must show the registered name. Check the spelling with your GST certificate.")}${f("is_trade", "Trade name", s.trade_name || "DASKIES", 'maxlength="80"')}</div>
+        <div class="row2">${f("is_gstin", "GSTIN <span class=\"req\">*</span>", s.gstin, 'maxlength="15" style="text-transform:uppercase"')}${f("is_email", "Invoice email", s.email || "info@daskies.com", 'type="email" maxlength="120"')}</div>
+        ${f("is_addr", "Registered address <span class=\"req\">*</span>", s.address, 'maxlength="300"')}
+        <div class="row3">${f("is_city", "City <span class=\"req\">*</span>", s.city, 'maxlength="80"')}${f("is_state", "State <span class=\"req\">*</span>", s.state, 'maxlength="80"')}${f("is_pin", "PIN code <span class=\"req\">*</span>", s.postal_code, 'inputmode="numeric" maxlength="6"')}</div>
+        <div class="row3">${f("is_sacm", "SAC code: membership", s.sac_membership || "998599", 'inputmode="numeric" maxlength="8"', "Confirm with your CA.")}${f("is_sacf", "SAC code: success fee", s.sac_fee || "998599", 'inputmode="numeric" maxlength="8"', "Confirm with your CA.")}${f("is_lut", "LUT number (optional)", s.lut_number, 'maxlength="40"', "With an LUT, buyers outside India pay without GST.")}</div>
+        <p class="err" id="ismsg" role="alert" hidden></p>
+        <div><button class="btn btn-primary" id="issave">Save details</button></div>
+      </form>
+    </div>
+    ${missing.length ? `<div class="panel" style="margin-bottom:16px"><h2 style="margin-top:0">Paid, waiting for an invoice</h2><p class="small muted">These were paid before the details above were complete.</p>
+      <div class="tablewrap"><table class="list"><tbody>${missing.map((p) => `<tr><td>${esc(p.description || p.kind)}</td><td>${esc(day(p.paid_at))}</td><td>${rs(p.amount_paise)}</td><td><button class="btn btn-ghost btn-sm" data-issue="${esc(p.id)}" type="button"${ready ? "" : " disabled"}>Issue and email invoice</button></td></tr>`).join("")}</tbody></table></div></div>` : ""}
+    <div class="panel"><h2 style="margin-top:0">Invoices issued</h2>
+      ${(invs || []).length ? `<div class="tablewrap"><table class="list"><thead><tr><th>Invoice</th><th>Date</th><th>Buyer</th><th>Amount</th><th>Email</th><th></th></tr></thead><tbody>${invs.map((i) => `<tr>
+        <td><a href="invoice.html?id=${esc(i.id)}">${esc(i.number)}</a></td><td>${esc(day(i.issued_at))}</td><td>${esc(i.buyer?.business || i.buyer?.name || "")}</td><td>${rs(i.total_paise)}</td>
+        <td class="small">${i.emailed_at ? `Sent to ${esc(i.email_to)}, ${esc(when(i.emailed_at))}` : i.email_error ? `<span class="err" style="display:inline">${esc(i.email_error)}</span>` : "Not sent yet"}</td>
+        <td><button class="btn btn-quiet btn-sm" data-send="${esc(i.id)}" type="button">${i.emailed_at ? "Send again" : "Send"}</button></td></tr>`).join("")}</tbody></table></div>`
+      : `<p class="muted" style="margin:0">No invoices yet. The first one is issued with the first online payment.</p>`}</div>`;
+
+  $("#invset").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const g = (id) => $("#" + id).value.trim();
+    const row = { legal_name: g("is_legal") || null, trade_name: g("is_trade") || "DASKIES", gstin: g("is_gstin").toUpperCase() || null, email: g("is_email") || "info@daskies.com",
+      address: g("is_addr") || null, city: g("is_city") || null, state: g("is_state") || null, postal_code: g("is_pin") || null,
+      sac_membership: g("is_sacm") || "998599", sac_fee: g("is_sacf") || "998599", lut_number: g("is_lut") || null, updated_at: new Date().toISOString() };
+    const probs = [];
+    if (row.gstin && !/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(row.gstin)) probs.push("a GSTIN in the right format (15 characters, like 24ABCDE1234F1Z5)");
+    if (row.postal_code && !/^[0-9]{6}$/.test(row.postal_code)) probs.push("a 6-digit PIN code");
+    if (!/^[0-9]{4,8}$/.test(row.sac_membership) || !/^[0-9]{4,8}$/.test(row.sac_fee)) probs.push("SAC codes of 4 to 8 digits");
+    const msg = $("#ismsg");
+    if (probs.length) { msg.textContent = "Please check: " + probs.join("; ") + "."; msg.hidden = false; return; }
+    msg.hidden = true;
+    const btn = $("#issave"); busy(btn, true, "Saving…");
+    const { error } = await sb.from("invoice_settings").update(row).eq("id", 1);
+    if (error) { busy(btn, false); msg.textContent = errMsg(error); msg.hidden = false; return; }
+    toast("Saved."); show();
+  });
+  pane.onclick = async (e) => {
+    const s1 = e.target.closest("[data-send]"), s2 = e.target.closest("[data-issue]");
+    if (s1) {
+      busy(s1, true, "Sending…");
+      const { data, error } = await sb.functions.invoke("send-invoice", { body: { invoice_id: s1.dataset.send, force: true } });
+      if (error || data?.error) { toast(data?.error || errMsg(error), true); busy(s1, false); return; }
+      toast(data?.to ? "Sent to " + data.to + "." : "Sent."); show();
+    } else if (s2) {
+      busy(s2, true, "Issuing…");
+      const { data: id, error } = await sb.rpc("issue_invoice", { p_payment: s2.dataset.issue });
+      if (error || !id) { toast(error ? errMsg(error) : "Fill in the details first.", true); busy(s2, false); return; }
+      const r = await sb.functions.invoke("send-invoice", { body: { invoice_id: id } });
+      toast(r.error || r.data?.error ? "Invoice issued. The email didn't go: " + (r.data?.error || errMsg(r.error)) : "Invoice issued and emailed."); show();
+    }
+  };
 }
 
 async function listings() {

@@ -1,5 +1,5 @@
 // Plain content pages (pricing, terms, privacy, refunds): shared header and footer only.
-import { header } from "./core.js?v=d346f730";
+import { header } from "./core.js?v=bfd62387";
 await header(location.pathname.replace(/^\//, "") || "index.html");
 // Inline WhatsApp buttons (Contact page): same chat as the floating button.
 document.addEventListener("click", (e) => {

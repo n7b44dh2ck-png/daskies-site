@@ -27,6 +27,22 @@ function same(a: string, b: string) {
   return d === 0;
 }
 
+// The database issues the invoice when the payment is recorded; send-invoice emails it to the buyer.
+async function emailInvoice(admin: any, url: string, order: string) {
+  try {
+    const { data: pm } = await admin.from("payments").select("id").eq("razorpay_order_id", order).maybeSingle();
+    if (!pm) return;
+    const r = await fetch(url + "/functions/v1/send-invoice", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + supaKey("secret") }, body: JSON.stringify({ payment_id: pm.id }) });
+    if (!r.ok) console.error("send-invoice", r.status, await r.text().catch(() => ""));
+  } catch (e) { console.error("send-invoice call", e); }
+}
+// Runs after the reply has gone back, where the platform allows it.
+function afterReply(job: Promise<unknown>) {
+  const rt = (globalThis as any).EdgeRuntime;
+  if (rt?.waitUntil) { rt.waitUntil(job); return Promise.resolve(); }
+  return job;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
   if (req.method !== "POST") return json({ error: "Use POST." }, 405);
@@ -48,6 +64,7 @@ Deno.serve(async (req) => {
     if (!p || p.user_id !== user.id) return json({ error: "We couldn't find this payment." }, 404);
     const { data: result, error } = await admin.rpc("apply_payment", { p_order: order, p_payment: payment });
     if (error) { console.error("apply_payment", error.message); return json({ error: "Your payment went through; we're still recording it. Refresh in a minute." }, 500); }
+    await afterReply(emailInvoice(admin, url, order));
     return json({ ok: true, result, kind: p.kind });
   } catch (e) {
     console.error("pay-verify", e);
