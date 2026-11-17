@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="assets/boot.js?v=cefb177f"></script>
-<script src="assets/fx.js?v=cefb177f"></script>
+<script src="assets/boot.js?v=4ba99858"></script>
+<script src="assets/fx.js?v=4ba99858"></script>
 <title>DASKIES: lease, buy, sell or barter industrial capacity in India</title>
 <meta name="description" content="DASKIES is the business network for Indian industry. Lease idle factories and machines, buy and sell used machinery, storage and bulk commodities, or swap them in two-, three- and four-party barter deals.">
 <!-- seo -->
@@ -123,6 +123,41 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#A9B6B3}
 .balance .bn{font-size:14px;color:var(--muted)}
 .desk-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}
 
+/* leasing: short term / long term */
+.lease{background:var(--surface);border-bottom:1px solid var(--line)}
+.lz-ruler{display:grid;grid-template-columns:repeat(6,1fr);gap:0 18px;border-top:2px solid var(--ink);padding-top:12px;margin-top:6px;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 22px) top left/100% 7px no-repeat}
+.lz-ruler span{position:relative;font-weight:700;font-size:14px}
+.lz-ruler span::before{content:"";position:absolute;left:0;top:-14px;width:2px;height:14px;background:var(--ink)}
+.lz-items{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.lz-gh{margin:0 0 16px;padding:7px 12px;font-size:15px;font-weight:750;font-stretch:100%;letter-spacing:0;border-radius:3px;background:var(--accent-tint);color:var(--accent-dk)}
+.lz-l .lz-gh{background:var(--plum-tint);color:#8A4A1F}
+.lz-group ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.lz-group li{border-top:3px solid var(--accent);padding-top:14px}
+.lz-l li{border-top-color:var(--plum)}
+.lz-dur{display:block;font-size:14px;font-weight:700;color:var(--accent-dk);margin-bottom:4px}
+.lz-l .lz-dur{color:#8A4A1F}
+.lz-group h4{font-size:1.08rem;line-height:1.25;margin:0 0 6px;font-weight:800}
+.lz-group p{margin:0;font-size:15px;line-height:1.5;color:var(--muted)}
+.lz-cta{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+.lz-cta>div{display:flex;flex-direction:column;align-items:flex-start}
+.lz-cta .btn{margin-top:auto}
+.lz-cta>.lz-global{background:var(--charcoal);border-color:var(--charcoal);color:#fff}
+.lz-cta .lz-global p{color:rgba(255,255,255,.82)}
+.lz-global .btn-light{background:#fff;color:var(--ink)}.lz-global .btn-light:hover{background:var(--accent-tint)}
+.lz-cta>div{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px}
+.lz-cta h3{font-size:1.2rem;margin:0 0 6px}
+.lz-cta p{margin:0 0 16px;color:var(--muted)}
+.lz-more{margin:18px 0 0;font-size:15px}
+@media (max-width:1060px){
+  .lz-scale{display:none}
+  .lz-items{grid-template-columns:1fr;gap:32px;margin-top:0}
+}
+@media (max-width:1060px){.lz-cta{grid-template-columns:1fr 1fr}.lz-cta>.lz-global{grid-column:1/-1}}
+@media (max-width:700px){
+  .lz-group ol{grid-template-columns:1fr}
+  .lz-cta{grid-template-columns:1fr}
+}
 /* band + ticker */
 .band{background:var(--blush);color:var(--ink);padding:44px 0 0;overflow:hidden}
 .band-row{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
@@ -198,7 +233,7 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#A9B6B3}
 .price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
 .lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
-/* live listings (filled from the database by assets/home-live.js?v=cefb177f) */
+/* live listings (filled from the database by assets/home-live.js?v=4ba99858) */
 .live-block{margin-bottom:40px}
 .live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
 .live-head h3{margin:0}
@@ -699,13 +734,51 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   </div>
 </section>
 
-<section class="band" aria-label="Opportunities">
-  <div class="wrap band-row">
-    <h2 class="d2">New opportunities every week</h2>
-    <p>Factory space, machines, storage and goods are added every week. Members see full details and who to contact.</p>
-  </div>
-  <div class="ticker" aria-label="Sample opportunities">
-    <div class="ticker-track" id="ticker"></div>
+<section class="sec lease" id="lease" aria-labelledby="leaseTitle">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="d2" id="leaseTitle">Manufacturers: lease short term or long term</h2>
+      <p class="lede">Need capacity without buying a plant? Or have a shed, line or machine standing idle? Lease it for a few days or for years, or tie up with global buyers for contract manufacturing.</p>
+    </div>
+    <div class="lz-scale" aria-hidden="true">
+      <div class="lz-ruler"><span>Days</span><span>Weeks</span><span>Months</span><span>1 year</span><span>3 years</span><span>10 years+</span></div>
+    </div>
+    <div class="lz-items">
+      <div class="lz-group lz-s">
+        <h3 class="lz-gh">Short term</h3>
+        <ol>
+          <li><span class="lz-dur">Days to weeks</span><h4>Machine hire</h4><p>CNC machines, presses and moulding machines for a trial run or a one-off job.</p></li>
+          <li><span class="lz-dur">Weeks to months</span><h4>Spare shifts and job work</h4><p>Another factory's idle shift and staff produce for you, with no new hiring.</p></li>
+          <li><span class="lz-dur">For the season</span><h4>Seasonal storage</h4><p>Godowns, cold rooms and tanks while stock or a harvest moves.</p></li>
+        </ol>
+      </div>
+      <div class="lz-group lz-l">
+        <h3 class="lz-gh">Long term</h3>
+        <ol>
+          <li><span class="lz-dur">A year or more</span><h4>Production lines</h4><p>A complete running line, with or without its operators.</p></li>
+          <li><span class="lz-dur">Several years</span><h4>Factory sheds and warehouses</h4><p>Ready space with power and approvals, instead of building your own.</p></li>
+          <li><span class="lz-dur">Ten years or more</span><h4>Lease-to-own and plots</h4><p>Machines you pay off and keep, and industrial plots on long lease.</p></li>
+        </ol>
+      </div>
+    </div>
+    <div class="lz-cta">
+      <div>
+        <h3>Have something standing idle?</h3>
+        <p>Lease it out and turn a fixed cost into monthly rent.</p>
+        <a class="btn btn-primary" href="post.html?kind=offer&amp;v=industrial">List it for lease</a>
+      </div>
+      <div>
+        <h3>Need capacity?</h3>
+        <p>Lease instead of buying, and keep your capital for growth.</p>
+        <a class="btn btn-ghost" href="post.html?kind=need&amp;v=industrial">Post what you need</a>
+      </div>
+      <div class="lz-global">
+        <h3>Make for global buyers</h3>
+        <p>Importers and brands in the US, Europe, the Gulf and Africa come to DASKIES for Indian factories that can make for them under contract.</p>
+        <a class="btn btn-light" href="post.html?kind=offer&amp;v=industrial">Offer contract manufacturing</a>
+      </div>
+    </div>
+    <p class="lz-more"><a href="leasing.html">How industrial leasing works on DASKIES</a></p>
   </div>
 </section>
 
@@ -1231,7 +1304,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     return "₹"+(Math.round(v*10)/10).toString()+" lakh";
   }
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-  // Prices follow the visitor's currency (assets/fx.js?v=cefb177f): rupees in India, approximate US dollars elsewhere.
+  // Prices follow the visitor's currency (assets/fx.js?v=4ba99858): rupees in India, approximate US dollars elsewhere.
   var FX=window.DSKFX||null;
   function usd(){ return !!(FX && FX.eff()==="USD"); }
   function fmtC(v){ var l=FX&&FX.label(v*1e5,"INR"); return l||fmt(v); }
@@ -1268,7 +1341,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
 
   // Ticker (duplicated for seamless loop)
   var tick = LIST.slice(0,9).map(function(l){return '<span><i></i><b>'+esc(DEAL[l.deal])+'</b>'+esc(l.title)+'<small>'+esc(l.where.split(",")[0])+'</small></span>'}).join("");
-  $("#ticker").innerHTML = '<span><i></i><b>Sample</b>Opportunities shown are examples</span>'+tick+'<span aria-hidden="true"><i></i><b>Sample</b>Opportunities shown are examples</span>'+tick;
+  var tkEl=$("#ticker"); if(tkEl) tkEl.innerHTML = '<span><i></i><b>Sample</b>Opportunities shown are examples</span>'+tick+'<span aria-hidden="true"><i></i><b>Sample</b>Opportunities shown are examples</span>'+tick;
 
   var CAT_PAGE={"infra": "construction.html", "lease": "leasing.html", "machines": "machines.html", "tech": "technology.html", "agri": "agri.html", "storage": "storage.html"};
   $("#footCats").innerHTML = CATS.map(function(c){return '<li><a href="'+CAT_PAGE[c.id]+'">'+esc(c.name)+'</a></li>'}).join("");
@@ -1632,7 +1705,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   function load(code){
     if(code==="en") return Promise.resolve(null);
     if(cache[code]) return Promise.resolve(cache[code]);
-    return fetch("/i18n/"+code+".json?v=cefb177f").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
+    return fetch("/i18n/"+code+".json?v=4ba99858").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
   }
   var langWrap=$("#lang"), langBtn=$("#langBtn");
   function markMenu(code){
@@ -1694,6 +1767,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   }
 })();
 </script>
-<script type="module" src="assets/home-live.js?v=cefb177f"></script>
+<script type="module" src="assets/home-live.js?v=4ba99858"></script>
 </body>
 </html>
