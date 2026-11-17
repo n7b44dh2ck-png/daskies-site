@@ -1,6 +1,6 @@
-import { sb, $, $$, esc, qs, header, requireAuth, money, when, day, errMsg, busy, toast, levelBadge, pagehead } from "./core.js?v=10fbaccf";
-import { paymentsOn, pay } from "./pay.js?v=10fbaccf";
-import { DEAL_STAGES as STAGES, DEAL_KINDS as KIND } from "./taxonomy.js?v=10fbaccf";
+import { sb, $, $$, esc, qs, header, requireAuth, money, when, day, errMsg, busy, toast, levelBadge, pagehead } from "./core.js?v=cefb177f";
+import { paymentsOn, pay } from "./pay.js?v=cefb177f";
+import { DEAL_STAGES as STAGES, DEAL_KINDS as KIND } from "./taxonomy.js?v=cefb177f";
 
 await header("dashboard.html");
 const m = await requireAuth();

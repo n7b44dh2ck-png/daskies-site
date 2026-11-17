@@ -50,7 +50,7 @@ PAGES = {
                    "Join DASKIES free. Full membership is ₹15,000 + GST for 90 days. A success fee applies only when a deal contract is signed.", True, "Pricing", "0.6"),
   "about.html": ("About DASKIES: putting India's idle industrial capacity to work",
                  "DASKIES connects businesses that have idle machines, sheds, storage and stock with businesses that need them, in India and across the world.", True, "About us", "0.6"),
-  "contact.html": ("Contact DASKIES", "Contact DASKIES Group at info@daskies.com.", True, "Contact us", "0.5"),
+  "contact.html": ("Contact DASKIES", "Contact DASKIES Group at info@daskies.com. Office: off Sindhu Bhavan Road, Bodakdev, Ahmedabad.", True, "Contact us", "0.5"),
   "terms.html": ("Terms of use | DASKIES", "The terms for using DASKIES, including membership, listings, deals and the success fee.", True, "Terms", "0.3"),
   "privacy.html": ("Privacy policy | DASKIES", "What DASKIES collects, who can see it, and how to correct or delete your information.", True, "Privacy", "0.3"),
   "refunds.html": ("Refunds and cancellations | DASKIES", "How DASKIES handles refunds, cancellations and payments made in error.", True, "Refunds and cancellations", "0.3"),
@@ -73,7 +73,7 @@ ICONS = ('<link rel="icon" href="/favicon.svg" type="image/svg+xml">\n'
 
 ORG = {"@type": "Organization", "@id": SITE + "/#org", "name": "DASKIES", "url": SITE + "/", "logo": SITE + "/assets/logo-512.png",
        "email": "info@daskies.com", "areaServed": "IN",
-       "address": {"@type": "PostalAddress", "addressLocality": "Ahmedabad", "addressRegion": "Gujarat", "addressCountry": "IN"},
+       "address": {"@type": "PostalAddress", "streetAddress": "Zion, near Avalon Hotel, off Sindhu Bhavan Road, Bodakdev", "postalCode": "380054", "addressLocality": "Ahmedabad", "addressRegion": "Gujarat", "addressCountry": "IN"},
        "description": "The business network for Indian industry: lease, buy, sell, barter or donate machines, space, capacity and stock.",
        "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "info@daskies.com", "availableLanguage": ["English", "Hindi", "Gujarati"]}}
 WEBSITE = {"@type": "WebSite", "@id": SITE + "/#website", "name": "DASKIES", "url": SITE + "/", "publisher": {"@id": SITE + "/#org"}, "inLanguage": "en-IN",

@@ -479,3 +479,5 @@ main.wrap{padding-top:28px;padding-bottom:88px} /* .wrap's side padding used to 
 .swaps p{margin:0;font-size:.95rem;line-height:1.55}
 @media (max-width:900px){.swaps{grid-template-columns:1fr}}
 @media (max-width:700px){.aboutcats{grid-template-columns:1fr}}
+
+.office{font-style:normal;line-height:1.65;font-size:1.02rem;margin:4px 0 0;padding-left:14px;border-left:3px solid var(--accent)}

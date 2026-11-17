@@ -1,5 +1,5 @@
-import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=10fbaccf";
-import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=10fbaccf";
+import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=cefb177f";
+import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=cefb177f";
 
 const m = await header("explore.html");
 const main = $("#main");

@@ -1,7 +1,7 @@
-import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord, pagehead } from "./core.js?v=10fbaccf";
-import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=10fbaccf";
-import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=10fbaccf";
-import { paymentsOn } from "./pay.js?v=10fbaccf";
+import { sb, $, $$, esc, qs, header, requireAuth, card, money, when, day, errMsg, busy, toast, levelBadge, statusWord, pagehead } from "./core.js?v=cefb177f";
+import { detailsFields, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=cefb177f";
+import { ROLES, DOC_KINDS, LEVELS, LEVEL_NOTE, vertical, DEAL_KINDS, stageName, defaultDealKind } from "./taxonomy.js?v=cefb177f";
+import { paymentsOn } from "./pay.js?v=cefb177f";
 
 await header("dashboard.html");
 const m = await requireAuth();
@@ -237,7 +237,7 @@ async function profile() {
     try {
       await saveDetails(m, d, { industry: v("bi") || null, year_established: v("by") ? Number(v("by")) : null, products: v("bpr") || null,
         website: v("bw") || null, certifications: v("bce") || null, export_import: $("#bx").checked });
-      toast("Profile saved."); await (await import("./core.js?v=10fbaccf")).me(true); location.reload();
+      toast("Profile saved."); await (await import("./core.js?v=cefb177f")).me(true); location.reload();
     } catch (err) { $("#bmsg").textContent = errMsg(err); busy(btn, false); }
   });
   const lf = $("#lf");
