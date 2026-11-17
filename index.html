@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="assets/boot.js?v=ee644fd6"></script>
-<script src="assets/fx.js?v=ee644fd6"></script>
+<script src="assets/boot.js?v=10fbaccf"></script>
+<script src="assets/fx.js?v=10fbaccf"></script>
 <title>DASKIES: lease, buy, sell or barter industrial capacity in India</title>
 <meta name="description" content="DASKIES is the business network for Indian industry. Lease idle factories and machines, buy and sell used machinery, storage and bulk commodities, or swap them in two-, three- and four-party barter deals.">
 <!-- seo -->
@@ -28,7 +28,7 @@
 <meta name="twitter:title" content="DASKIES: lease, buy, sell or barter industrial capacity in India">
 <meta name="twitter:description" content="DASKIES is the business network for Indian industry. Lease idle factories and machines, buy and sell used machinery, storage and bulk commodities, or swap them in two-, three- and four-party barter deals.">
 <meta name="twitter:image" content="https://daskies.com/assets/og.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://daskies.com/#org","name":"DASKIES","url":"https://daskies.com/","logo":"https://daskies.com/assets/logo-512.png","email":"info@daskies.com","areaServed":"IN","description":"The business network for Indian industry: lease, buy, sell, barter or donate machines, space, capacity and stock.","contactPoint":{"@type":"ContactPoint","contactType":"customer support","email":"info@daskies.com","availableLanguage":["English","Hindi","Gujarati"]}},{"@type":"WebSite","@id":"https://daskies.com/#website","name":"DASKIES","url":"https://daskies.com/","publisher":{"@id":"https://daskies.com/#org"},"inLanguage":"en-IN","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://daskies.com/explore.html?q={search_term_string}"},"query-input":"required name=search_term_string"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://daskies.com/#org","name":"DASKIES","url":"https://daskies.com/","logo":"https://daskies.com/assets/logo-512.png","email":"info@daskies.com","areaServed":"IN","address":{"@type":"PostalAddress","addressLocality":"Ahmedabad","addressRegion":"Gujarat","addressCountry":"IN"},"description":"The business network for Indian industry: lease, buy, sell, barter or donate machines, space, capacity and stock.","contactPoint":{"@type":"ContactPoint","contactType":"customer support","email":"info@daskies.com","availableLanguage":["English","Hindi","Gujarati"]}},{"@type":"WebSite","@id":"https://daskies.com/#website","name":"DASKIES","url":"https://daskies.com/","publisher":{"@id":"https://daskies.com/#org"},"inLanguage":"en-IN","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://daskies.com/explore.html?q={search_term_string}"},"query-input":"required name=search_term_string"}}]}</script>
 <!-- /seo -->
 <script>if(/^\/members/.test(location.pathname)||location.hash==="#members")document.documentElement.classList.add("members-mode");</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -198,7 +198,7 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#A9B6B3}
 .price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
 .lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
-/* live listings (filled from the database by assets/home-live.js?v=ee644fd6) */
+/* live listings (filled from the database by assets/home-live.js?v=10fbaccf) */
 .live-block{margin-bottom:40px}
 .live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
 .live-head h3{margin:0}
@@ -792,7 +792,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
         </div>
         <div class="field">
           <label class="flabel" for="gNote">In a few words (optional)</label>
-          <textarea id="gNote" name="note" maxlength="500" style="min-height:80px" placeholder="e.g. 2 CNC machines to sell in Rajkot"></textarea>
+          <textarea id="gNote" name="note" maxlength="500" style="min-height:80px" placeholder="e.g. 2 CNC machines to sell in Ahmedabad"></textarea>
         </div>
         <button class="btn btn-primary" type="submit" id="regSubmit" style="width:100%">Register free</button>
         <p class="privacy">We never show your phone or email in public.</p>
@@ -1206,20 +1206,20 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
 
   // Sample listings (clearly labelled as samples in the UI). value is in ₹ lakh.
   var LIST = [
-    {cat:"machines", deal:"Sale", title:"CNC vertical machining centre, 2019", where:"Rajkot, Gujarat", value:28, unit:""},
+    {cat:"machines", deal:"Sale", title:"CNC vertical machining centre, 2019", where:"Vatva, Ahmedabad", value:28, unit:""},
     {cat:"machines", deal:"Barter", title:"Injection moulding machine, 250 tonne", where:"Ahmedabad, Gujarat", value:22, unit:""},
     {cat:"machines", deal:"Sale", title:"Form-fill-seal packaging line", where:"Vadodara, Gujarat", value:14, unit:""},
-    {cat:"machines", deal:"Lease", title:"Power press line, 3 units", where:"Rajkot, Gujarat", value:35, unit:""},
-    {cat:"lease", deal:"Lease", title:"Forging unit with furnaces and staff", where:"Shapar, Rajkot", value:96, unit:"per year"},
+    {cat:"machines", deal:"Lease", title:"Power press line, 3 units", where:"Sanand, Gujarat", value:35, unit:""},
+    {cat:"lease", deal:"Lease", title:"Forging unit with furnaces and staff", where:"Changodar, Ahmedabad", value:96, unit:"per year"},
     {cat:"lease", deal:"Lease", title:"Spare night shift, CNC turning, 12 machines", where:"Ahmedabad, Gujarat", value:30, unit:"per year"},
     {cat:"lease", deal:"Barter", title:"Factory shed, 12,000 sq ft, ready power", where:"Morbi, Gujarat", value:18, unit:"per year"},
     {cat:"storage", deal:"Lease", title:"Warehouse, 40,000 sq ft near Mundra port", where:"Mundra, Kutch", value:96, unit:"per year"},
     {cat:"storage", deal:"Lease", title:"Cold storage, 2,000 MT capacity", where:"Mahuva, Bhavnagar", value:60, unit:"per year"},
     {cat:"agri", deal:"Sale", title:"Groundnut oil, 200 MT, filtered", where:"Gondal, Gujarat", value:360, unit:""},
     {cat:"agri", deal:"Sale", title:"Cumin seed, Europe grade, 50 MT", where:"Unjha, Gujarat", value:140, unit:""},
-    {cat:"infra", deal:"Group", title:"Showroom buyer group, 12 units on main road", where:"Rajkot, Gujarat", value:85, unit:"per unit"},
+    {cat:"infra", deal:"Group", title:"Showroom buyer group, 12 units on main road", where:"Gandhinagar, Gujarat", value:85, unit:"per unit"},
     {cat:"infra", deal:"Group", title:"Office buyer group for doctors and CAs", where:"Ahmedabad, Gujarat", value:60, unit:"per unit"},
-    {cat:"infra", deal:"Sale", title:"Industrial plot, 4 acres, NA approved", where:"Shapar, Rajkot", value:380, unit:""},
+    {cat:"infra", deal:"Sale", title:"Industrial plot, 4 acres, NA approved", where:"Bavla, Ahmedabad", value:380, unit:""},
     {cat:"infra", deal:"Barter", title:"Commercial complex seeking JV partner", where:"Ahmedabad, Gujarat", value:1200, unit:""},
     {cat:"tech", deal:"Sale", title:"ERP for SME manufacturers, source licence", where:"Pune, Maharashtra", value:12, unit:""},
     {cat:"tech", deal:"Lease", title:"IoT energy monitoring kit, 50 meters", where:"Vadodara, Gujarat", value:6, unit:""}
@@ -1231,7 +1231,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
     return "₹"+(Math.round(v*10)/10).toString()+" lakh";
   }
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-  // Prices follow the visitor's currency (assets/fx.js?v=ee644fd6): rupees in India, approximate US dollars elsewhere.
+  // Prices follow the visitor's currency (assets/fx.js?v=10fbaccf): rupees in India, approximate US dollars elsewhere.
   var FX=window.DSKFX||null;
   function usd(){ return !!(FX && FX.eff()==="USD"); }
   function fmtC(v){ var l=FX&&FX.label(v*1e5,"INR"); return l||fmt(v); }
@@ -1632,7 +1632,7 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   function load(code){
     if(code==="en") return Promise.resolve(null);
     if(cache[code]) return Promise.resolve(cache[code]);
-    return fetch("/i18n/"+code+".json?v=ee644fd6").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
+    return fetch("/i18n/"+code+".json?v=10fbaccf").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
   }
   var langWrap=$("#lang"), langBtn=$("#langBtn");
   function markMenu(code){
@@ -1694,6 +1694,6 @@ html[lang="hi"] body{font-family:"Archivo","Noto Sans Devanagari",system-ui,sans
   }
 })();
 </script>
-<script type="module" src="assets/home-live.js?v=ee644fd6"></script>
+<script type="module" src="assets/home-live.js?v=10fbaccf"></script>
 </body>
 </html>

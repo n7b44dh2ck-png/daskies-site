@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=ee644fd6";
-import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=ee644fd6";
+import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=10fbaccf";
+import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=10fbaccf";
 
 await header("explore.html");
 const main = $("#main");
@@ -30,7 +30,7 @@ main.innerHTML = `
       <div class="field"><label for="v">Vertical</label><select id="v"><option value="">All six verticals</option>${VERTICALS.map((x) => `<option value="${x.id}">${esc(x.name)}</option>`).join("")}</select></div>
       <div class="field"><label for="s">Category</label><select id="s"></select></div>
       <div class="field"><label for="d">Deal type</label><select id="d"><option value="">Any</option>${DEAL_TYPES.map((x) => `<option>${x}</option>`).join("")}</select></div>
-      <div class="field"><label for="c">City or country</label><input id="c" value="${esc(st.c)}" placeholder="e.g. Rajkot, Dubai"></div>
+      <div class="field"><label for="c">City or country</label><input id="c" value="${esc(st.c)}" placeholder="e.g. Ahmedabad, Dubai"></div>
       <div class="field"><label for="sort">Sort</label><select id="sort"><option value="new">Newest first</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div>
       <button class="btn btn-ghost btn-sm" type="button" id="clear">Clear filters</button>
     </aside></details>

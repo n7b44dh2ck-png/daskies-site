@@ -73,6 +73,7 @@ ICONS = ('<link rel="icon" href="/favicon.svg" type="image/svg+xml">\n'
 
 ORG = {"@type": "Organization", "@id": SITE + "/#org", "name": "DASKIES", "url": SITE + "/", "logo": SITE + "/assets/logo-512.png",
        "email": "info@daskies.com", "areaServed": "IN",
+       "address": {"@type": "PostalAddress", "addressLocality": "Ahmedabad", "addressRegion": "Gujarat", "addressCountry": "IN"},
        "description": "The business network for Indian industry: lease, buy, sell, barter or donate machines, space, capacity and stock.",
        "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "info@daskies.com", "availableLanguage": ["English", "Hindi", "Gujarati"]}}
 WEBSITE = {"@type": "WebSite", "@id": SITE + "/#website", "name": "DASKIES", "url": SITE + "/", "publisher": {"@id": SITE + "/#org"}, "inLanguage": "en-IN",

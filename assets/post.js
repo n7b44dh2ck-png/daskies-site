@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl, pagehead } from "./core.js?v=ee644fd6";
-import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=ee644fd6";
+import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl, pagehead } from "./core.js?v=10fbaccf";
+import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=10fbaccf";
 
 await header("post.html?kind=" + (qs("kind") === "offer" ? "offer" : "need"));
 const m = await requireAuth();
@@ -86,7 +86,7 @@ function render() {
         <div class="field"><label for="vert">Vertical</label><select id="vert" required><option value="">Choose a vertical</option>${VERTICALS.map((x) => `<option value="${x.id}"${x.id === L.vertical ? " selected" : ""}>${esc(x.name)}</option>`).join("")}</select>${v ? `<span class="hint">${esc(v.blurb)}</span>` : ""}</div>
         <div class="field"><label for="sub">Category</label><select id="sub" required ${v ? "" : "disabled"}><option value="">Choose a category</option>${subcats(L.vertical).map(([g, items]) => `<optgroup label="${esc(g)}">${items.map((i) => `<option${i === L.subcategory ? " selected" : ""}>${esc(i)}</option>`).join("")}</optgroup>`).join("")}</select></div>
       </div>
-      <div class="field"><label for="title">Title</label><input id="title" required minlength="4" maxlength="140" value="${esc(L.title || "")}" placeholder="${L.kind === "offer" ? "e.g. CNC vertical machining centre, 2019, Rajkot" : "e.g. Need 5,000 MT soybean degummed oil at Kandla"}"></div>
+      <div class="field"><label for="title">Title</label><input id="title" required minlength="4" maxlength="140" value="${esc(L.title || "")}" placeholder="${L.kind === "offer" ? "e.g. CNC vertical machining centre, 2019, Ahmedabad" : "e.g. Need 5,000 MT soybean degummed oil at Kandla"}"></div>
       <div class="field"><label for="desc">Description</label><textarea id="desc" maxlength="5000" placeholder="Condition, specifications, terms, timeline, anything a serious buyer or seller needs to know">${esc(L.description || "")}</textarea></div>
       <div class="field"><span class="flabel">Deal types</span><div class="checks">${DEAL_TYPES.map((d) => `<label><input type="checkbox" name="deal" value="${d}"${(L.deal_types || []).includes(d) ? " checked" : ""}> ${d}</label>`).join("")}</div></div>
     </div>
