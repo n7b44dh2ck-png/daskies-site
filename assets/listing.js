@@ -1,5 +1,5 @@
-import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=da45f87b";
-import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=da45f87b";
+import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=3dfed3ba";
+import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=3dfed3ba";
 
 const id = qs("id");
 // Fetch the listing while the header loads the member, not after it.
