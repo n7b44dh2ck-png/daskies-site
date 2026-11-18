@@ -1,5 +1,5 @@
-import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=b60813cd";
-import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=b60813cd";
+import { completeUrl, sb, $, esc, qs, header, card, money, price, day, photoUrl, levelBadge, errMsg, busy, toast, statusWord, vicon } from "./core.js?v=da45f87b";
+import { vertical, isOil, LEVEL_NOTE, DEAL_KINDS, defaultDealKind } from "./taxonomy.js?v=da45f87b";
 
 const id = qs("id");
 // Fetch the listing while the header loads the member, not after it.
@@ -71,11 +71,12 @@ main.innerHTML = `
         <div class="bigprice">${price(l.price, l.currency, l.price_unit)}</div>
         ${l.price ? `<span class="small muted" style="display:block" data-fxnote data-c="${esc(l.currency || "INR")}" data-o="${esc(money(l.price, l.currency, l.price_unit))}" hidden></span>` : ""}
         ${l.quantity ? `<ul class="pfacts"><li><span>Quantity</span><b>${esc(l.quantity)} ${esc(l.quantity_unit || "")}</b></li></ul>` : ""}
+        ${l.details && l.details.legal_help && m.profile && m.profile.is_admin ? `<p class="legal-flag">The owner asked for help with the legal and tax paperwork. Send them a quote.</p>` : ""}
         <div class="actbox" id="act"></div>
         ${l.status === "approved" ? `<div class="sharebox"><button class="btn btn-wa btn-sm" type="button" id="shareWa"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 0 0-7.4 12.7L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5z"/></svg>Share on WhatsApp</button><button class="btn btn-ghost btn-sm" type="button" id="shareCopy">Copy link</button></div>` : ""}
       </section>
       ${l.managed ? `<section class="panel">
-        <p class="plabel">Listed by</p>
+        <p class="plabel">${l.kind === "need" ? "Wanted by" : "Offered by"}</p>
         <h3 style="margin-top:4px">DASKIES, on the owner's behalf</h3>
         <p class="small" style="margin:0 0 8px">The owner asked DASKIES to list this for them. The DASKIES team answers enquiries and introduces serious buyers to the owner.</p>
         <p class="hint" style="margin:0">Ask for documents and an inspection before any deal.</p>

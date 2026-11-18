@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="assets/boot.js?v=b60813cd"></script>
+<script src="assets/boot.js?v=da45f87b"></script>
 <!-- perf -->
 <link rel="preconnect" href="https://auqhmkdeurfexrtzylyd.supabase.co" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="modulepreload" href="assets/home-live.js?v=b60813cd">
-<link rel="modulepreload" href="assets/core.js?v=b60813cd">
-<link rel="modulepreload" href="assets/config.js?v=b60813cd">
-<link rel="modulepreload" href="assets/taxonomy.js?v=b60813cd">
+<link rel="modulepreload" href="assets/home-live.js?v=da45f87b">
+<link rel="modulepreload" href="assets/core.js?v=da45f87b">
+<link rel="modulepreload" href="assets/config.js?v=da45f87b">
+<link rel="modulepreload" href="assets/taxonomy.js?v=da45f87b">
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/auth-js@2.119.0/+esm" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/postgrest-js@2.119.0/+esm" crossorigin>
@@ -22,7 +22,7 @@
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/iceberg-js@0.8.1/+esm" crossorigin>
 <script type="speculationrules">{"prerender":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"selector_matches":"[target=_blank], [download], .no-prerender"}}]},"eagerness":"moderate"}]}</script>
 <!-- /perf -->
-<script src="assets/fx.js?v=b60813cd"></script>
+<script src="assets/fx.js?v=da45f87b"></script>
 <title>DASKIES: lease, buy, sell or barter industrial capacity in India</title>
 <meta name="description" content="DASKIES is the business network for Indian industry. Lease idle factories and machines, buy and sell used machinery, storage and bulk commodities, or swap them in two-, three- and four-party barter deals.">
 <!-- seo -->
@@ -236,7 +236,7 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#A9B6B3}
 .price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
 .lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
-/* live listings (filled from the database by assets/home-live.js?v=b60813cd) */
+/* live listings (filled from the database by assets/home-live.js?v=da45f87b) */
 .live-block{margin-bottom:40px}
 .live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
 .live-head h3{margin:0}
@@ -574,6 +574,23 @@ form.callback .d3{margin-bottom:14px !important}
   .chain .leg,.chain .flow{transition:none !important}
 }
 
+
+/* who are you: offering or looking */
+.doors-sec{padding-top:8px}
+.doors{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.door{background:#fff;border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:0 0 var(--r) var(--r);padding:28px 28px 26px;display:flex;flex-direction:column;align-items:flex-start}
+.door-need{border-top-color:var(--plum)}
+.door .d2{font-size:clamp(1.5rem,2.4vw,2rem);margin:0 0 8px}
+.door p{margin:0 0 12px;line-height:1.6;color:var(--muted)}
+.door .door-who{font-weight:650;color:var(--ink)}
+.door-steps{list-style:none;counter-reset:ds;display:flex;flex-wrap:wrap;gap:8px 18px;padding:0;margin:6px 0 22px}
+.door-steps li{counter-increment:ds;display:flex;align-items:center;gap:7px;font-weight:650;font-size:15px}
+.door-steps li::before{content:counter(ds);display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent-tint);color:var(--accent-dk);font-size:13px;font-weight:800}
+.door-need .door-steps li::before{background:var(--plum-tint);color:#8A4A1F}
+.door .btn{margin-top:auto}
+.doors-legal{margin:18px 0 0;color:var(--muted);font-size:15px}
+@media (max-width:760px){.doors{grid-template-columns:1fr;gap:14px}.door{padding:22px 20px}}
+.legal-cb{display:flex;gap:8px;align-items:flex-start;font-size:15px;font-weight:550;margin:2px 0 14px;cursor:pointer}.legal-cb input{margin-top:3px;accent-color:var(--accent);width:17px;height:17px}
 /* responsive */
 @media (max-width:1200px){
   .head-row{height:60px;gap:12px}
@@ -785,6 +802,28 @@ form.callback .d3{margin-bottom:14px !important}
   </div>
 </section>
 
+<section class="sec doors-sec" id="start">
+  <div class="wrap">
+    <div class="doors">
+      <div class="door door-have">
+        <h2 class="d2">I have something to offer</h2>
+        <p class="door-who">Factories, landowners, warehouse owners, traders and technology owners</p>
+        <p>Earn rent from idle sheds, machines and shifts, sell what you no longer need, or swap it for what you do.</p>
+        <ol class="door-steps"><li>List it free</li><li>We check it</li><li>Enquiries come to you</li><li>Agree the deal</li></ol>
+        <a class="btn btn-primary" href="post.html?kind=offer">List what you have</a>
+      </div>
+      <div class="door door-need">
+        <h2 class="d2">I need something</h2>
+        <p class="door-who">Manufacturers, startups, traders and overseas importers</p>
+        <p>Lease capacity instead of buying it, buy used machines, source goods in bulk, or own property at cost.</p>
+        <ol class="door-steps"><li>Post your need</li><li>Get matches</li><li>Compare offers</li><li>Sign the deal</li></ol>
+        <a class="btn btn-ghost" href="post.html?kind=need">Post what you need</a>
+      </div>
+    </div>
+    <p class="doors-legal">Need the lease deed, sale agreement or GST paperwork done? Advocates and chartered accountants on the DASKIES panel can handle it if you need them, quoted per deal.</p>
+  </div>
+</section>
+
 <section class="sec lease" id="lease" aria-labelledby="leaseTitle">
   <div class="wrap">
     <div class="sec-head">
@@ -971,6 +1010,7 @@ form.callback .d3{margin-bottom:14px !important}
       <details><summary>Who can see my contact details?</summary><p>Only you and the DASKIES team. Other members see your business name, city and verification level, and reach you through DASKIES messages until you choose to share your number.</p></details>
       <details><summary>How does a barter deal settle?</summary><p>Both sides agree a value for what they give. If the values differ, the gap is paid in cash. When two businesses can't swap directly, DASKIES links three or four of them into one chain.</p></details>
       <details><summary>Can a foreign company lease a factory in India?</summary><p>Usually yes, within India's FEMA and FDI rules. The structure depends on your country, sector and how long you need the capacity, so take advice before you sign. Our Global Buyer Desk can help.</p></details>
+      <details><summary>Can DASKIES handle the legal paperwork?</summary><p>Yes, if you need it. Advocates and chartered accountants on the DASKIES panel prepare and check lease deeds, sale and swap agreements, title documents, stamp duty and GST. The fee is quoted per deal, before any work starts.</p></details>
       <details><summary>What does DASKIES cost?</summary><p>Joining is free. Full membership is ₹15,000 + GST for 90 days, and a success fee applies only when a deal contract is signed. Every payment comes with a GST invoice.</p></details>
     </div>
   </div>
@@ -1036,6 +1076,7 @@ form.callback .d3{margin-bottom:14px !important}
           <label class="flabel" for="gNote">In a few words (optional)</label>
           <textarea id="gNote" name="note" maxlength="500" style="min-height:80px" placeholder="e.g. 2 CNC machines to sell in Ahmedabad"></textarea>
         </div>
+        <label class="legal-cb"><input type="checkbox" name="legal-help" value="yes"> I'd also like help with the legal and tax paperwork</label>
         <button class="btn btn-primary" type="submit" id="regSubmit" style="width:100%">Request a call back</button>
         <p class="privacy">We never show your phone or email in public.</p>
       </form>
@@ -1133,7 +1174,7 @@ form.callback .d3{margin-bottom:14px !important}
     return "₹"+(Math.round(v*10)/10).toString()+" lakh";
   }
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-  // Prices follow the visitor's currency (assets/fx.js?v=b60813cd): rupees in India, approximate US dollars elsewhere.
+  // Prices follow the visitor's currency (assets/fx.js?v=da45f87b): rupees in India, approximate US dollars elsewhere.
   var FX=window.DSKFX||null;
   function usd(){ return !!(FX && FX.eff()==="USD"); }
   function fmtC(v){ var l=FX&&FX.label(v*1e5,"INR"); return l||fmt(v); }
@@ -1350,7 +1391,7 @@ form.callback .d3{margin-bottom:14px !important}
   function load(code){
     if(code==="en") return Promise.resolve(null);
     if(cache[code]) return Promise.resolve(cache[code]);
-    return fetch("/i18n/"+code+".json?v=b60813cd").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
+    return fetch("/i18n/"+code+".json?v=da45f87b").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
   }
   var langWrap=$("#lang"), langBtn=$("#langBtn");
   function markMenu(code){
@@ -1411,6 +1452,6 @@ form.callback .d3{margin-bottom:14px !important}
   }
 })();
 </script>
-<script type="module" src="assets/home-live.js?v=b60813cd"></script>
+<script type="module" src="assets/home-live.js?v=da45f87b"></script>
 </body>
 </html>

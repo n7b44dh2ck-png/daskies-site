@@ -508,3 +508,16 @@ body:not(:has(> header.hd))::before{content:"";display:block;height:69px;border-
 .sharebox{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft)}
 .btn-wa{background:#168A4B;color:#fff;border-color:#168A4B}.btn-wa:hover{background:#127A41}
 .btn-wa svg{flex:none}
+
+/* optional legal and tax paperwork, per category */
+.mk-legal{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;border:1px solid var(--line);border-left:4px solid var(--plum);background:#fff;border-radius:0 var(--r) var(--r) 0;padding:26px 28px}
+.mk-legal h2{margin-top:0}
+.mk-legal p{color:var(--muted);line-height:1.6;margin:0 0 18px}
+.mk-legal ul{margin:0;padding-left:20px}
+.mk-legal li{margin-bottom:8px;line-height:1.5}
+.mk-legal li::marker{color:var(--plum)}
+@media (max-width:760px){.mk-legal{grid-template-columns:1fr;gap:16px;padding:20px}}
+.legal-opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-left:4px solid var(--plum);background:#fff;border-radius:0 var(--r) var(--r) 0;padding:14px 16px;margin:4px 0 18px;line-height:1.5;cursor:pointer}
+.legal-opt input{margin-top:4px;accent-color:var(--accent);width:18px;height:18px;flex:none}
+.legal-opt .muted{display:block;font-size:14px}
+.legal-flag{margin:12px 0 0;padding:10px 12px;border-radius:6px;background:var(--plum-tint);color:#7A3F17;font-weight:600;font-size:14.5px}

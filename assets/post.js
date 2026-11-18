@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl, pagehead } from "./core.js?v=b60813cd";
-import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=b60813cd";
+import { sb, $, $$, esc, qs, header, requireAuth, errMsg, busy, toast, photoUrl, pagehead } from "./core.js?v=da45f87b";
+import { VERTICALS, DEAL_TYPES, CURRENCIES, subcats, vertical, isOil } from "./taxonomy.js?v=da45f87b";
 
 await header("post.html?kind=" + (qs("kind") === "offer" ? "offer" : "need"));
 const m = await requireAuth();
@@ -125,6 +125,7 @@ function render() {
       ${proof ? `<div class="field"><label for="rep">Valuation report (PDF or photo, up to 10 MB)</label><input id="rep" type="file" accept=".pdf,image/*">${editId ? '<span class="hint">Already sent one? Only add a file to replace it.</span>' : ""}</div>` : ""}
     </div>` : ""}
     <p class="err" id="msg" role="alert"></p>
+    <label class="legal-opt"><input type="checkbox" id="legalHelp" ${L.details && L.details.legal_help ? "checked" : ""}><span><b>I'd like help with the legal and tax paperwork</b> <span class="muted">Optional. Advocates and chartered accountants on the DASKIES panel quote per deal.</span></span></label>
     <div class="formbar"><button class="btn btn-primary" id="go">${forOwner ? (editId ? "Save changes" : "Publish listing") : editId ? "Save and send for review" : "Send for review"}</button><a class="btn btn-ghost" href="${forOwner ? "admin.html#owners" : "dashboard.html"}">Cancel</a></div>
   </form>`;
 
@@ -208,7 +209,7 @@ async function save(e) {
     price: L.price === "" || L.price == null ? null : Number(L.price), currency: L.currency || "INR", price_unit: L.price_unit || null,
     quantity: L.quantity === "" || L.quantity == null ? null : Number(L.quantity), quantity_unit: L.quantity_unit || null,
     city: L.city || null, state: L.state || null, country: L.country || "India", wants_vertical: L.wants_vertical || null, wants_in_exchange: L.wants_in_exchange || null,
-    expires_at: L.kind === "need" ? (L.expires_at || null) : null, details: L.details || {}, status: "pending" };
+    expires_at: L.kind === "need" ? (L.expires_at || null) : null, details: Object.assign({}, L.details || {}, { legal_help: $("#legalHelp") && $("#legalHelp").checked ? true : undefined }), status: "pending" };
   if (forOwner) Object.assign(row, { managed: true, status: "approved", approved_at: L.approved_at || new Date().toISOString() });
   try {
     let id = editId;

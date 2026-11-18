@@ -120,6 +120,12 @@ BUYER_FORM = """
   </div>
 </section>"""
 
+LEGAL = {"leasing": ["Leave and licence or lease deed", "Stamp duty and registration", "Title, estate and sub-lease permission checks", "GST on rent"], "machines": ["Sale agreement and GST invoice", "Check that no bank loan or hypothecation is pending", "Transfer of warranty, manuals and service records", "Swap agreement with values for GST"], "storage": ["Warehousing or storage agreement", "Liability, insurance and loss terms", "Licences for food, bonded or hazardous goods"], "agri": ["Sale contract with quality, inspection and delivery terms", "Export documents and letter of credit checks", "GST and e-way bill paperwork"], "construction": ["Title search and RERA check", "Buyer group agreement", "Allotment and sale deeds, stamp duty and registration"], "technology": ["Licence or sale agreement", "Non-disclosure agreement (NDA)", "Ownership and transfer of patents and know-how", "Donation paperwork for schools and colleges"]}
+def legal(m):
+    docs = "".join(f"<li>{E(d)}</li>" for d in LEGAL[m["slug"]])
+    req = "Legal and tax paperwork: " + m["name"]
+    return f'''<section class="mk-sec"><div class="mk-legal"><div><h2>Paperwork, if you need it</h2><p>Optional. Advocates and chartered accountants on the DASKIES panel prepare and check the documents for your deal. The fee is quoted per deal, before any work starts.</p><a class="btn btn-ghost" href="index.html?req={E(req.replace(' ', '%20').replace(':', '%3A').replace('&', '%26'))}#contact">Get a quote</a></div><ul>{docs}</ul></div></section>'''
+
 for m in MARKETS:
     steps = "".join(f"<li>{E(s)}</li>" for s in m["how"])
     who = "".join(f"<li>{E(s)}</li>" for s in m["who"])
@@ -138,6 +144,7 @@ for m in MARKETS:
 <section class="mk-sec"><h2>How it works</h2><ol class="mk-steps">{steps}</ol></section>
 <section class="mk-sec"><div class="mk-two"><div><h2>Who it's for</h2><ul>{who}</ul></div><div class="mk-gain"><h2>What you gain</h2><ul>{gain}</ul></div></div></section>
 {BUYER_FORM if m['slug'] == 'construction' else ''}
+{legal(m)}
 <section class="mk-sec"><h2>Live on DASKIES</h2><div id="mkListings" data-v="{m['v']}" data-groups="{E(m['groups'])}" data-post="{E(m['post'])}" data-cta="{E(m['cta'])}"><div class="skel sk-grid" role="status" aria-label="Loading listings"><span class="sk sk-c"></span><span class="sk sk-c"></span><span class="sk sk-c"></span></div></div>
   <p class="small muted" style="margin-top:12px">Every listing is reviewed for completeness before it goes live. Do your own checks before any deal.</p></section>
 <section class="mk-sec"><div class="mk-band"><div><h2>Pay in cash, as rent, or as a swap</h2><p>Every deal on DASKIES can be settled in cash, as rent, or as a straight swap (barter), with any difference paid in cash.</p></div><a class="btn btn-primary" href="account.html?mode=signup">Join DASKIES free</a></div></section>
@@ -172,6 +179,7 @@ page("global-buyers.html", "Global buyers", "For importers in the US, Europe, th
 <section class="mk-sec"><h2>Where Gujarat makes it</h2>
   <div class="tablewrap"><table class="clusters2"><thead><tr><th scope="col">What's made</th><th scope="col">Where</th><th scope="col">Ports</th></tr></thead><tbody>{rows}</tbody></table></div>
   <p class="small muted" style="margin-top:12px;max-width:80ch">Leasing, contract manufacturing and investment by foreign companies in India follow FEMA and FDI rules. We introduce you to Indian lawyers, chartered accountants and customs brokers to structure the deal correctly.</p></section>
+<section class="mk-sec"><div class="mk-legal"><div><h2>Paperwork for foreign companies</h2><p>Optional, and usually worth it. Advocates and chartered accountants on the DASKIES panel set up and check the documents for your lease or contract, quoted per deal before any work starts.</p><a class="btn btn-ghost" href="index.html?req=Legal%20and%20tax%20paperwork%3A%20Global%20buyers#contact">Get a quote</a></div><ul><li>Structure under India's FEMA and FDI rules</li><li>Lease and contract manufacturing agreements</li><li>NDA and protection of your drawings and brand</li><li>Export documents, LUT and GST</li><li>Quality, inspection and dispute terms</li></ul></div></section>
 <section class="mk-sec"><div class="mk-band"><div><h2>The Global Buyer Desk</h2><p>Factory shortlists, video walkthroughs, site visits, samples and inspection for overseas buyers, on a retainer or per deal.</p></div><button class="btn btn-primary" type="button" data-req="Sourcing call with the Global Buyer Desk">Book a sourcing call</button></div></section>
 {more('')}
 """)
@@ -181,6 +189,7 @@ SVC = [("Featured listings", "Put your listing at the top of its category and in
   ("Business verification", "We review your registration, GST and ownership documents and add a verification badge to your profile.", "Anyone dealing with new counterparties"),
   ("Deal manager", "A DASKIES manager finds the other party, values swaps, negotiates and handles paperwork until the deal is done.", "Larger or more complex deals"),
   ("Global Buyer Desk", "Factory shortlists, video walkthroughs, site visits, samples and inspection for overseas buyers, on a retainer or per deal.", "Importers in the US, Europe, the Gulf and Africa"),
+  ("Legal and tax paperwork", "Lease deeds, sale and swap agreements, title checks, stamp duty and GST, prepared and checked by advocates and chartered accountants on our panel. Quoted per deal.", "Anyone who wants the documents done right"),
   ("Valuation support", "No valuation report yet? We connect you with registered valuers for machinery, property and stock.", "Sellers listing for the first time"),
   ("Advertising and sponsorship", "Category sponsorship, banner placements and digest features for dealers, logistics firms, lenders and service providers.", "Businesses selling to Indian industry")]
 cards = "".join(f'<div class="svc-card"><h3>{E(t)}</h3><p>{E(d)}</p><span class="for">For: {E(f)}</span><button class="btn btn-ghost btn-sm" type="button" data-req="{E(t)}">Request</button></div>' for t, d, f in SVC)

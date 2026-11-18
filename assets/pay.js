@@ -1,7 +1,7 @@
 // Online payments with Razorpay Checkout. Amounts come from the server (Edge Function pay-order);
 // the result is confirmed on the server (pay-verify) before anything is marked paid.
-import CONFIG from "./config.js?v=b60813cd";
-import { sb } from "./core.js?v=b60813cd";
+import CONFIG from "./config.js?v=da45f87b";
+import { sb } from "./core.js?v=da45f87b";
 
 export const paymentsOn = () => !!CONFIG.payments;
 export const MEMBERSHIP_TOTAL = 17700; // ₹15,000 + 18% GST
