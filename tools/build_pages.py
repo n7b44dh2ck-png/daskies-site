@@ -160,27 +160,41 @@ CLUSTERS = [("Auto components and bearings", "Rajkot, Ahmedabad, Sanand", ["Mund
   ("Pharma and healthcare", "Ahmedabad, Vadodara", ["Mundra"]), ("Spices, groundnut, dehydrated onion", "Unjha, Gondal, Mahuva", ["Mundra", "Pipavav"])]
 def ports(c): return "".join('<span class="port2">' + E(p) + '</span>' for p in c)
 rows = "".join("<tr><td>" + E(a) + "</td><td>" + E(b) + "</td><td>" + ports(c) + "</td></tr>" for a, b, c in CLUSTERS)
-page("global-buyers.html", "Global buyers", "For importers in the US, Europe, the Gulf and Africa: lease running capacity or contract production in Gujarat, ship from Mundra.", f"""
+page("global-buyers.html", "Global buyers", "For importers and brands worldwide: one team in India finds and checks your supplier, negotiates, follows your order, inspects it, clears customs and ships it to you.", f"""
 <section class="mk-hero">
   <div>
     <p class="crumb"><a href="index.html">DASKIES</a> · Global buyers</p>
-    <h1>Make it in Gujarat. Ship from Mundra.</h1>
-    <p class="intro">For importers in the US, Europe, the Gulf and Africa: lease running capacity or contract production with Gujarat's exporters instead of building your own plant. Prices on DASKIES show in US dollars for visitors outside India.</p>
-    <div class="mk-actions"><button class="btn btn-primary" type="button" data-req="Sourcing call with the Global Buyer Desk">Book a sourcing call</button><a class="btn btn-ghost" href="explore.html">See live listings</a></div>
+    <h1>Everything you need from India, through one team.</h1>
+    <p class="intro">For importers and brands in the US, Europe, the Gulf, Africa and beyond. Tell us what you need, and the DASKIES Global Buyer Desk finds and checks the supplier, negotiates for you, follows your order, inspects the goods, clears customs and ships them to you. Prices on DASKIES show in US dollars for visitors outside India.</p>
+    <div class="mk-actions"><button class="btn btn-primary" type="button" data-req="Sourcing call with the Global Buyer Desk">Book a sourcing call</button><a class="btn btn-ghost" href="account.html?mode=signup">Register as a buyer</a></div>
   </div>
   <div class="platewrap" style="--cut:64px"><span class="plate">{img('1769837496184-32831581c55a', 'Container ships and cranes at a busy port', 1400, eager=True)}</span></div>
 </section>
-<section class="mk-sec"><h2>Four ways to work with India's manufacturers</h2><ol class="mk-steps" style="counter-reset:none">
-  <li style="padding-left:18px"><b>Lease a running plant.</b> Factories with machinery, power and trained staff, on monthly or long-term terms.</li>
-  <li style="padding-left:18px"><b>Contract manufacturing.</b> Parts and products made to your drawings and brand, from a pilot batch to full containers.</li>
-  <li style="padding-left:18px"><b>Bulk sourcing.</b> Edible oils, groundnuts, cumin, castor oil, cotton and pulses, with grade and packing agreed in writing.</li>
-  <li style="padding-left:18px"><b>One team, start to finish.</b> Video walkthroughs, site visits, samples, third-party inspection and export paperwork, in your time zone.</li>
+<section class="mk-sec"><h2>One team, from your first enquiry to delivery</h2>
+  <p style="max-width:72ch">You deal with one DASKIES team the whole way, in your time zone. Use every step, or only the ones you need.</p>
+  <ol class="mk-steps mk-steps4">
+  <li><b>Tell us what you need.</b> The product or capacity, specification or drawings, quantity, target price, destination and timeline.</li>
+  <li><b>Supplier search and checks.</b> We shortlist Indian manufacturers and exporters that fit, check their registration and track record, and arrange video walkthroughs and site visits.</li>
+  <li><b>Price negotiation.</b> We negotiate price, payment terms, packing and delivery dates with the supplier on your behalf.</li>
+  <li><b>Samples and contract.</b> Samples are made and sent for your approval. Advocates and chartered accountants on our panel prepare and check the contract, NDA and quality terms.</li>
+  <li><b>Order follow-up.</b> We track production from sample approval to dispatch and send you regular updates, so problems are caught early, not at the port.</li>
+  <li><b>Inspection before shipment.</b> Third-party quality inspection against your agreed specification before the goods leave the factory.</li>
+  <li><b>Export documents and customs.</b> Invoices, packing lists, certificates of origin and export customs clearance, handled through our customs broker partners.</li>
+  <li><b>Freight and shipping.</b> Sea or air freight booked through our freight-forwarder partners, from Mundra, Kandla, Nhava Sheva or the port that suits your order.</li>
+  </ol></section>
+<section class="mk-sec"><h2>Four ways to work with India's manufacturers</h2><ol class="mk-steps nonum">
+  <li><b>Sourcing.</b> Any product made in India, from a single container to regular orders, bought from checked suppliers.</li>
+  <li><b>Contract manufacturing.</b> Parts and products made to your drawings and brand, from a pilot batch to full containers.</li>
+  <li><b>Bulk commodities.</b> Edible oils, groundnuts, cumin, castor oil, cotton and pulses, with grade and packing agreed in writing.</li>
+  <li><b>Lease a running plant.</b> Factories with machinery, power and trained staff, on monthly or long-term terms, instead of building your own.</li>
 </ol></section>
+<section class="mk-sec"><h2>How charges work</h2>
+  <p style="max-width:72ch">Register your company with DASKIES and tell us what you need. We quote for the services you choose before any work starts, per order or as a retainer for regular buying. You pay the supplier directly under your contract with them; DASKIES charges only for its own services and never holds your money.</p></section>
 <section class="mk-sec"><h2>Where Gujarat makes it</h2>
   <div class="tablewrap"><table class="clusters2"><thead><tr><th scope="col">What's made</th><th scope="col">Where</th><th scope="col">Ports</th></tr></thead><tbody>{rows}</tbody></table></div>
-  <p class="small muted" style="margin-top:12px;max-width:80ch">Leasing, contract manufacturing and investment by foreign companies in India follow FEMA and FDI rules. We introduce you to Indian lawyers, chartered accountants and customs brokers to structure the deal correctly.</p></section>
+  <p class="small muted" style="margin-top:12px;max-width:80ch">Our office is in Gujarat, and we source from manufacturers across India. Leasing, contract manufacturing and investment by foreign companies in India follow FEMA and FDI rules; see the paperwork section below.</p></section>
 <section class="mk-sec"><div class="mk-legal"><div><h2>Paperwork for foreign companies</h2><p>Optional, and usually worth it. Advocates and chartered accountants on the DASKIES panel set up and check the documents for your lease or contract, quoted per deal before any work starts.</p><a class="btn btn-ghost" href="index.html?req=Legal%20and%20tax%20paperwork%3A%20Global%20buyers#contact">Get a quote</a></div><ul><li>Structure under India's FEMA and FDI rules</li><li>Lease and contract manufacturing agreements</li><li>NDA and protection of your drawings and brand</li><li>Export documents, LUT and GST</li><li>Quality, inspection and dispute terms</li></ul></div></section>
-<section class="mk-sec"><div class="mk-band"><div><h2>The Global Buyer Desk</h2><p>Factory shortlists, video walkthroughs, site visits, samples and inspection for overseas buyers, on a retainer or per deal.</p></div><button class="btn btn-primary" type="button" data-req="Sourcing call with the Global Buyer Desk">Book a sourcing call</button></div></section>
+<section class="mk-sec"><div class="mk-band"><div><h2>The Global Buyer Desk</h2><p>Your one team in India: sourcing, negotiation, samples, order follow-up, inspection, customs and shipping. Quoted per order or on a retainer.</p></div><button class="btn btn-primary" type="button" data-req="Sourcing call with the Global Buyer Desk">Book a sourcing call</button></div></section>
 {more('')}
 """)
 
@@ -188,7 +202,7 @@ page("global-buyers.html", "Global buyers", "For importers in the US, Europe, th
 SVC = [("Featured listings", "Put your listing at the top of its category and in the weekly digest sent to members.", "Sellers who want buyers this month"),
   ("Business verification", "We review your registration, GST and ownership documents and add a verification badge to your profile.", "Anyone dealing with new counterparties"),
   ("Deal manager", "A DASKIES manager finds the other party, values swaps, negotiates and handles paperwork until the deal is done.", "Larger or more complex deals"),
-  ("Global Buyer Desk", "Factory shortlists, video walkthroughs, site visits, samples and inspection for overseas buyers, on a retainer or per deal.", "Importers in the US, Europe, the Gulf and Africa"),
+  ("Global Buyer Desk", "One team for everything an overseas buyer needs from India: supplier search and checks, price negotiation, samples, order follow-up, inspection, export customs and shipping. Quoted per order or on a retainer.", "Importers and brands outside India"),
   ("Legal and tax paperwork", "Lease deeds, sale and swap agreements, title checks, stamp duty and GST, prepared and checked by advocates and chartered accountants on our panel. Quoted per deal.", "Anyone who wants the documents done right"),
   ("Valuation support", "No valuation report yet? We connect you with registered valuers for machinery, property and stock.", "Sellers listing for the first time"),
   ("Advertising and sponsorship", "Category sponsorship, banner placements and digest features for dealers, logistics firms, lenders and service providers.", "Businesses selling to Indian industry")]
@@ -281,7 +295,7 @@ audience("for-businesses.html", "For established businesses", "Make idle assets 
     ("Rent out empty sheds and floors", "Turn unused factory space into monthly rent from companies that need capacity now.", "leasing.html", "See industrial leasing"),
     ("Fill spare shifts with job work", "Use idle machines and staff for contract manufacturing for other companies.", "leasing.html", "List spare capacity"),
     ("Rent out warehouse space", "Earn from empty warehouse, cold storage or tank space, short or long-term.", "storage.html", "See storage"),
-    ("Reach overseas buyers", "Importers in the US, Europe, the Gulf and Africa look for running capacity and contract production in Gujarat.", "global-buyers.html", "See Global buyers"),
+    ("Reach overseas buyers", "Importers and brands worldwide come to DASKIES for Indian suppliers, contract production and running capacity.", "global-buyers.html", "See Global buyers"),
     ("Donate what you no longer need", "Give old computers, machines, tools or training to schools and skill centres.", "technology.html", "See technology and education")],
   STEPS,
   ["Family-run manufacturers and MSMEs", "Factories upgrading or closing a line", "Traders with surplus or seasonal stock", "Owners of industrial land and buildings"],

@@ -548,3 +548,9 @@ body:not(:has(> header.hd))::before{content:"";display:block;height:69px;border-
 .faq2 details p{margin:0 0 18px;color:var(--muted);max-width:72ch;line-height:1.65}
 .faqmore{margin:8px 0 0;font-weight:600}
 .faq-all{margin:22px 0 0;font-weight:700}
+
+.mk-steps.nonum li{padding-left:18px}
+.mk-steps.nonum li::before{content:none}
+.mk-steps4{grid-template-columns:repeat(4,1fr)}
+@media (max-width:980px){.mk-steps4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.mk-steps4{grid-template-columns:1fr}}
