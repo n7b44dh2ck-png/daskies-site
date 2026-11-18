@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="assets/boot.js?v=3dfed3ba"></script>
+<script src="assets/boot.js?v=41d281e4"></script>
 <!-- perf -->
 <link rel="preconnect" href="https://auqhmkdeurfexrtzylyd.supabase.co" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="modulepreload" href="assets/home-live.js?v=3dfed3ba">
-<link rel="modulepreload" href="assets/core.js?v=3dfed3ba">
-<link rel="modulepreload" href="assets/config.js?v=3dfed3ba">
-<link rel="modulepreload" href="assets/taxonomy.js?v=3dfed3ba">
+<link rel="modulepreload" href="assets/home-live.js?v=41d281e4">
+<link rel="modulepreload" href="assets/core.js?v=41d281e4">
+<link rel="modulepreload" href="assets/config.js?v=41d281e4">
+<link rel="modulepreload" href="assets/taxonomy.js?v=41d281e4">
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/auth-js@2.119.0/+esm" crossorigin>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/postgrest-js@2.119.0/+esm" crossorigin>
@@ -22,7 +22,7 @@
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/iceberg-js@0.8.1/+esm" crossorigin>
 <script type="speculationrules">{"prerender":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"selector_matches":"[target=_blank], [download], .no-prerender"}}]},"eagerness":"moderate"}]}</script>
 <!-- /perf -->
-<script src="assets/fx.js?v=3dfed3ba"></script>
+<script src="assets/fx.js?v=41d281e4"></script>
 <title>DASKIES: lease, buy, sell or barter industrial capacity in India</title>
 <meta name="description" content="DASKIES is the business network for Indian industry. Lease idle factories and machines, buy and sell used machinery, storage and bulk commodities, or swap them in two-, three- and four-party barter deals.">
 <!-- seo -->
@@ -236,7 +236,7 @@ select:hover,.field input:hover,.field textarea:hover{border-color:#A9B6B3}
 .price small{font-size:13px;color:var(--muted);font-weight:500;font-stretch:100%}
 .lock{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .lock .blur{filter:blur(4.5px);user-select:none;color:var(--muted);font-size:14.5px}
-/* live listings (filled from the database by assets/home-live.js?v=3dfed3ba) */
+/* live listings (filled from the database by assets/home-live.js?v=41d281e4) */
 .live-block{margin-bottom:40px}
 .live-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
 .live-head h3{margin:0}
@@ -1013,6 +1013,7 @@ form.callback .d3{margin-bottom:14px !important}
       <details><summary>Can DASKIES handle the legal paperwork?</summary><p>Yes, if you need it. Advocates and chartered accountants on the DASKIES panel prepare and check lease deeds, sale and swap agreements, title documents, stamp duty and GST. The fee is quoted per deal, before any work starts.</p></details>
       <details><summary>What does DASKIES cost?</summary><p>Joining is free. Full membership is ₹15,000 + GST for 90 days, and a success fee applies only when a deal contract is signed. Every payment comes with a GST invoice.</p></details>
     </div>
+    <p class="faq-all"><a href="faq.html">See all questions and answers</a></p>
   </div>
 </section>
 
@@ -1101,7 +1102,7 @@ form.callback .d3{margin-bottom:14px !important}
         <p style="margin:14px 0 0;max-width:36ch">The business network for Indian industry: lease, buy, sell, barter or donate.</p>
       </div>
       <div><h3>Categories</h3><ul id="footCats"></ul></div>
-      <div><h3>Platform</h3><ul><li><a href="#marketplace">Live on DASKIES</a></li><li><a href="account.html?mode=signup">Join and list</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="services.html">Services</a></li><li><a href="#membership">Membership</a></li><li><a href="#faq">FAQ</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="for-startups.html">For startups</a></li><li><a href="for-businesses.html">For established businesses</a></li><li><a href="guides.html">Guides</a></li></ul></div>
+      <div><h3>Platform</h3><ul><li><a href="#marketplace">Live on DASKIES</a></li><li><a href="account.html?mode=signup">Join and list</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="faq.html">Questions and answers</a></li><li><a href="services.html">Services</a></li><li><a href="#membership">Membership</a></li><li><a href="#faq">FAQ</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="for-startups.html">For startups</a></li><li><a href="for-businesses.html">For established businesses</a></li><li><a href="guides.html">Guides</a></li></ul></div>
       <div><h3>Contact</h3><ul><li><a href="mailto:info@daskies.com">info@daskies.com</a></li><li><a href="global-buyers.html">Global buyers</a></li><li><a href="services.html">Services</a></li><li><a href="partners.html">Partner with us</a></li><li>Ahmedabad, Gujarat</li></ul></div>
     </div>
     <div class="legal">
@@ -1174,7 +1175,7 @@ form.callback .d3{margin-bottom:14px !important}
     return "₹"+(Math.round(v*10)/10).toString()+" lakh";
   }
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-  // Prices follow the visitor's currency (assets/fx.js?v=3dfed3ba): rupees in India, approximate US dollars elsewhere.
+  // Prices follow the visitor's currency (assets/fx.js?v=41d281e4): rupees in India, approximate US dollars elsewhere.
   var FX=window.DSKFX||null;
   function usd(){ return !!(FX && FX.eff()==="USD"); }
   function fmtC(v){ var l=FX&&FX.label(v*1e5,"INR"); return l||fmt(v); }
@@ -1391,7 +1392,7 @@ form.callback .d3{margin-bottom:14px !important}
   function load(code){
     if(code==="en") return Promise.resolve(null);
     if(cache[code]) return Promise.resolve(cache[code]);
-    return fetch("/i18n/"+code+".json?v=3dfed3ba").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
+    return fetch("/i18n/"+code+".json?v=41d281e4").then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }).then(function(d){ cache[code]=d; return d; });
   }
   var langWrap=$("#lang"), langBtn=$("#langBtn");
   function markMenu(code){
@@ -1452,6 +1453,6 @@ form.callback .d3{margin-bottom:14px !important}
   }
 })();
 </script>
-<script type="module" src="assets/home-live.js?v=3dfed3ba"></script>
+<script type="module" src="assets/home-live.js?v=41d281e4"></script>
 </body>
 </html>

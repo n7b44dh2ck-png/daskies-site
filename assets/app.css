@@ -533,3 +533,18 @@ body:not(:has(> header.hd))::before{content:"";display:block;height:69px;border-
 .aboutex p{margin:0;line-height:1.6}
 .aboutex .aboutex-h{font-weight:750;margin-bottom:6px}
 @media (max-width:760px){.aboutsave{grid-template-columns:1fr}}
+
+/* faq page */
+.faqtoc{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 36px}
+.faqtoc a{padding:8px 14px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:inherit;font-weight:600;font-size:.95rem}
+.faqtoc a:hover,.faqtoc a:focus-visible{border-color:var(--accent);color:var(--accent)}
+.faqgroup{margin:0 0 44px;scroll-margin-top:90px}
+.faqgroup h2{margin:0 0 6px}
+.faq2 details{border-bottom:1px solid var(--line)}
+.faq2 summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;padding:16px 0;font-weight:700;font-size:1.05rem}
+.faq2 summary::-webkit-details-marker{display:none}
+.faq2 summary::after{content:"+";font-size:1.5rem;line-height:1;color:var(--accent);font-weight:500}
+.faq2 details[open] summary::after{content:"\2212"}
+.faq2 details p{margin:0 0 18px;color:var(--muted);max-width:72ch;line-height:1.65}
+.faqmore{margin:8px 0 0;font-weight:600}
+.faq-all{margin:22px 0 0;font-weight:700}
