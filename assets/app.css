@@ -554,3 +554,8 @@ body:not(:has(> header.hd))::before{content:"";display:block;height:69px;border-
 .mk-steps4{grid-template-columns:repeat(4,1fr)}
 @media (max-width:980px){.mk-steps4{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:560px){.mk-steps4{grid-template-columns:1fr}}
+
+@media (max-width:1400px){
+  .wa-btn{width:52px;height:52px;padding:0;justify-content:center}
+  .wa-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}
