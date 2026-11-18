@@ -13,6 +13,8 @@ FAQ = [
   "Two kinds of businesses. Providers have something to offer: factories, landowners, warehouse and cold-store owners, traders, machinery owners and technology owners. Receivers need something: manufacturers who need capacity, startups that can't yet buy a plant, traders, and overseas importers looking for Indian suppliers. Many businesses are both, and can list what they have and post what they need from the same account."),
  ("Is DASKIES a broker?",
   "No. DASKIES is a network where members find each other and deal directly. We don't own the assets, set the prices or hold anyone's money. If you want help, our team can find the other party, value a swap and manage the deal for you as a paid service, but using DASKIES on your own is always possible."),
+ ("Does DASKIES give loans or finance?",
+  "No. DASKIES is not a bank, NBFC or investment adviser and does not lend money. In the <a href=\"finance.html\">Projects &amp; finance</a> category you can list a project to find partners, land or machinery, and we introduce you to licensed banks and NBFCs for equipment finance, working capital or project finance. The lender assesses your case and makes its own decision. Nothing on DASKIES is a public offer of shares or a promise of returns."),
  ("Where does DASKIES work?",
   "Our office is in Ahmedabad, Gujarat, and most of our first members are Gujarat businesses. Members can list anywhere in India, and overseas buyers use DASKIES through the Global Buyer Desk to lease capacity or source products from Indian factories."),
 ]),
@@ -20,7 +22,7 @@ FAQ = [
  ("How do I join?",
   "Choose Join free and create an account with your email. Before you post, enquire or message, you complete your business profile: your full name, mobile number, business name, what your business does, registered address, city, state, PIN and country. GSTIN is optional. Your address, PIN, GSTIN and mobile are visible only to you and the DASKIES team."),
  ("What can I list?",
-  "Anything in our six categories: industrial leasing (sheds, plots, production lines, spare shifts), used machines, storage and warehousing, agriculture and commodities, construction at cost through buyer groups, and technology and education. You can post an offer (something you have) or a requirement (something you need)."),
+  "Anything in our seven categories: industrial leasing (sheds, plots, production lines, spare shifts), used machines, storage and warehousing, agriculture and commodities, construction at cost through buyer groups, technology and education, and projects and finance. You can post an offer (something you have) or a requirement (something you need)."),
  ("How do I post a listing?",
   "Choose List an asset or Post a need, pick the category and fill in the details: what it is, its size or capacity, location, price or rent, photos, and what you would take in exchange. Each category asks for the details buyers in that category compare, for example tonnage for presses or FFA and moisture for edible oils. Then send it for review."),
  ("How does the review work?",
@@ -94,7 +96,7 @@ for g, qs in FAQ:
     items = "".join(f'<details><summary>{E(q)}</summary><p>{a}</p></details>' for q, a in qs)
     groups += f'<section class="faqgroup" id="{slug(g)}"><h2>{E(g)}</h2><div class="faq2">{items}</div></section>\n'
 ld = {"@context": "https://schema.org", "@type": "FAQPage",
-      "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a)}} for _, qs in FAQ for q, a in qs]}
+      "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": html.unescape(re.sub(r"<[^>]+>", "", a))}} for _, qs in FAQ for q, a in qs]}
 
 out = f'''<!DOCTYPE html>
 <html lang="en">

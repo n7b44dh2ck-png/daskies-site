@@ -60,6 +60,14 @@ MARKETS = [
        who=["Innovators, startups and software companies", "Companies with spare computers, machines or tools", "Schools, colleges and skill centres", "Factories that want to modernise"],
        gain=["Licence fees or sale income", "Buyers save the cost of building from zero", "Your donation helps students learn real skills"],
        cta="Register to share or donate", post="post.html?kind=offer&v=barter-tech", v="barter-tech", groups=""),
+  dict(slug="finance", name="Projects & finance", photo="1716191299945-4c5b89703971", alt="A wide factory floor with yellow safety rails",
+       promise="Find partners and finance for your industrial project",
+       intro="Planning a new plant, an expansion or a processing unit? List your project to find a technology partner, an operating partner, land, machinery or a strategic investor. Need equipment finance, working capital or project finance? We introduce you to licensed banks and NBFCs, who assess your case and make their own decisions.",
+       how=["Tell us about your project, or what you need: capital, a partner, land, machinery or finance.", "Add the business model, promoter background and main risks, so serious partners can judge it properly.", "Our team reviews your listing before it goes live.", "We introduce you to interested partners, or to licensed banks and NBFCs for finance.", "You agree terms directly with them, with your own advisers."],
+       who=["Promoters planning a new plant or an expansion", "Businesses looking for a joint venture or operating partner", "Manufacturers that need equipment finance or working capital", "Businesses looking for industrial projects to join"],
+       gain=["Partners, land, machinery and finance for a project, in one place", "Introductions to licensed banks and NBFCs only", "Clear project details, so the right partners decide faster"],
+       cta="List your project", post="post.html?kind=need&v=projects", v="projects", groups="",
+       note='<section class="mk-sec"><p class="small muted" style="max-width:80ch">DASKIES is not a bank, NBFC or investment adviser and does not lend money. Finance decisions are made by the licensed lender. Nothing in this category is a public offer of shares or securities or a promise of returns; investment terms are agreed privately between businesses, with their own advisers.</p></section>'),
 ]
 
 def head(title, desc, ver):
@@ -120,7 +128,7 @@ BUYER_FORM = """
   </div>
 </section>"""
 
-LEGAL = {"leasing": ["Leave and licence or lease deed", "Stamp duty and registration", "Title, estate and sub-lease permission checks", "GST on rent"], "machines": ["Sale agreement and GST invoice", "Check that no bank loan or hypothecation is pending", "Transfer of warranty, manuals and service records", "Swap agreement with values for GST"], "storage": ["Warehousing or storage agreement", "Liability, insurance and loss terms", "Licences for food, bonded or hazardous goods"], "agri": ["Sale contract with quality, inspection and delivery terms", "Export documents and letter of credit checks", "GST and e-way bill paperwork"], "construction": ["Title search and RERA check", "Buyer group agreement", "Allotment and sale deeds, stamp duty and registration"], "technology": ["Licence or sale agreement", "Non-disclosure agreement (NDA)", "Ownership and transfer of patents and know-how", "Donation paperwork for schools and colleges"]}
+LEGAL = {"finance": ["Joint venture and partnership agreements", "Term sheets and shareholder agreements", "Due diligence on the project and promoters", "Loan and security documents, checked before you sign"], "leasing": ["Leave and licence or lease deed", "Stamp duty and registration", "Title, estate and sub-lease permission checks", "GST on rent"], "machines": ["Sale agreement and GST invoice", "Check that no bank loan or hypothecation is pending", "Transfer of warranty, manuals and service records", "Swap agreement with values for GST"], "storage": ["Warehousing or storage agreement", "Liability, insurance and loss terms", "Licences for food, bonded or hazardous goods"], "agri": ["Sale contract with quality, inspection and delivery terms", "Export documents and letter of credit checks", "GST and e-way bill paperwork"], "construction": ["Title search and RERA check", "Buyer group agreement", "Allotment and sale deeds, stamp duty and registration"], "technology": ["Licence or sale agreement", "Non-disclosure agreement (NDA)", "Ownership and transfer of patents and know-how", "Donation paperwork for schools and colleges"]}
 def legal(m):
     docs = "".join(f"<li>{E(d)}</li>" for d in LEGAL[m["slug"]])
     req = "Legal and tax paperwork: " + m["name"]
@@ -145,6 +153,7 @@ for m in MARKETS:
 <section class="mk-sec"><div class="mk-two"><div><h2>Who it's for</h2><ul>{who}</ul></div><div class="mk-gain"><h2>What you gain</h2><ul>{gain}</ul></div></div></section>
 {BUYER_FORM if m['slug'] == 'construction' else ''}
 {legal(m)}
+{m.get('note', '')}
 <section class="mk-sec"><h2>Live on DASKIES</h2><div id="mkListings" data-v="{m['v']}" data-groups="{E(m['groups'])}" data-post="{E(m['post'])}" data-cta="{E(m['cta'])}"><div class="skel sk-grid" role="status" aria-label="Loading listings"><span class="sk sk-c"></span><span class="sk sk-c"></span><span class="sk sk-c"></span></div></div>
   <p class="small muted" style="margin-top:12px">Every listing is reviewed for completeness before it goes live. Do your own checks before any deal.</p></section>
 <section class="mk-sec"><div class="mk-band"><div><h2>Pay in cash, as rent, or as a swap</h2><p>Every deal on DASKIES can be settled in cash, as rent, or as a straight swap (barter), with any difference paid in cash.</p></div><a class="btn btn-primary" href="account.html?mode=signup">Join DASKIES free</a></div></section>

@@ -1,7 +1,7 @@
 // Homepage: live listings from the database, and a signed-in member's header.
 // While the marketplace is empty the page keeps its clearly labelled samples.
-import { sb, esc, money, price, photoUrl } from "./core.js?v=c52a1ebb";
-import { vertical } from "./taxonomy.js?v=c52a1ebb";
+import { sb, esc, money, price, photoUrl } from "./core.js?v=a9109389";
+import { vertical } from "./taxonomy.js?v=a9109389";
 
 const $ = (s) => document.querySelector(s);
 const ICON = { industrial: "lease", commodity: "agri", "real-assets": "infra", storage: "storage", "barter-tech": "tech", projects: "infra" };

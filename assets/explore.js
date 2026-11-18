@@ -1,5 +1,5 @@
-import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=c52a1ebb";
-import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=c52a1ebb";
+import { sb, $, $$, esc, qs, header, card, errMsg, pagehead, vicon } from "./core.js?v=a9109389";
+import { VERTICALS, DEAL_TYPES, subcats, vertical } from "./taxonomy.js?v=a9109389";
 
 header("explore.html");   // draws at once; the search below does not wait for it
 const main = $("#main");
