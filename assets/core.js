@@ -1,7 +1,7 @@
 // Shared helpers for every DASKIES member page.
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/+esm";
-import CONFIG from "./config.js?v=791e8eff";
-import { vertical, LEVELS } from "./taxonomy.js?v=791e8eff";
+import CONFIG from "./config.js?v=3c832ba4";
+import { vertical, LEVELS } from "./taxonomy.js?v=3c832ba4";
 
 export const ENV = CONFIG.name;
 export const sb = createClient(CONFIG.url, CONFIG.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
@@ -170,7 +170,7 @@ export async function header(active) {
 }
 function navLinks(active, m) {
   const page = (p, label) => `<a href="${p}"${active === p ? ' aria-current="page"' : ""}>${label}</a>`;
-  const MK = ["leasing.html", "machines.html", "storage.html", "agri.html", "construction.html", "technology.html", "finance.html"];
+  const MK = ["leasing.html", "machines.html", "storage.html", "agri.html", "construction.html", "technology.html"];
   const links = [page("explore.html", "Explore"),
     `<a href="index.html#categories"${MK.includes(active) ? ' aria-current="page"' : ""}>What you need</a>`,
     page("post.html?kind=need", "Post a need"), page("post.html?kind=offer", "List an offer")];
@@ -216,7 +216,7 @@ function drawHeader(active, m) {
   document.body.appendChild(wa);
   const f = document.createElement("footer");
   f.className = "foot";
-  const CATS = [["leasing.html", "Industrial leasing"], ["machines.html", "Used machines"], ["storage.html", "Storage & warehousing"], ["agri.html", "Agriculture & commodities"], ["construction.html", "Construction at cost"], ["technology.html", "Technology & education"], ["finance.html", "Projects & finance"]];
+  const CATS = [["leasing.html", "Industrial leasing"], ["machines.html", "Used machines"], ["storage.html", "Storage & warehousing"], ["agri.html", "Agriculture & commodities"], ["construction.html", "Construction at cost"], ["technology.html", "Technology & education"]];
   const li = ([h, n]) => `<li><a href="${h}">${n}</a></li>`;
   f.innerHTML = `<div class="wrap"><div class="foot-grid">
     <div><a class="brand" href="index.html" aria-label="DASKIES home">${BIRD}<b>DASKIES</b></a><p class="foot-tag">The business network for Indian industry: lease, buy, sell, barter or donate.</p></div>

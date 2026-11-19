@@ -36,8 +36,6 @@ PAGES = {
                 "Buy or sell groundnut, cumin, castor, cotton, edible oils and pulses in bulk, straight from origin, with grade, quantity and inspection agreed in writing.", True, "Agriculture and commodities", "0.8"),
   "construction.html": ("Buy a shop, office or home at cost with a buyer group | DASKIES",
                         "Join a buyer group for a shop, showroom, office or home in the area you choose. Land and construction at cost plus a fixed fee agreed at the start.", True, "Construction at cost", "0.7"),
-  "finance.html": ("Projects and finance: partners, land, machinery and finance introductions | DASKIES",
-                   "List an industrial project to find technology, operating or strategic partners, land and machinery, and get introduced to licensed banks and NBFCs for equipment, working capital and project finance.", True, "Projects & finance", "0.7"),
   "technology.html": ("Sell, license or donate technology, equipment and training | DASKIES",
                       "Sell or license software, machines and know-how to factories, or donate computers, equipment and training to schools and skill centres through DASKIES.", True, "Technology and education", "0.7"),
   "global-buyers.html": ("Source anything from India through one team: the Global Buyer Desk | DASKIES",
