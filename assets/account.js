@@ -1,5 +1,5 @@
-import { sb, $, esc, qs, header, errMsg, busy, toast, me, TERMS_VERSION, pagehead, vicon } from "./core.js?v=a9109389";
-import { detailsFields, termsBox, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=a9109389";
+import { sb, $, esc, qs, header, errMsg, busy, toast, me, TERMS_VERSION, pagehead, vicon } from "./core.js?v=791e8eff";
+import { detailsFields, termsBox, readDetails, checkDetails, showProblems, saveDetails, detailsOf } from "./details.js?v=791e8eff";
 
 const main = $("#main");
 const next = qs("next") || "dashboard.html";
